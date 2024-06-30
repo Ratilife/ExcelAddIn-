@@ -17,7 +17,7 @@ namespace ExcelAddInЭкспортДанных
 
         }
 
-        private void button1_Click_Это_НеТотФункционал(object sender, RibbonControlEventArgs e)
+        private void button1_Click_ДляПроверкиВременная(object sender, RibbonControlEventArgs e)
         {
             // Открытие файла XLSX через диалоговое окно
             OpenFileDialog openFileDialog = new OpenFileDialog
