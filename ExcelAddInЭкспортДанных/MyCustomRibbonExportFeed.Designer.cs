@@ -36,7 +36,7 @@
         {
             this.tab1 = this.Factory.CreateRibbonTab();
             this.grExportFeed = this.Factory.CreateRibbonGroup();
-            this.button1 = this.Factory.CreateRibbonButton();
+            this.butExportXLSXtoCSV = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.grExportFeed.SuspendLayout();
             this.SuspendLayout();
@@ -50,17 +50,16 @@
             // 
             // grExportFeed
             // 
-            this.grExportFeed.Items.Add(this.button1);
+            this.grExportFeed.Items.Add(this.butExportXLSXtoCSV);
             this.grExportFeed.Label = "Экспорт данных";
             this.grExportFeed.Name = "grExportFeed";
             // 
-            // button1
+            // butExportXLSXtoCSV
             // 
-            this.button1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button1.Label = "Экспорт в CSV";
-            this.button1.Name = "button1";
-            this.button1.ShowImage = true;
-            this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
+            this.butExportXLSXtoCSV.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.butExportXLSXtoCSV.Label = "Экспорт в CSV";
+            this.butExportXLSXtoCSV.Name = "butExportXLSXtoCSV";
+            this.butExportXLSXtoCSV.ShowImage = true;
             // 
             // MyCustomRibbonExportFeed
             // 
@@ -80,7 +79,7 @@
 
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup grExportFeed;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoCSV;
     }
 
     partial class ThisRibbonCollection

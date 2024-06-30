@@ -17,7 +17,7 @@ namespace ExcelAddInЭкспортДанных
 
         }
 
-        private void button1_Click_ДляПроверкиВременная(object sender, RibbonControlEventArgs e)
+        private void button1_ClickДляПроверкиВременный(object sender, RibbonControlEventArgs e)
         {
             // Открытие файла XLSX через диалоговое окно
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -50,50 +50,50 @@ namespace ExcelAddInЭкспортДанных
                     ExportXlsxToCsv(xlsxPath, csvPath, System.Text.Encoding.UTF8);
                 }
             }
-             void ExportXlsxToCsv(string xlsxPath, string csvPath, System.Text.Encoding encoding)
+        }
+        void ExportXlsxToCsv(string xlsxPath, string csvPath, System.Text.Encoding encoding)
+        {
+            Excel.Application excelApp = Globals.ThisAddIn.Application;
+
+            if (excelApp == null)
             {
-                Excel.Application excelApp = Globals.ThisAddIn.Application;
+                MessageBox.Show("Error: Unable to access Excel application.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                if (excelApp == null)
+            Excel.Workbook workbook = null;
+            try
+            {
+                workbook = excelApp.Workbooks.Open(xlsxPath);
+                Excel.Worksheet worksheet = workbook.Sheets[1];
+                int rowCount = worksheet.UsedRange.Rows.Count;
+                int colCount = worksheet.UsedRange.Columns.Count;
+
+                using (StreamWriter writer = new StreamWriter(csvPath, false, encoding))
                 {
-                    MessageBox.Show("Error: Unable to access Excel application.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                Excel.Workbook workbook = null;
-                try
-                {
-                    workbook = excelApp.Workbooks.Open(xlsxPath);
-                    Excel.Worksheet worksheet = workbook.Sheets[1];
-                    int rowCount = worksheet.UsedRange.Rows.Count;
-                    int colCount = worksheet.UsedRange.Columns.Count;
-
-                    using (StreamWriter writer = new StreamWriter(csvPath, false, encoding))
+                    for (int row = 1; row <= rowCount; row++)
                     {
-                        for (int row = 1; row <= rowCount; row++)
+                        string[] rowData = new string[colCount];
+                        for (int col = 1; col <= colCount; col++)
                         {
-                            string[] rowData = new string[colCount];
-                            for (int col = 1; col <= colCount; col++)
-                            {
-                                rowData[col - 1] = worksheet.Cells[row, col].Text.ToString();
-                            }
-                            writer.WriteLine(string.Join(";", rowData));
+                            rowData[col - 1] = worksheet.Cells[row, col].Text.ToString();
                         }
+                        writer.WriteLine(string.Join(";", rowData));
                     }
+                }
 
-                    MessageBox.Show("Export successful!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
+                MessageBox.Show("Export successful!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок
+                MessageBox.Show("Error: " + ex.Message, "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (workbook != null)
                 {
-                    // Обработка ошибок
-                    MessageBox.Show("Error: " + ex.Message, "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    if (workbook != null)
-                    {
-                        workbook.Close(false);
-                    }
+                    workbook.Close(false);
                 }
             }
         }
