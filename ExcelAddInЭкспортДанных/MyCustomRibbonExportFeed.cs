@@ -17,83 +17,77 @@ namespace ExcelAddInЭкспортДанных
 
         }
 
-        private void button1_ClickДляПроверкиВременный(object sender, RibbonControlEventArgs e)
-        {
-            // Открытие файла XLSX через диалоговое окно
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                // Установка фильтра для выбора только файлов Excel
-                Filter = "Excel Files|*.xlsx",
-                // Заголовок диалогового окна
-                Title = "Select an Excel File"
-            };
-            // Проверка, была ли нажата кнопка "OK" в диалоговом окне
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                // Получение пути к выбранному файлу
-                string xlsxPath = openFileDialog.FileName;
-
-                // Сохранение файла CSV через диалоговое окно
-                SaveFileDialog saveFileDialog = new SaveFileDialog
-                {
-                    // Установка фильтра для сохранения только в формате CSV
-                    Filter = "CSV Files|*.csv",
-                    // Заголовок диалогового окна
-                    Title = "Save as CSV File"
-                };
-                // Проверка, была ли нажата кнопка "OK" в диалоговом окне
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    // Получение пути для сохранения файла CSV
-                    string csvPath = saveFileDialog.FileName;
-                    // Вызов метода для экспорта данных из XLSX в CSV
-                    ExportXlsxToCsv(xlsxPath, csvPath, System.Text.Encoding.UTF8);
-                }
-            }
-        }
+        //основной метод 
         void ExportXlsxToCsv(string xlsxPath, string csvPath, System.Text.Encoding encoding)
         {
+            // Получение текущего экземпляра приложения Excel
             Excel.Application excelApp = Globals.ThisAddIn.Application;
-
+            // Проверка, удалось ли получить доступ к приложению Excel
             if (excelApp == null)
             {
-                MessageBox.Show("Error: Unable to access Excel application.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Если не удалось, выводится сообщение об ошибке и выполнение функции прекращается
+                MessageBox.Show("Error: Не удается получить доступ к приложению Excel.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            // Объявление переменной для книги Excel
             Excel.Workbook workbook = null;
             try
             {
+                // Открытие файла XLSX
                 workbook = excelApp.Workbooks.Open(xlsxPath);
+                // Получение первого листа в книге
                 Excel.Worksheet worksheet = workbook.Sheets[1];
+                // Получение количества строк и столбцов в используемом диапазоне листа
                 int rowCount = worksheet.UsedRange.Rows.Count;
                 int colCount = worksheet.UsedRange.Columns.Count;
 
+                // Открытие потока для записи в CSV файл
                 using (StreamWriter writer = new StreamWriter(csvPath, false, encoding))
                 {
+                    // Проход по всем строкам используемого диапазона
                     for (int row = 1; row <= rowCount; row++)
                     {
+                        // Объявление массива для хранения данных строки
                         string[] rowData = new string[colCount];
+                        // Проход по всем столбцам строки
                         for (int col = 1; col <= colCount; col++)
                         {
+                            // Запись значения ячейки в массив
                             rowData[col - 1] = worksheet.Cells[row, col].Text.ToString();
                         }
+                        // Запись строки в CSV файл с разделителем ';'
                         writer.WriteLine(string.Join(";", rowData));
                     }
                 }
-
-                MessageBox.Show("Export successful!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Вывод сообщения об успешном экспорте
+                MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                // Обработка ошибок
+                // Обработка ошибок: вывод сообщения об ошибке
                 MessageBox.Show("Error: " + ex.Message, "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
+                // Закрытие книги Excel, если она была открыта
                 if (workbook != null)
                 {
                     workbook.Close(false);
+                }
+            }
+        }
+
+        
+        private void butExportXLSXtoCSV_Click(object sender, RibbonControlEventArgs e)
+        {
+            //* 1 Открытие окна "ЭкспортВ_CSV"
+            //  2 Передать данные с формы в метод ExportXlsxToCsv
+            //*/ 
+            using (ExportXlsxToCsv form = new ExportXlsxToCsv()) 
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    // Получение данных из формы
                 }
             }
         }

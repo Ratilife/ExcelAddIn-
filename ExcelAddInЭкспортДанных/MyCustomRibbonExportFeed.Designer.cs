@@ -34,19 +34,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tab1 = this.Factory.CreateRibbonTab();
+            this.tabRatiTools = this.Factory.CreateRibbonTab();
             this.grExportFeed = this.Factory.CreateRibbonGroup();
             this.butExportXLSXtoCSV = this.Factory.CreateRibbonButton();
-            this.tab1.SuspendLayout();
+            this.tabRatiTools.SuspendLayout();
             this.grExportFeed.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tab1
+            // tabRatiTools
             // 
-            this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
-            this.tab1.Groups.Add(this.grExportFeed);
-            this.tab1.Label = "Экспорт";
-            this.tab1.Name = "tab1";
+            this.tabRatiTools.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
+            this.tabRatiTools.Groups.Add(this.grExportFeed);
+            this.tabRatiTools.Label = "RatiTools";
+            this.tabRatiTools.Name = "tabRatiTools";
             // 
             // grExportFeed
             // 
@@ -60,15 +60,16 @@
             this.butExportXLSXtoCSV.Label = "Экспорт в CSV";
             this.butExportXLSXtoCSV.Name = "butExportXLSXtoCSV";
             this.butExportXLSXtoCSV.ShowImage = true;
+            this.butExportXLSXtoCSV.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.butExportXLSXtoCSV_Click);
             // 
             // MyCustomRibbonExportFeed
             // 
             this.Name = "MyCustomRibbonExportFeed";
             this.RibbonType = "Microsoft.Excel.Workbook";
-            this.Tabs.Add(this.tab1);
+            this.Tabs.Add(this.tabRatiTools);
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.MyCustomRibbonExportFeed_Load);
-            this.tab1.ResumeLayout(false);
-            this.tab1.PerformLayout();
+            this.tabRatiTools.ResumeLayout(false);
+            this.tabRatiTools.PerformLayout();
             this.grExportFeed.ResumeLayout(false);
             this.grExportFeed.PerformLayout();
             this.ResumeLayout(false);
@@ -77,7 +78,7 @@
 
         #endregion
 
-        internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonTab tabRatiTools;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup grExportFeed;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoCSV;
     }
