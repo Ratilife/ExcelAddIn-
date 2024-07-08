@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Tools.Ribbon;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+
 
 
 namespace ExcelAddInЭкспортДанных
@@ -18,7 +22,7 @@ namespace ExcelAddInЭкспортДанных
         }
 
         //основной метод 
-        void ExportXlsxToCsv(string xlsxPath, string csvPath, System.Text.Encoding encoding)
+       /* void ExportXlsxToCsv(string xlsxPath, string csvPath, System.Text.Encoding encoding)
         {
             // Получение текущего экземпляра приложения Excel
             Excel.Application excelApp = Globals.ThisAddIn.Application;
@@ -75,7 +79,7 @@ namespace ExcelAddInЭкспортДанных
                     workbook.Close(false);
                 }
             }
-        }
+        }*/
 
         
         private void butExportXLSXtoCSV_Click(object sender, RibbonControlEventArgs e)
@@ -87,7 +91,58 @@ namespace ExcelAddInЭкспортДанных
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    // Получение данных из формы
+                    //Определяем способ экспорта
+                    String ChoiceForExport = form.ChoiceForExport;
+                    if (ChoiceForExport != null)
+                    {
+                        ExportData exportData = new ExportData();
+                        if (ChoiceForExport == "Book") 
+                        {
+                            // Сохранение файла CSV через диалоговое окно
+                            FolderBrowserDialog  fbd = new FolderBrowserDialog();
+                            fbd.ShowNewFolderButton = false;
+                            if (fbd.ShowDialog() == DialogResult.OK)
+                            {
+                               string csvPath = fbd.SelectedPath;
+                               exportData.ExportXlsxToCsvBook(csvPath, form.CsvEncoding, form.CsvDelimiter);
+                            }
+                        }
+                        else 
+                        {
+                        
+                            // Сохранение файла CSV через диалоговое окно
+                            SaveFileDialog saveFileDialog = new SaveFileDialog
+                            {
+                                // Установка фильтра для сохранения только в формате CSV
+                                Filter = "CSV Files|*.csv",
+                                // Заголовок диалогового окна
+                                Title = "Save as CSV File"
+                            };
+                                // Проверка, была ли нажата кнопка "OK" в диалоговом окне
+                                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                                {
+                                    // Получение пути для сохранения файла CSV
+                                    string csvPath = saveFileDialog.FileName;
+                                    
+                                if (ChoiceForExport == "Range") 
+                                    {
+                                        string SelectedRange = $"\"{form.SelectedRange}\"";
+                                        exportData.ExportSelectedRangeToCsv(csvPath, SelectedRange, form.CsvEncoding, form.CsvDelimiter); 
+                                    }
+                                    if (ChoiceForExport == "ActiveSheet") 
+                                    {
+                                        exportData.ExportActiveSheetToCsv(csvPath, form.CsvEncoding, form.CsvDelimiter);
+                                    }
+                          
+                                }
+                        }
+
+                    }
+                    else 
+                    {
+                        MessageBox.Show("Пожалуйста, выберите диапазон экспорта");
+                    }
+
                 }
             }
         }

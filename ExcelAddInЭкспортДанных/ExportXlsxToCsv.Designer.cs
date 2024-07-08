@@ -31,17 +31,17 @@
             this.gBWhatExpounding = new System.Windows.Forms.GroupBox();
             this.btnSelectRange = new System.Windows.Forms.Button();
             this.txtRange = new System.Windows.Forms.TextBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rdBook = new System.Windows.Forms.RadioButton();
+            this.rbActiveSheet = new System.Windows.Forms.RadioButton();
+            this.rbRange = new System.Windows.Forms.RadioButton();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.grFileSettings = new System.Windows.Forms.GroupBox();
-            this.labSeparator = new System.Windows.Forms.Label();
-            this.labEncoding = new System.Windows.Forms.Label();
-            this.chOpen = new System.Windows.Forms.CheckBox();
-            this.cmbSeparator = new System.Windows.Forms.ComboBox();
             this.cmbEncoding = new System.Windows.Forms.ComboBox();
+            this.cmbSeparator = new System.Windows.Forms.ComboBox();
+            this.labEncoding = new System.Windows.Forms.Label();
+            this.labSeparator = new System.Windows.Forms.Label();
+            this.chOpen = new System.Windows.Forms.CheckBox();
             this.gBWhatExpounding.SuspendLayout();
             this.grFileSettings.SuspendLayout();
             this.SuspendLayout();
@@ -50,10 +50,10 @@
             // 
             this.gBWhatExpounding.Controls.Add(this.btnSelectRange);
             this.gBWhatExpounding.Controls.Add(this.txtRange);
-            this.gBWhatExpounding.Controls.Add(this.radioButton3);
-            this.gBWhatExpounding.Controls.Add(this.radioButton2);
-            this.gBWhatExpounding.Controls.Add(this.radioButton1);
-            this.gBWhatExpounding.Location = new System.Drawing.Point(24, 45);
+            this.gBWhatExpounding.Controls.Add(this.rdBook);
+            this.gBWhatExpounding.Controls.Add(this.rbActiveSheet);
+            this.gBWhatExpounding.Controls.Add(this.rbRange);
+            this.gBWhatExpounding.Location = new System.Drawing.Point(24, 12);
             this.gBWhatExpounding.Name = "gBWhatExpounding";
             this.gBWhatExpounding.Size = new System.Drawing.Size(467, 151);
             this.gBWhatExpounding.TabIndex = 1;
@@ -77,42 +77,41 @@
             this.txtRange.Size = new System.Drawing.Size(229, 20);
             this.txtRange.TabIndex = 3;
             // 
-            // radioButton3
+            // rdBook
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(22, 105);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(189, 17);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Все рабочие листы в этой книге";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.rdBook.AutoSize = true;
+            this.rdBook.Location = new System.Drawing.Point(22, 105);
+            this.rdBook.Name = "rdBook";
+            this.rdBook.Size = new System.Drawing.Size(189, 17);
+            this.rdBook.TabIndex = 2;
+            this.rdBook.Text = "Все рабочие листы в этой книге";
+            this.rdBook.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // rbActiveSheet
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(22, 72);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(118, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Этот рабочий лист";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rbActiveSheet.AutoSize = true;
+            this.rbActiveSheet.Checked = true;
+            this.rbActiveSheet.Location = new System.Drawing.Point(22, 72);
+            this.rbActiveSheet.Name = "rbActiveSheet";
+            this.rbActiveSheet.Size = new System.Drawing.Size(118, 17);
+            this.rbActiveSheet.TabIndex = 1;
+            this.rbActiveSheet.TabStop = true;
+            this.rbActiveSheet.Text = "Этот рабочий лист";
+            this.rbActiveSheet.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // rbRange
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(22, 39);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(138, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Выбранный диапазон:";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rbRange.AutoSize = true;
+            this.rbRange.Location = new System.Drawing.Point(22, 39);
+            this.rbRange.Name = "rbRange";
+            this.rbRange.Size = new System.Drawing.Size(138, 17);
+            this.rbRange.TabIndex = 0;
+            this.rbRange.Text = "Выбранный диапазон:";
+            this.rbRange.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(314, 359);
+            this.btnOK.Location = new System.Drawing.Point(314, 310);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 2;
@@ -122,7 +121,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(405, 359);
+            this.btnCancel.Location = new System.Drawing.Point(405, 310);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -136,40 +135,29 @@
             this.grFileSettings.Controls.Add(this.cmbSeparator);
             this.grFileSettings.Controls.Add(this.labEncoding);
             this.grFileSettings.Controls.Add(this.labSeparator);
-            this.grFileSettings.Location = new System.Drawing.Point(24, 214);
+            this.grFileSettings.Location = new System.Drawing.Point(24, 169);
             this.grFileSettings.Name = "grFileSettings";
             this.grFileSettings.Size = new System.Drawing.Size(467, 106);
             this.grFileSettings.TabIndex = 4;
             this.grFileSettings.TabStop = false;
             this.grFileSettings.Text = "Настройки файла CSV:";
             // 
-            // labSeparator
+            // cmbEncoding
             // 
-            this.labSeparator.AutoSize = true;
-            this.labSeparator.Location = new System.Drawing.Point(22, 37);
-            this.labSeparator.Name = "labSeparator";
-            this.labSeparator.Size = new System.Drawing.Size(76, 13);
-            this.labSeparator.TabIndex = 0;
-            this.labSeparator.Text = "Разделитель:";
-            // 
-            // labEncoding
-            // 
-            this.labEncoding.AutoSize = true;
-            this.labEncoding.Location = new System.Drawing.Point(22, 65);
-            this.labEncoding.Name = "labEncoding";
-            this.labEncoding.Size = new System.Drawing.Size(65, 13);
-            this.labEncoding.TabIndex = 1;
-            this.labEncoding.Text = "Кодировка:";
-            // 
-            // chOpen
-            // 
-            this.chOpen.AutoSize = true;
-            this.chOpen.Location = new System.Drawing.Point(24, 326);
-            this.chOpen.Name = "chOpen";
-            this.chOpen.Size = new System.Drawing.Size(182, 17);
-            this.chOpen.TabIndex = 5;
-            this.chOpen.Text = "Открыть файл после экспорта";
-            this.chOpen.UseVisualStyleBackColor = true;
+            this.cmbEncoding.FormattingEnabled = true;
+            this.cmbEncoding.Items.AddRange(new object[] {
+            "Unicode(UTF-8)",
+            "Unicode(UTF-8-BOM)",
+            "Кириллица(Windows)",
+            "Кириллица(ISO)",
+            "Кириллица(KOI8-R)",
+            "Кириллица(KOI8-U)",
+            "Кириллица(Mac)"});
+            this.cmbEncoding.Location = new System.Drawing.Point(157, 65);
+            this.cmbEncoding.Name = "cmbEncoding";
+            this.cmbEncoding.Size = new System.Drawing.Size(260, 21);
+            this.cmbEncoding.TabIndex = 3;
+            this.cmbEncoding.SelectedIndexChanged += new System.EventHandler(this.cmbEncoding_SelectedIndexChanged);
             // 
             // cmbSeparator
             // 
@@ -185,27 +173,39 @@
             this.cmbSeparator.TabIndex = 2;
             this.cmbSeparator.SelectedIndexChanged += new System.EventHandler(this.cmbSeparator_SelectedIndexChanged);
             // 
-            // cmbEncoding
+            // labEncoding
             // 
-            this.cmbEncoding.FormattingEnabled = true;
-            this.cmbEncoding.Items.AddRange(new object[] {
-            "Unicode(UTF-8)",
-            "Кириллица(Windows)",
-            "Кириллица(ISO)",
-            "Кириллица(KOI8-R)",
-            "Кириллица(KOI8-U)",
-            "Кириллица(Mac)"});
-            this.cmbEncoding.Location = new System.Drawing.Point(157, 65);
-            this.cmbEncoding.Name = "cmbEncoding";
-            this.cmbEncoding.Size = new System.Drawing.Size(260, 21);
-            this.cmbEncoding.TabIndex = 3;
-            this.cmbEncoding.SelectedIndexChanged += new System.EventHandler(this.cmbEncoding_SelectedIndexChanged);
+            this.labEncoding.AutoSize = true;
+            this.labEncoding.Location = new System.Drawing.Point(22, 65);
+            this.labEncoding.Name = "labEncoding";
+            this.labEncoding.Size = new System.Drawing.Size(65, 13);
+            this.labEncoding.TabIndex = 1;
+            this.labEncoding.Text = "Кодировка:";
+            // 
+            // labSeparator
+            // 
+            this.labSeparator.AutoSize = true;
+            this.labSeparator.Location = new System.Drawing.Point(22, 37);
+            this.labSeparator.Name = "labSeparator";
+            this.labSeparator.Size = new System.Drawing.Size(76, 13);
+            this.labSeparator.TabIndex = 0;
+            this.labSeparator.Text = "Разделитель:";
+            // 
+            // chOpen
+            // 
+            this.chOpen.AutoSize = true;
+            this.chOpen.Location = new System.Drawing.Point(24, 281);
+            this.chOpen.Name = "chOpen";
+            this.chOpen.Size = new System.Drawing.Size(182, 17);
+            this.chOpen.TabIndex = 5;
+            this.chOpen.Text = "Открыть файл после экспорта";
+            this.chOpen.UseVisualStyleBackColor = true;
             // 
             // ExportXlsxToCsv
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 393);
+            this.ClientSize = new System.Drawing.Size(509, 342);
             this.Controls.Add(this.chOpen);
             this.Controls.Add(this.grFileSettings);
             this.Controls.Add(this.btnCancel);
@@ -226,9 +226,9 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gBWhatExpounding;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton rbActiveSheet;
+        private System.Windows.Forms.RadioButton rbRange;
+        private System.Windows.Forms.RadioButton rdBook;
         private System.Windows.Forms.TextBox txtRange;
         private System.Windows.Forms.Button btnSelectRange;
         private System.Windows.Forms.Button btnOK;

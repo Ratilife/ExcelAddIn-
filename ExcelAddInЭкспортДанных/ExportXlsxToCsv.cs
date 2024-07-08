@@ -18,12 +18,12 @@ namespace ExcelAddInЭкспортДанных
         private Excel.Application excelApp;
 
         // Свойства для хранения выбранного диапазона, формата экспорта, разделителя, кодировки и опции открытия после экспорта
-        public string ChoiceForExport { get; private set; }     // Выбор диапазон конвертации
-        public string SelectedRange { get; private set; }       // Выбранный диапазон
-        public bool ExportAsFormatted { get; private set; }     // Форма Экспорта
-        public string CsvDelimiter { get; private set; }        // Разделитель
-        public Encoding CsvEncoding { get; private set; }       // Кодировка
-        public bool OpenAfterExport { get; private set; }       // опции открытия
+        public string ChoiceForExport { get; private set; }     // Выбор диапазона конвертации *
+        public string SelectedRange { get; private set; }       // Выбранный диапазон *
+        public bool ExportAsFormatted { get; private set; }     // Форма Экспорта ?
+        public string CsvDelimiter { get; private set; }        // Разделитель *
+        public Encoding CsvEncoding { get; private set; }       // Кодировка *
+        public bool OpenAfterExport { get; private set; }       // опции открытия *
         
         public ExportXlsxToCsv()
         {
@@ -103,7 +103,11 @@ namespace ExcelAddInЭкспортДанных
             switch (selectedEncoding)
             {
                 case "Unicode(UTF-8)":
-                    CsvEncoding = Encoding.UTF8;
+                    CsvEncoding = new UTF8Encoding(false);  // UTF-8 без BOM
+                    break;
+
+                case "Unicode(UTF-8-BOM)":
+                    CsvEncoding = Encoding.UTF8;            //UTF-8-BOM
                     break;
 
                 case "Кириллица(Windows)":
@@ -145,8 +149,25 @@ namespace ExcelAddInЭкспортДанных
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            //Определение способа конвертации
+
+            if (rbRange.Checked)
+            { 
+                ChoiceForExport = "Range";
+            }
+            if (rbActiveSheet.Checked)
+            {
+                ChoiceForExport = "ActiveSheet";
+            }
+            if (rdBook.Checked)
+            {
+                ChoiceForExport = "Book";
+            }
             //Передаем открыть файл после создания 
             OpenAfterExport = chOpen.Checked;
+            // Устанавливаем результат диалога как OK и закрываем форму
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
        /* private void ExcelApp_SheetSelectionChange(object Sh, Excel.Range Target)
