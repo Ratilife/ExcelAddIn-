@@ -101,6 +101,9 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -196,6 +199,12 @@
     <Compile Include="ExportXlsxToCsv.Designer.cs">
       <DependentUpon>ExportXlsxToCsv.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExportXlsxToDF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExportXlsxToDF.Designer.cs">
+      <DependentUpon>ExportXlsxToDF.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyCustomRibbonExportFeed.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -208,6 +217,9 @@
     <EmbeddedResource Include="ExportXlsxToCsv.resx">
       <DependentUpon>ExportXlsxToCsv.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ExportXlsxToDF.resx">
+      <DependentUpon>ExportXlsxToDF.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyCustomRibbonExportFeed.resx">
       <DependentUpon>MyCustomRibbonExportFeed.cs</DependentUpon>
     </EmbeddedResource>
@@ -219,8 +231,10 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="ExcelAddInЭкспортДанных_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -239,6 +253,15 @@
       <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exportdocument_1210.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\csv_filetype_icon_177543.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf_filetype_icon_177525.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

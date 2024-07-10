@@ -20,7 +20,6 @@ namespace ExcelAddInЭкспортДанных
         // Свойства для хранения выбранного диапазона, формата экспорта, разделителя, кодировки и опции открытия после экспорта
         public string ChoiceForExport { get; private set; }     // Выбор диапазона конвертации *
         public string SelectedRange { get; private set; }       // Выбранный диапазон *
-        public bool ExportAsFormatted { get; private set; }     // Форма Экспорта ?
         public string CsvDelimiter { get; private set; }        // Разделитель *
         public Encoding CsvEncoding { get; private set; }       // Кодировка *
         public bool OpenAfterExport { get; private set; }       // опции открытия *
@@ -170,20 +169,5 @@ namespace ExcelAddInЭкспортДанных
             Close();
         }
     }
-       /* private void ExcelApp_SheetSelectionChange(object Sh, Excel.Range Target)
-        {
-            // Получение активного приложения Excel
-            Excel.Application excelApp = Globals.ThisAddIn.Application;
-
-            // Проверка нажатия клавиши Enter
-            if (Control.ModifierKeys == Keys.None && Control.ModifierKeys != Keys.Shift)
-            {
-                SelectedRange = Target.Address;
-                txtRange.Text = SelectedRange;
-
-                // Отписка от события
-                excelApp.SheetSelectionChange -= ExcelApp_SheetSelectionChange;
-            }
-        }
-    }*/
+       
 }

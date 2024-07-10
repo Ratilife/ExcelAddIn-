@@ -37,6 +37,7 @@
             this.tabRatiTools = this.Factory.CreateRibbonTab();
             this.grExportFeed = this.Factory.CreateRibbonGroup();
             this.butExportXLSXtoCSV = this.Factory.CreateRibbonButton();
+            this.butExportXLSXtoPDF = this.Factory.CreateRibbonButton();
             this.tabRatiTools.SuspendLayout();
             this.grExportFeed.SuspendLayout();
             this.SuspendLayout();
@@ -51,16 +52,27 @@
             // grExportFeed
             // 
             this.grExportFeed.Items.Add(this.butExportXLSXtoCSV);
+            this.grExportFeed.Items.Add(this.butExportXLSXtoPDF);
             this.grExportFeed.Label = "Экспорт данных";
             this.grExportFeed.Name = "grExportFeed";
             // 
             // butExportXLSXtoCSV
             // 
             this.butExportXLSXtoCSV.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.butExportXLSXtoCSV.Image = global::ExcelAddInЭкспортДанных.Properties.Resources.csv_filetype_icon_177543;
             this.butExportXLSXtoCSV.Label = "Экспорт в CSV";
             this.butExportXLSXtoCSV.Name = "butExportXLSXtoCSV";
             this.butExportXLSXtoCSV.ShowImage = true;
             this.butExportXLSXtoCSV.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.butExportXLSXtoCSV_Click);
+            // 
+            // butExportXLSXtoPDF
+            // 
+            this.butExportXLSXtoPDF.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.butExportXLSXtoPDF.Image = global::ExcelAddInЭкспортДанных.Properties.Resources.pdf_filetype_icon_177525;
+            this.butExportXLSXtoPDF.Label = "Экспорт в PDF";
+            this.butExportXLSXtoPDF.Name = "butExportXLSXtoPDF";
+            this.butExportXLSXtoPDF.ShowImage = true;
+            this.butExportXLSXtoPDF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.butExportXLSXtoPDF_Click);
             // 
             // MyCustomRibbonExportFeed
             // 
@@ -81,6 +93,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tabRatiTools;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup grExportFeed;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoCSV;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoPDF;
     }
 
     partial class ThisRibbonCollection
