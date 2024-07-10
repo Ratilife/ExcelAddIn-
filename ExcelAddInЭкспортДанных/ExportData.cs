@@ -674,6 +674,92 @@ namespace ExcelAddInЭкспортДанных
             }
         }
 
+        public void ExportXlsxToDifferentFormatsBook(string filePath, string extension, bool OpenAfterExport)
+        {
+            // Получение текущего экземпляра приложения Excel
+            Excel.Application excelApp = Globals.ThisAddIn.Application;
+            // Проверка, удалось ли получить доступ к приложению Excel
+            if (excelApp == null)
+            {
+                // Если не удалось, выводится сообщение об ошибке и выполнение функции прекращается
+                MessageBox.Show("Error: Не удается получить доступ к приложению Excel.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                // Получение активной книги
+                Excel.Workbook workbook = excelApp.ActiveWorkbook;
+                if (workbook == null)
+                {
+                    MessageBox.Show("Error: Нет активной книги Excel.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Проход по всем листам в книге
+                for (int i = 1; i <= workbook.Sheets.Count; i++)
+                {
+                    // Получение текущего листа
+                    Excel.Worksheet worksheet = workbook.Sheets[i];
+                    // Получение имени текущего листа
+                    string sheetName = worksheet.Name;
+                    // Создание пути для сохранения текущего листа в выбранном формате
+                    string exportPath = Path.Combine(Path.GetDirectoryName(filePath), $"{sheetName}.{extension}");
+
+                    // Экспорт текущего листа в выбранном формате
+                    if (extension.ToLower() == "pdf")
+                    {
+                        worksheet.ExportAsFixedFormat(Excel.XlFixedFormatType.xlTypePDF, exportPath);
+                    }
+                    else if (extension.ToLower() == "xls")
+                    {
+                        // Сохранение активной книги в формате XLS
+                        workbook.SaveAs(exportPath, Excel.XlFileFormat.xlExcel8);
+                    }
+                    else if (extension.ToLower() == "xlsm")
+                    {
+                        // Сохранение активной книги в формате XLSM
+                        workbook.SaveAs(exportPath, Excel.XlFileFormat.xlOpenXMLWorkbookMacroEnabled);
+                    }
+                    else if (extension.ToLower() == "txt")
+                    {
+                        // Получение используемого диапазона на текущем листе
+                        Excel.Range usedRange = worksheet.UsedRange;
+                        ExportActiveSheetToTXT(usedRange, exportPath);
+                    }
+                    else if (extension.ToLower() == "xml")
+                    {
+                        // Сохранение активной книги в формате XML
+                        workbook.SaveAs(exportPath, Excel.XlFileFormat.xlXMLSpreadsheet);
+                    }
+                    else if (extension.ToLower() == "json")
+                    {
+                        // Получение используемого диапазона на текущем листе
+                        Excel.Range usedRange = worksheet.UsedRange;
+                        ExportActiveSheetToJSON(usedRange, exportPath);
+                    }
+                    else if (extension.ToLower() == "html")
+                    {
+                        // Сохранение активной книги в формате HTML
+                        workbook.SaveAs(exportPath, Excel.XlFileFormat.xlHtml);
+                    }
+                }
+
+                // Вывод сообщения об успешном экспорте
+                MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (OpenAfterExport == true)
+                {
+                    OpenFile(filePath);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок: вывод сообщения об ошибке
+                MessageBox.Show("Error: " + ex.Message, "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         #endregion
     }
 }
