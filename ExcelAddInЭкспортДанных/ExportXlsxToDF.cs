@@ -72,6 +72,11 @@ namespace ExcelAddInЭкспортДанных
             }
 
         }
+        // Передаем диапазон ячеек для работы
+        void funSelectedRange()
+        {
+            SelectedRange = txtRange.Text;
+        }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -80,6 +85,7 @@ namespace ExcelAddInЭкспортДанных
             if (rbRange.Checked)
             {
                 ChoiceForExport = "Range";
+                funSelectedRange();
             }
             if (rbActiveSheet.Checked)
             {
@@ -139,6 +145,11 @@ namespace ExcelAddInЭкспортДанных
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void txtRange_KeyDown(object sender, KeyEventArgs e)
+        {
+            rbRange.Checked = true;
         }
     }
 }

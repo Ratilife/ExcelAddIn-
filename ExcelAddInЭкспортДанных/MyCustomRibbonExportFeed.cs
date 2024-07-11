@@ -127,7 +127,8 @@ namespace ExcelAddInЭкспортДанных
 
                                 if (ChoiceForExport == "Range")
                                 {
-                                    string SelectedRange = $"\"{form.SelectedRange}\"";
+                                    //string SelectedRange = $"\"{form.SelectedRange}\"";
+                                    string SelectedRange = form.SelectedRange;
                                     exportData.ExportSelectedRangeToCsv(csvPath, SelectedRange, form.CsvEncoding, form.CsvDelimiter, form.OpenAfterExport);
                                 }
                                 if (ChoiceForExport == "ActiveSheet")
@@ -189,7 +190,7 @@ namespace ExcelAddInЭкспортДанных
 
                                 if (ChoiceForExport == "Range")
                                 {
-                                    string SelectedRange = $"\"{form.SelectedRange}\"";
+                                    string SelectedRange = form.SelectedRange;
                                     exportData.ExportSelectedRangeToDF(filePath, SelectedRange, form.formatFile, form.OpenAfterExport);
                                 }
                                 if (ChoiceForExport == "ActiveSheet")
@@ -249,7 +250,7 @@ namespace ExcelAddInЭкспортДанных
 
                                 if (ChoiceForExport == "Range")
                                 {
-                                    string SelectedRange = $"\"{form.SelectedRange}\"";
+                                    string SelectedRange = form.SelectedRange;
                                     exportData.ExportSelectedRangeToDF(filePath, SelectedRange, form.formatFile, form.OpenAfterExport);
                                 }
                                 if (ChoiceForExport == "ActiveSheet")

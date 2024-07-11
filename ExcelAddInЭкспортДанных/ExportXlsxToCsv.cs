@@ -153,6 +153,7 @@ namespace ExcelAddInЭкспортДанных
             if (rbRange.Checked)
             { 
                 ChoiceForExport = "Range";
+                funSelectedRange();
             }
             if (rbActiveSheet.Checked)
             {
@@ -167,6 +168,21 @@ namespace ExcelAddInЭкспортДанных
             // Устанавливаем результат диалога как OK и закрываем форму
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void txtRange_Enter(object sender, EventArgs e)
+        {
+            rbRange.Enabled = true;
+        }
+
+        private void txtRange_VisibleChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void txtRange_KeyDown(object sender, KeyEventArgs e)
+        {
+            rbRange.Checked = true;
         }
     }
        
