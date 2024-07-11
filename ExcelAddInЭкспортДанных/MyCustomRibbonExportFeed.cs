@@ -166,8 +166,9 @@ namespace ExcelAddInЭкспортДанных
                             fbd.ShowNewFolderButton = false;
                             if (fbd.ShowDialog() == DialogResult.OK)
                             {
-                                string filePath = fbd.SelectedPath;
-                                // указуем метод
+                                string filePath = fbd.SelectedPath+"\\";
+                                exportData.ExportXlsxToDifferentFormatsBook(filePath, form.formatFile, form.OpenAfterExport);
+
                             }
                         }
                         else
@@ -189,7 +190,7 @@ namespace ExcelAddInЭкспортДанных
                                 if (ChoiceForExport == "Range")
                                 {
                                     string SelectedRange = $"\"{form.SelectedRange}\"";
-                                    // указуем метод
+                                    exportData.ExportSelectedRangeToDF(filePath, SelectedRange, form.formatFile, form.OpenAfterExport);
                                 }
                                 if (ChoiceForExport == "ActiveSheet")
                                 {
@@ -205,6 +206,65 @@ namespace ExcelAddInЭкспортДанных
                 }
             }
 
+        }
+
+        private void butExportXLSXtoTXT_Click(object sender, RibbonControlEventArgs e)
+        {
+            formatDefinition = "txt";
+            using (ExportXlsxToDF form = new ExportXlsxToDF(formatDefinition))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    //Определяем способ экспорта
+                    String ChoiceForExport = form.ChoiceForExport;
+                    if (ChoiceForExport != null)
+                    {
+                        ExportData exportData = new ExportData();
+                        if (ChoiceForExport == "Book")
+                        {
+                            FolderBrowserDialog fbd = new FolderBrowserDialog();
+                            fbd.ShowNewFolderButton = false;
+                            if (fbd.ShowDialog() == DialogResult.OK)
+                            {
+                                string filePath = fbd.SelectedPath + "\\";
+                                exportData.ExportXlsxToDifferentFormatsBook(filePath, form.formatFile, form.OpenAfterExport);
+
+                            }
+                        }
+                        else
+                        {
+                            // Сохранение файла PDF через диалоговое окно
+                            SaveFileDialog saveFileDialog = new SaveFileDialog
+                            {
+                                // Установка фильтра для сохранения только в формате PDF
+                                Filter = "TXT Files|*.txt",
+                                // Заголовок диалогового окна
+                                Title = "Save as TXT File"
+                            };
+                            // Проверка, была ли нажата кнопка "OK" в диалоговом окне
+                            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                // Получение пути для сохранения файла PDF
+                                string filePath = saveFileDialog.FileName;
+
+                                if (ChoiceForExport == "Range")
+                                {
+                                    string SelectedRange = $"\"{form.SelectedRange}\"";
+                                    exportData.ExportSelectedRangeToDF(filePath, SelectedRange, form.formatFile, form.OpenAfterExport);
+                                }
+                                if (ChoiceForExport == "ActiveSheet")
+                                {
+                                    exportData.ExportActiveSheetToDifferentFormats(filePath, form.formatFile, form.OpenAfterExport);
+                                }
+
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
         }
     }
 }

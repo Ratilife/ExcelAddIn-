@@ -34,8 +34,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
             this.tabRatiTools = this.Factory.CreateRibbonTab();
             this.grExportFeed = this.Factory.CreateRibbonGroup();
+            this.butExportXLSXtoTXT = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoCSV = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoPDF = this.Factory.CreateRibbonButton();
             this.tabRatiTools.SuspendLayout();
@@ -51,10 +53,21 @@
             // 
             // grExportFeed
             // 
+            this.grExportFeed.DialogLauncher = ribbonDialogLauncherImpl1;
+            this.grExportFeed.Items.Add(this.butExportXLSXtoTXT);
             this.grExportFeed.Items.Add(this.butExportXLSXtoCSV);
             this.grExportFeed.Items.Add(this.butExportXLSXtoPDF);
             this.grExportFeed.Label = "Экспорт данных";
             this.grExportFeed.Name = "grExportFeed";
+            // 
+            // butExportXLSXtoTXT
+            // 
+            this.butExportXLSXtoTXT.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.butExportXLSXtoTXT.Image = global::ExcelAddInЭкспортДанных.Properties.Resources.txt_filetype_icon_177515;
+            this.butExportXLSXtoTXT.Label = "Экспорт в TXT";
+            this.butExportXLSXtoTXT.Name = "butExportXLSXtoTXT";
+            this.butExportXLSXtoTXT.ShowImage = true;
+            this.butExportXLSXtoTXT.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.butExportXLSXtoTXT_Click);
             // 
             // butExportXLSXtoCSV
             // 
@@ -94,6 +107,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup grExportFeed;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoCSV;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoPDF;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoTXT;
     }
 
     partial class ThisRibbonCollection

@@ -67,7 +67,7 @@ namespace ExcelAddInЭкспортДанных
                     MessageBox.Show("Error: Нет активной книги Excel.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
+                List<string> listFilePath = new List<string>();
                 // Проход по всем листам в книге
                 for (int i = 1; i <= workbook.Sheets.Count; i++)
                 {
@@ -77,7 +77,8 @@ namespace ExcelAddInЭкспортДанных
                     string sheetName = worksheet.Name;
                     // Создание пути для сохранения текущего листа как CSV
                     string csvPath = Path.Combine(csvBasePath, $"{sheetName}.csv");
-
+                    
+                    listFilePath.Add(csvPath);
                     // Получение количества строк и столбцов в используемом диапазоне листа
                     int rowCount = worksheet.UsedRange.Rows.Count;
                     int colCount = worksheet.UsedRange.Columns.Count;
@@ -105,7 +106,10 @@ namespace ExcelAddInЭкспортДанных
                 MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 if (OpenAfterExport == true)
                 {
-
+                    foreach (string path in listFilePath)
+                    {
+                        OpenFile(path);
+                    }
                 }
             }
             catch (Exception ex)
@@ -395,6 +399,28 @@ namespace ExcelAddInЭкспортДанных
             }
         }
 
+        /*
+        * Метод ExportActiveSheetToXML экспортирует указанный диапазон Excel в файл XML.
+        *
+        * Параметры:
+        *   - Excel.Range usedRange: Диапазон ячеек на листе Excel, который необходимо экспортировать.
+        *   - string filePath: Путь, по которому будет сохранен файл XML.
+        *
+        * Процесс:
+        *   1. Создание нового XML документа.
+        *   2. Создание корневого элемента и добавление его в документ.
+        *   3. Проход по всем строкам указанного диапазона:
+        *    - Для каждой строки создается элемент "row".
+        *    - Проход по всем столбцам указанного диапазона:
+        *      - Для каждой ячейки создается элемент "cell".
+        *      - Получается значение ячейки и устанавливается в элемент "cell".
+        *      - Элемент "cell" добавляется в элемент "row".
+        * 4. Сохранение XML документа в указанный файл.
+        *
+        * Примечание:
+        *    - Метод предполагает, что диапазон usedRange содержит данные, которые могут быть преобразованы в строки.
+        *    - Если файл с указанным именем уже существует, он будет перезаписан.
+        */
         void ExportActiveSheetToXML(Excel.Range usedRange, string filePath)
         {
             // Создание нового XML документа
@@ -432,6 +458,28 @@ namespace ExcelAddInЭкспортДанных
             xmlDoc.Save(filePath);
         }
 
+        /*
+        * Метод ExportActiveSheetToHTML экспортирует указанный диапазон Excel в файл HTML.
+        *
+        * Параметры:
+        *   - Excel.Range usedRange: Диапазон ячеек на листе Excel, который необходимо экспортировать.
+        *   - string filePath: Путь, по которому будет сохранен файл HTML.
+        *
+        * Процесс:
+        *   1. Создание нового StringBuilder для хранения HTML содержимого.
+        *   2. Добавление начала HTML документа, включая теги <!DOCTYPE html>, <html>, <body> и <table>.
+        *   3. Проход по всем строкам указанного диапазона:
+        *    - Для каждой строки добавляется тег <tr>.
+        *    - Проход по всем столбцам указанного диапазона:
+        *    - Получается значение ячейки и добавляется в тег <td>.
+        *    - Закрытие тега <tr> для текущей строки.
+        *   4. Закрытие тегов <table>, <body> и <html>.
+        *   5. Запись HTML содержимого в указанный файл.
+        *
+        * Примечание:
+        *   - Метод предполагает, что диапазон usedRange содержит данные, которые могут быть преобразованы в строки.
+        *   - Если файл с указанным именем уже существует, он будет перезаписан.
+        */
         void ExportActiveSheetToHTML(Excel.Range usedRange, string filePath)
         {
             // Создание нового StringBuilder для хранения HTML
@@ -471,6 +519,32 @@ namespace ExcelAddInЭкспортДанных
 
         }
 
+        /*
+        * Метод ExportSelectedRangeToDF экспортирует выбранный диапазон ячеек из активного листа Excel в указанный формат файла.
+        *
+        * Параметры:
+        *   - string filePath: Путь, по которому будет сохранен экспортированный файл.
+        *   - string rangeAddress: Адрес диапазона ячеек, который необходимо экспортировать (например, "A1:D10").
+        *   - string extension: Формат, в котором необходимо экспортировать данные (например, "pdf", "xls", "xlsm", "txt", "json", "xml", "html").
+        *   - bool OpenAfterExport: Флаг, указывающий, нужно ли открывать файл после экспорта.
+        *
+        * Процесс:
+        *   1. Получение текущего экземпляра приложения Excel и проверка его доступности.
+        *   2. Получение активной книги и листа, а также проверка их доступности.
+        *   3. Получение указанного диапазона ячеек на активном листе.
+        *   4. Экспорт данных из выбранного диапазона в указанный формат файла:
+        *    - PDF: Используется метод ExportAsFixedFormat.
+        *    - XLS и XLSM: Данные копируются в новую книгу, которая затем сохраняется в указанном формате.
+        *    - TXT, JSON, XML: Используются специализированные методы экспорта данных в соответствующий формат.
+        *    - HTML: (предполагается, что код будет добавлен позже).
+        *   5. Вывод сообщения об успешном экспорте.
+        *   6. Опциональное открытие экспортированного файла после завершения экспорта.
+        *
+        * Примечание:
+        *   - Метод предполагает, что диапазон rangeAddress содержит допустимый адрес ячеек.
+        *   - Если файл с указанным именем уже существует, он будет перезаписан.
+        *   - Код для экспорта в HTML формат еще не реализован и требует дополнения.
+        */
         public void ExportSelectedRangeToDF(string filePath, string rangeAddress, string extension, bool OpenAfterExport)
         {
             // Получение текущего экземпляра приложения Excel
@@ -674,6 +748,35 @@ namespace ExcelAddInЭкспортДанных
             }
         }
 
+        /*
+        * Метод ExportXlsxToDifferentFormatsBook экспортирует каждый лист активной книги Excel в указанный формат файла.
+        *
+        * Параметры:
+        *   - string filePath: Путь, по которому будут сохранены файлы экспорта.
+        *   - string extension: Расширение файла, указывающее формат экспорта. Поддерживаются: pdf, xls, xlsm, txt, xml, json, html.
+        *   - bool OpenAfterExport: Если true, файл будет открыт после экспорта.
+        *
+        * Процесс:
+        *   1. Получение текущего экземпляра приложения Excel.
+        *   2. Проверка доступности активной книги и листа.
+        *   3. Проход по всем листам в активной книге.
+        *   4. Для каждого листа:
+        *    - Формируется путь для сохранения файла с учетом имени листа и указанного расширения.
+        *    - Выполняется экспорт в зависимости от указанного расширения:
+        *      - PDF: Используется метод ExportAsFixedFormat.
+        *      - XLS: Сохранение книги в формате Excel 97-2003.
+        *      - XLSM: Сохранение книги в формате Excel с поддержкой макросов.
+        *      - TXT: Экспорт в текстовый файл (вызывается метод ExportActiveSheetToTXT).
+        *      - XML: Сохранение книги в формате XML.
+        *      - JSON: Экспорт в JSON (вызывается метод ExportActiveSheetToJSON).
+        *      - HTML: Сохранение книги в формате HTML.
+        *   5. Отображение сообщения об успешном экспорте.
+        *   6. Открытие файла после экспорта, если параметр OpenAfterExport установлен в true.
+        *
+        * Примечание:
+        * - Метод предполагает, что файл, в который экспортируется, не существует или может быть перезаписан.
+        * - В случае ошибок выводится сообщение с описанием ошибки.
+        */
         public void ExportXlsxToDifferentFormatsBook(string filePath, string extension, bool OpenAfterExport)
         {
             // Получение текущего экземпляра приложения Excel
@@ -696,6 +799,9 @@ namespace ExcelAddInЭкспортДанных
                     return;
                 }
 
+                //Создадим список для открытия n-го количества файлов в новом формате
+                List<string> listFilePath = new List<string>();
+
                 // Проход по всем листам в книге
                 for (int i = 1; i <= workbook.Sheets.Count; i++)
                 {
@@ -705,7 +811,7 @@ namespace ExcelAddInЭкспортДанных
                     string sheetName = worksheet.Name;
                     // Создание пути для сохранения текущего листа в выбранном формате
                     string exportPath = Path.Combine(Path.GetDirectoryName(filePath), $"{sheetName}.{extension}");
-
+                    listFilePath.Add(exportPath);
                     // Экспорт текущего листа в выбранном формате
                     if (extension.ToLower() == "pdf")
                     {
@@ -750,7 +856,10 @@ namespace ExcelAddInЭкспортДанных
 
                 if (OpenAfterExport == true)
                 {
-                    OpenFile(filePath);
+                    foreach (string path in listFilePath)
+                    {
+                        OpenFile(path);
+                    }
                 }
 
             }
