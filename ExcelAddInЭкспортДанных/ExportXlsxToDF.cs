@@ -18,6 +18,7 @@ namespace ExcelAddInЭкспортДанных
         public string SelectedRange { get; private set; }       // Выбранный диапазон *
         public string formatFile { get; private set; }          // выбор формата
         public bool OpenAfterExport { get; private set; }       // опции открытия *
+        public bool bookToOneDoc { get; private set; }       // опции открытия *
 
         public string FormatDefinition { get; set; }            // определение формата для конвертации
 
@@ -30,6 +31,7 @@ namespace ExcelAddInЭкспортДанных
         {
             InitializeComponent();
             FormatDefinition = formatDefinition;
+            chHTMLOneDoc.Visible= false;
         }
 
 
@@ -150,6 +152,16 @@ namespace ExcelAddInЭкспортДанных
         private void txtRange_KeyDown(object sender, KeyEventArgs e)
         {
             rbRange.Checked = true;
+        }
+
+        private void rdBook_CheckedChanged(object sender, EventArgs e)
+        {
+            chHTMLOneDoc.Visible = true;
+        }
+
+        private void chHTMLOneDoc_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chHTMLOneDoc.Visible) {bookToOneDoc = true;}
         }
     }
 }

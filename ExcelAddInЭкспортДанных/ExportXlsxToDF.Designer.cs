@@ -39,6 +39,7 @@
             this.gbSaveAs = new System.Windows.Forms.GroupBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.chHTMLOneDoc = new System.Windows.Forms.CheckBox();
             this.gBWhatExpounding.SuspendLayout();
             this.gbSaveAs.SuspendLayout();
             this.SuspendLayout();
@@ -60,6 +61,7 @@
             this.rdBook.TabIndex = 2;
             this.rdBook.Text = "Все рабочие листы в этой книге";
             this.rdBook.UseVisualStyleBackColor = true;
+            this.rdBook.CheckedChanged += new System.EventHandler(this.rdBook_CheckedChanged);
             // 
             // rbActiveSheet
             // 
@@ -109,7 +111,7 @@
             // chOpen
             // 
             this.chOpen.AutoSize = true;
-            this.chOpen.Location = new System.Drawing.Point(12, 244);
+            this.chOpen.Location = new System.Drawing.Point(12, 256);
             this.chOpen.Name = "chOpen";
             this.chOpen.Size = new System.Drawing.Size(182, 17);
             this.chOpen.TabIndex = 6;
@@ -136,7 +138,7 @@
             // gbSaveAs
             // 
             this.gbSaveAs.Controls.Add(this.cmbSaveAs);
-            this.gbSaveAs.Location = new System.Drawing.Point(12, 181);
+            this.gbSaveAs.Location = new System.Drawing.Point(12, 193);
             this.gbSaveAs.Name = "gbSaveAs";
             this.gbSaveAs.Size = new System.Drawing.Size(456, 57);
             this.gbSaveAs.TabIndex = 8;
@@ -163,11 +165,23 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // chHTMLOneDoc
+            // 
+            this.chHTMLOneDoc.AutoSize = true;
+            this.chHTMLOneDoc.Location = new System.Drawing.Point(34, 170);
+            this.chHTMLOneDoc.Name = "chHTMLOneDoc";
+            this.chHTMLOneDoc.Size = new System.Drawing.Size(242, 17);
+            this.chHTMLOneDoc.TabIndex = 11;
+            this.chHTMLOneDoc.Text = "Экспорт книги в HTML одним документом";
+            this.chHTMLOneDoc.UseVisualStyleBackColor = true;
+            this.chHTMLOneDoc.CheckedChanged += new System.EventHandler(this.chHTMLOneDoc_CheckedChanged);
+            // 
             // ExportXlsxToDF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(486, 311);
+            this.ClientSize = new System.Drawing.Size(486, 321);
+            this.Controls.Add(this.chHTMLOneDoc);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbSaveAs);
@@ -197,5 +211,6 @@
         private System.Windows.Forms.GroupBox gbSaveAs;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.CheckBox chHTMLOneDoc;
     }
 }

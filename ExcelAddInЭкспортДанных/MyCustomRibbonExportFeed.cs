@@ -9,12 +9,13 @@ using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using Microsoft.Office.Interop.Excel;
 
 
 
 namespace ExcelAddInЭкспортДанных
 {
-    public partial class MyCustomRibbonExportFeed 
+    public partial class MyCustomRibbonExportFeed
     {
         public string formatDefinition { get; private set; }
         private void MyCustomRibbonExportFeed_Load(object sender, RibbonUIEventArgs e)
@@ -82,6 +83,79 @@ namespace ExcelAddInЭкспортДанных
              }
          }*/
 
+        void exportFormatSelection(string formatExport, string filter, string title)
+        {
+            formatDefinition = formatExport;
+            using (ExportXlsxToDF form = new ExportXlsxToDF(formatDefinition))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    //Определяем способ экспорта
+                    String ChoiceForExport = form.ChoiceForExport;
+                    if (ChoiceForExport != null)
+                    {
+                        ExportData exportData = new ExportData();
+                        if (ChoiceForExport == "Book")
+                        {
+                            FolderBrowserDialog fbd = new FolderBrowserDialog();
+                            fbd.ShowNewFolderButton = false;
+                            if (fbd.ShowDialog() == DialogResult.OK)
+                            {
+                                string filePath = fbd.SelectedPath + "\\";
+                                if (form.bookToOneDoc == true)
+                                {
+                                    exportData.ExportXlsxToDifferentFormatsBook(filePath, form.formatFile, form.OpenAfterExport, form.bookToOneDoc);
+                                }
+                                else
+                                {
+                                    exportData.ExportEachSheetToHTML(filePath, form.OpenAfterExport);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // Сохранение файла PDF через диалоговое окно
+                            SaveFileDialog saveFileDialog = new SaveFileDialog
+                            {
+                                // Установка фильтра для сохранения только в формате PDF
+                                Filter = filter,
+                                // Заголовок диалогового окна
+                                Title = title
+                            };
+                            // Проверка, была ли нажата кнопка "OK" в диалоговом окне
+                            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                // Получение пути для сохранения файла PDF
+                                string filePath = saveFileDialog.FileName;
+
+                                if (ChoiceForExport == "Range")
+                                {
+                                    string SelectedRange = form.SelectedRange;
+                                    exportData.ExportSelectedRangeToDF(filePath, SelectedRange, form.formatFile, form.OpenAfterExport);
+                                }
+                                if (ChoiceForExport == "ActiveSheet")
+                                {
+                                    if (form.formatFile == "html")
+                                    {
+                                        exportData.ExportActiveSheetToHTML(filePath, form.OpenAfterExport);
+                                    }
+                                    else
+                                    {
+                                        exportData.ExportActiveSheetToDifferentFormats(filePath, form.formatFile, form.OpenAfterExport);
+                                    }
+
+
+                                }
+
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+        }
 
         private void butExportXLSXtoCSV_Click(object sender, RibbonControlEventArgs e)
         {
@@ -151,121 +225,59 @@ namespace ExcelAddInЭкспортДанных
 
         private void butExportXLSXtoPDF_Click(object sender, RibbonControlEventArgs e)
         {
-            formatDefinition = "pdf";
-            using (ExportXlsxToDF form = new ExportXlsxToDF(formatDefinition))
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    //Определяем способ экспорта
-                    String ChoiceForExport = form.ChoiceForExport;
-                    if (ChoiceForExport != null)
-                    {
-                        ExportData exportData = new ExportData();
-                        if (ChoiceForExport == "Book")
-                        {
-                            FolderBrowserDialog fbd = new FolderBrowserDialog();
-                            fbd.ShowNewFolderButton = false;
-                            if (fbd.ShowDialog() == DialogResult.OK)
-                            {
-                                string filePath = fbd.SelectedPath+"\\";
-                                exportData.ExportXlsxToDifferentFormatsBook(filePath, form.formatFile, form.OpenAfterExport);
-
-                            }
-                        }
-                        else
-                        {
-                            // Сохранение файла PDF через диалоговое окно
-                            SaveFileDialog saveFileDialog = new SaveFileDialog
-                            {
-                                // Установка фильтра для сохранения только в формате PDF
-                                Filter = "PDF Files|*.pdf",
-                                // Заголовок диалогового окна
-                                Title = "Save as PDF File"
-                            };
-                            // Проверка, была ли нажата кнопка "OK" в диалоговом окне
-                            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                            {
-                                // Получение пути для сохранения файла PDF
-                                string filePath = saveFileDialog.FileName;
-
-                                if (ChoiceForExport == "Range")
-                                {
-                                    string SelectedRange = form.SelectedRange;
-                                    exportData.ExportSelectedRangeToDF(filePath, SelectedRange, form.formatFile, form.OpenAfterExport);
-                                }
-                                if (ChoiceForExport == "ActiveSheet")
-                                {
-                                    exportData.ExportActiveSheetToDifferentFormats(filePath, form.formatFile, form.OpenAfterExport);
-                                }
-
-                            }
-
-                        }
-
-
-                    }
-                }
-            }
+            string formatExport = "pdf";
+            string filter = "PDF Files|*.pdf";
+            string title = "Save as PDF File";
+            exportFormatSelection(formatExport, filter, title);
 
         }
 
         private void butExportXLSXtoTXT_Click(object sender, RibbonControlEventArgs e)
         {
-            formatDefinition = "txt";
-            using (ExportXlsxToDF form = new ExportXlsxToDF(formatDefinition))
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    //Определяем способ экспорта
-                    String ChoiceForExport = form.ChoiceForExport;
-                    if (ChoiceForExport != null)
-                    {
-                        ExportData exportData = new ExportData();
-                        if (ChoiceForExport == "Book")
-                        {
-                            FolderBrowserDialog fbd = new FolderBrowserDialog();
-                            fbd.ShowNewFolderButton = false;
-                            if (fbd.ShowDialog() == DialogResult.OK)
-                            {
-                                string filePath = fbd.SelectedPath + "\\";
-                                exportData.ExportXlsxToDifferentFormatsBook(filePath, form.formatFile, form.OpenAfterExport);
+            string formatExport = "txt";
+            string filter = "TXT Files|*.txt";
+            string title = "Save as TXT File";
+            exportFormatSelection(formatExport, filter, title);
+        }
 
-                            }
-                        }
-                        else
-                        {
-                            // Сохранение файла PDF через диалоговое окно
-                            SaveFileDialog saveFileDialog = new SaveFileDialog
-                            {
-                                // Установка фильтра для сохранения только в формате PDF
-                                Filter = "TXT Files|*.txt",
-                                // Заголовок диалогового окна
-                                Title = "Save as TXT File"
-                            };
-                            // Проверка, была ли нажата кнопка "OK" в диалоговом окне
-                            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                            {
-                                // Получение пути для сохранения файла PDF
-                                string filePath = saveFileDialog.FileName;
+        private void butExportXLSXtoJSON_Click(object sender, RibbonControlEventArgs e)
+        {
+            string formatExport = "json";
+            string filter = "JSON Files|*.json";
+            string title = "Save as JSON File";
+            exportFormatSelection(formatExport, filter, title);
+        }
 
-                                if (ChoiceForExport == "Range")
-                                {
-                                    string SelectedRange = form.SelectedRange;
-                                    exportData.ExportSelectedRangeToDF(filePath, SelectedRange, form.formatFile, form.OpenAfterExport);
-                                }
-                                if (ChoiceForExport == "ActiveSheet")
-                                {
-                                    exportData.ExportActiveSheetToDifferentFormats(filePath, form.formatFile, form.OpenAfterExport);
-                                }
+        private void butExportXLSXtoXLS_Click(object sender, RibbonControlEventArgs e)
+        {
+            string formatExport = "xls";
+            string filter = "XLS Files|*.xls";
+            string title = "Save as XLS File";
+            exportFormatSelection(formatExport, filter, title);
+        }
 
-                            }
+        private void butExportXLSXtoXLSM_Click(object sender, RibbonControlEventArgs e)
+        {
+            string formatExport = "xlsm";
+            string filter = "XLSM Files|*.xlsm";
+            string title = "Save as XLSM File";
+            exportFormatSelection(formatExport, filter, title);
+        }
 
-                        }
+        private void butExportXLSXtoXML_Click(object sender, RibbonControlEventArgs e)
+        {
+            string formatExport = "xml";
+            string filter = "XML Files|*.xml";
+            string title = "Save as XML File";
+            exportFormatSelection(formatExport, filter, title);
+        }
 
-
-                    }
-                }
-            }
+        private void butExportXLSXtoHTML_Click(object sender, RibbonControlEventArgs e)
+        {
+            string formatExport = "html";
+            string filter = "HTML Files|*.html";
+            string title = "Save as HTML File";
+            exportFormatSelection(formatExport, filter, title);
         }
     }
 }

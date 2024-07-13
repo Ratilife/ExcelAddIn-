@@ -272,6 +272,21 @@
   <ItemGroup>
     <EmbeddedResource Include="Ribbon.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\json_filetype_icon_177531.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\xls_filetype_icon_177510.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\xml_filetype_icon_177509.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\html_filetype_icon_177535.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\free-icon-file-14421731.png" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -83,6 +83,36 @@ namespace ExcelAddInЭкспортДанных.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap free_icon_file_14421731 {
+            get {
+                object obj = ResourceManager.GetObject("free-icon-file-14421731", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap html_filetype_icon_177535 {
+            get {
+                object obj = ResourceManager.GetObject("html_filetype_icon_177535", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap json_filetype_icon_177531 {
+            get {
+                object obj = ResourceManager.GetObject("json_filetype_icon_177531", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pdf_filetype_icon_177525 {
             get {
                 object obj = ResourceManager.GetObject("pdf_filetype_icon_177525", resourceCulture);
@@ -96,6 +126,26 @@ namespace ExcelAddInЭкспортДанных.Properties {
         internal static System.Drawing.Bitmap txt_filetype_icon_177515 {
             get {
                 object obj = ResourceManager.GetObject("txt_filetype_icon_177515", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xls_filetype_icon_177510 {
+            get {
+                object obj = ResourceManager.GetObject("xls_filetype_icon_177510", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xml_filetype_icon_177509 {
+            get {
+                object obj = ResourceManager.GetObject("xml_filetype_icon_177509", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

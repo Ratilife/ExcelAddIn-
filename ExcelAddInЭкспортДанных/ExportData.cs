@@ -10,15 +10,24 @@ using Excel = Microsoft.Office.Interop.Excel;
 using Newtonsoft.Json;
 using Formatting = Newtonsoft.Json.Formatting;
 using Microsoft.Office.Interop.Excel;
+using static System.Net.WebRequestMethods;
+using File = System.IO.File;
 
 namespace ExcelAddInЭкспортДанных
 {
     internal class ExportData
     {
-
-        void OpenFile(string filePath) 
+        // Вспомогательный метод для открытия файла
+        void OpenFile(string filePath)
         {
-            System.Diagnostics.Process.Start(filePath);
+            try
+            {
+                System.Diagnostics.Process.Start(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: Не удается открыть файл. " + ex.Message, "Open File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         #region экспорт данных в CSV
@@ -46,7 +55,7 @@ namespace ExcelAddInЭкспортДанных
          * Примечание:
          * Метод предполагает, что книга Excel уже открыта и активна.
          */
-        public void ExportXlsxToCsvBook( string csvBasePath, Encoding encoding, string delimiter, bool OpenAfterExport)
+        public void ExportXlsxToCsvBook(string csvBasePath, Encoding encoding, string delimiter, bool OpenAfterExport)
         {
             // Получение текущего экземпляра приложения Excel
             Excel.Application excelApp = Globals.ThisAddIn.Application;
@@ -57,7 +66,7 @@ namespace ExcelAddInЭкспортДанных
                 MessageBox.Show("Error: Не удается получить доступ к приложению Excel.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
             try
             {
                 // Получение активной книги
@@ -77,7 +86,7 @@ namespace ExcelAddInЭкспортДанных
                     string sheetName = worksheet.Name;
                     // Создание пути для сохранения текущего листа как CSV
                     string csvPath = Path.Combine(csvBasePath, $"{sheetName}.csv");
-                    
+
                     listFilePath.Add(csvPath);
                     // Получение количества строк и столбцов в используемом диапазоне листа
                     int rowCount = worksheet.UsedRange.Rows.Count;
@@ -117,7 +126,7 @@ namespace ExcelAddInЭкспортДанных
                 // Обработка ошибок: вывод сообщения об ошибке
                 MessageBox.Show("Error: " + ex.Message, "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
         // Метод для экспорта активного листа Excel в CSV файл
@@ -293,9 +302,9 @@ namespace ExcelAddInЭкспортДанных
                 // Вывод сообщения об успешном экспорте
                 MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 // отккрыть файл
-                if ( OpenAfterExport == true) 
+                if (OpenAfterExport == true)
                 {
-                    OpenFile( csvPath);
+                    OpenFile(csvPath);
                 }
 
             }
@@ -326,33 +335,33 @@ namespace ExcelAddInЭкспортДанных
                 - Значения ячеек записываются в словарь в виде строк.
                 - Если файл с указанным путем уже существует, его содержимое будет перезаписано.
         */
-        void ExportActiveSheetToJSON(Excel.Range usedRange, string filePath) 
+        void ExportActiveSheetToJSON(Excel.Range usedRange, string filePath)
         {
-             // Получение количества строк и столбцов в используемом диапазоне
-             int rowCount = usedRange.Rows.Count;
-             int colCount = usedRange.Columns.Count;
+            // Получение количества строк и столбцов в используемом диапазоне
+            int rowCount = usedRange.Rows.Count;
+            int colCount = usedRange.Columns.Count;
 
-             // Создание списка для хранения данных всех строк
-             List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            // Создание списка для хранения данных всех строк
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
 
-             // Проход по всем строкам используемого диапазона
-             for (int row = 1; row <= rowCount; row++)
-             {
-                 // Создание словаря для хранения данных строки
-                 Dictionary<string, object> rowData = new Dictionary<string, object>();
-                 // Проход по всем столбцам строки
-                 for (int col = 1; col <= colCount; col++)
-                 {
-                     // Запись значения ячейки в словарь
-                     rowData["Column" + col] = usedRange.Cells[row, col].Text.ToString();
-                 }
-                 // Добавление словаря в список
-                 rows.Add(rowData);
-             }
+            // Проход по всем строкам используемого диапазона
+            for (int row = 1; row <= rowCount; row++)
+            {
+                // Создание словаря для хранения данных строки
+                Dictionary<string, object> rowData = new Dictionary<string, object>();
+                // Проход по всем столбцам строки
+                for (int col = 1; col <= colCount; col++)
+                {
+                    // Запись значения ячейки в словарь
+                    rowData["Column" + col] = usedRange.Cells[row, col].Text.ToString();
+                }
+                // Добавление словаря в список
+                rows.Add(rowData);
+            }
 
-             // Преобразование списка в JSON и запись в файл
-             string json = JsonConvert.SerializeObject(rows, Formatting.Indented);
-             File.WriteAllText(filePath, json);
+            // Преобразование списка в JSON и запись в файл
+            string json = JsonConvert.SerializeObject(rows, Formatting.Indented);
+            File.WriteAllText(filePath, json);
         }
 
         /*
@@ -480,7 +489,7 @@ namespace ExcelAddInЭкспортДанных
         *   - Метод предполагает, что диапазон usedRange содержит данные, которые могут быть преобразованы в строки.
         *   - Если файл с указанным именем уже существует, он будет перезаписан.
         */
-        void ExportActiveSheetToHTML(Excel.Range usedRange, string filePath)
+        void ExportSelectedRangeToHTML(Excel.Range usedRange, string filePath)
         {
             // Создание нового StringBuilder для хранения HTML
             StringBuilder html = new StringBuilder();
@@ -518,6 +527,129 @@ namespace ExcelAddInЭкспортДанных
             File.WriteAllText(filePath, html.ToString());
 
         }
+
+        public void ExportActiveSheetToHTML(string filePath, bool OpenAfterExport)
+        {
+            // Получение текущего экземпляра приложения Excel
+            Excel.Application excelApp = Globals.ThisAddIn.Application;
+            // Проверка, удалось ли получить доступ к приложению Excel
+            if (excelApp == null)
+            {
+                // Если не удалось, выводится сообщение об ошибке и выполнение функции прекращается
+                MessageBox.Show("Error: Не удается получить доступ к приложению Excel.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                // Получение активной книги
+                Excel.Workbook workbook = excelApp.ActiveWorkbook;
+                if (workbook == null)
+                {
+                    MessageBox.Show("Error: Нет активной книги Excel.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Получение активного листа
+                Excel.Worksheet activeSheet = workbook.ActiveSheet;
+                if (activeSheet == null)
+                {
+                    MessageBox.Show("Error: Нет активного листа Excel.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Создание новой временной книги
+                Excel.Workbook tempWorkbook = excelApp.Workbooks.Add();
+                Excel.Worksheet tempSheet = tempWorkbook.Sheets[1];
+
+                // Копирование активного листа в временную книгу
+                activeSheet.Copy(tempSheet);
+
+                // Удаление первого пустого листа из временной книги
+                tempSheet.Delete();
+
+                // Сохранение временной книги в формате HTML
+                tempWorkbook.SaveAs(filePath, Excel.XlFileFormat.xlHtml);
+                tempWorkbook.Close(false);
+
+                // Вывод сообщения об успешном экспорте
+                MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Открытие файла после экспорта, если требуется
+                if (OpenAfterExport)
+                {
+                    OpenFile(filePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок: вывод сообщения об ошибке
+                MessageBox.Show("Error: " + ex.Message, "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void ExportEachSheetToHTML(string directoryPath, bool OpenAfterExport)
+        {
+            // Получение текущего экземпляра приложения Excel
+            Excel.Application excelApp = Globals.ThisAddIn.Application;
+            // Проверка, удалось ли получить доступ к приложению Excel
+            if (excelApp == null)
+            {
+                // Если не удалось, выводится сообщение об ошибке и выполнение функции прекращается
+                MessageBox.Show("Error: Не удается получить доступ к приложению Excel.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                // Получение активной книги
+                Excel.Workbook workbook = excelApp.ActiveWorkbook;
+                if (workbook == null)
+                {
+                    MessageBox.Show("Error: Нет активной книги Excel.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Проход по всем листам в книге
+                for (int i = 1; i <= workbook.Sheets.Count; i++)
+                {
+                    // Получение текущего листа
+                    Excel.Worksheet sheet = workbook.Sheets[i];
+                    // Создание пути для сохранения текущего листа в формате HTML
+                    string filePath = Path.Combine(directoryPath, $"{sheet.Name}.html");
+
+                    // Создание новой временной книги
+                    Excel.Workbook tempWorkbook = excelApp.Workbooks.Add();
+                    Excel.Worksheet tempSheet = tempWorkbook.Sheets[1];
+
+                    // Копирование текущего листа в временную книгу
+                    sheet.Copy(tempSheet);
+
+                    // Удаление первого пустого листа из временной книги
+                    tempSheet.Delete();
+
+                    // Сохранение временной книги в формате HTML
+                    tempWorkbook.SaveAs(filePath, Excel.XlFileFormat.xlHtml);
+                    tempWorkbook.Close(false);
+
+                    // Открытие файла после экспорта, если требуется
+                    if (OpenAfterExport)
+                    {
+                        OpenFile(filePath);
+                    }
+                }
+
+                // Вывод сообщения об успешном экспорте
+                MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок: вывод сообщения об ошибке
+                MessageBox.Show("Error: " + ex.Message, "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        
 
         /*
         * Метод ExportSelectedRangeToDF экспортирует выбранный диапазон ячеек из активного листа Excel в указанный формат файла.
@@ -621,11 +753,11 @@ namespace ExcelAddInЭкспортДанных
                 }
                 else if (extension.ToLower() == "html")
                 {
-                
+
                 }
 
-                    // Вывод сообщения об успешном экспорте
-                    MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Вывод сообщения об успешном экспорте
+                MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
 
@@ -719,7 +851,7 @@ namespace ExcelAddInЭкспортДанных
                     // Сохранение активной книги в формате XML
                     workbook.SaveAs(filePath, Excel.XlFileFormat.xlXMLSpreadsheet);
                 }
-                
+
                 else if (extension.ToLower() == "json")
                 {
                     // Получение используемого диапазона на активном листе
@@ -729,7 +861,7 @@ namespace ExcelAddInЭкспортДанных
                 else if (extension.ToLower() == "html")
                 {
                     // Сохранение активной книги в формате HTML
-                    workbook.SaveAs(filePath, Excel.XlFileFormat.xlHtml);
+                    // Исполнение перенесено в отдельный метод ExportActiveSheetToHTML
                 }
 
                 // Вывод сообщения об успешном экспорте
@@ -777,7 +909,7 @@ namespace ExcelAddInЭкспортДанных
         * - Метод предполагает, что файл, в который экспортируется, не существует или может быть перезаписан.
         * - В случае ошибок выводится сообщение с описанием ошибки.
         */
-        public void ExportXlsxToDifferentFormatsBook(string filePath, string extension, bool OpenAfterExport)
+        public void ExportXlsxToDifferentFormatsBook(string filePath, string extension, bool OpenAfterExport, bool bookToOneDoc)
         {
             // Получение текущего экземпляра приложения Excel
             Excel.Application excelApp = Globals.ThisAddIn.Application;
@@ -801,59 +933,80 @@ namespace ExcelAddInЭкспортДанных
 
                 //Создадим список для открытия n-го количества файлов в новом формате
                 List<string> listFilePath = new List<string>();
-
-                // Проход по всем листам в книге
-                for (int i = 1; i <= workbook.Sheets.Count; i++)
+                if (bookToOneDoc)
                 {
-                    // Получение текущего листа
-                    Excel.Worksheet worksheet = workbook.Sheets[i];
-                    // Получение имени текущего листа
-                    string sheetName = worksheet.Name;
-                    // Создание пути для сохранения текущего листа в выбранном формате
-                    string exportPath = Path.Combine(Path.GetDirectoryName(filePath), $"{sheetName}.{extension}");
-                    listFilePath.Add(exportPath);
-                    // Экспорт текущего листа в выбранном формате
-                    if (extension.ToLower() == "pdf")
+                    // Сохранение файла HTML через диалоговое окно
+                    SaveFileDialog saveFileDialog = new SaveFileDialog
                     {
-                        worksheet.ExportAsFixedFormat(Excel.XlFixedFormatType.xlTypePDF, exportPath);
-                    }
-                    else if (extension.ToLower() == "xls")
+                        // Установка фильтра для сохранения только в формате HTML
+                        Filter = "HTML Files|*.html",
+                        // Заголовок диалогового окна
+                        Title = "Save as HTML File"
+                    };
+                    // Проверка, была ли нажата кнопка "OK" в диалоговом окне
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        // Сохранение активной книги в формате XLS
-                        workbook.SaveAs(exportPath, Excel.XlFileFormat.xlExcel8);
-                    }
-                    else if (extension.ToLower() == "xlsm")
-                    {
-                        // Сохранение активной книги в формате XLSM
-                        workbook.SaveAs(exportPath, Excel.XlFileFormat.xlOpenXMLWorkbookMacroEnabled);
-                    }
-                    else if (extension.ToLower() == "txt")
-                    {
-                        // Получение используемого диапазона на текущем листе
-                        Excel.Range usedRange = worksheet.UsedRange;
-                        ExportActiveSheetToTXT(usedRange, exportPath);
-                    }
-                    else if (extension.ToLower() == "xml")
-                    {
-                        // Сохранение активной книги в формате XML
-                        workbook.SaveAs(exportPath, Excel.XlFileFormat.xlXMLSpreadsheet);
-                    }
-                    else if (extension.ToLower() == "json")
-                    {
-                        // Получение используемого диапазона на текущем листе
-                        Excel.Range usedRange = worksheet.UsedRange;
-                        ExportActiveSheetToJSON(usedRange, exportPath);
-                    }
-                    else if (extension.ToLower() == "html")
-                    {
+                        // Получение пути для сохранения файла PDF
+                        string exportPath = saveFileDialog.FileName;
+
                         // Сохранение активной книги в формате HTML
                         workbook.SaveAs(exportPath, Excel.XlFileFormat.xlHtml);
                     }
                 }
+                else
+                {
+                    // Проход по всем листам в книге
+                    for (int i = 1; i <= workbook.Sheets.Count; i++)
+                    {
+                        // Получение текущего листа
+                        Excel.Worksheet worksheet = workbook.Sheets[i];
+                        // Получение имени текущего листа
+                        string sheetName = worksheet.Name;
+                        // Создание пути для сохранения текущего листа в выбранном формате
+                        string exportPath = Path.Combine(Path.GetDirectoryName(filePath), $"{sheetName}.{extension}");
+                        listFilePath.Add(exportPath);
+                        // Экспорт текущего листа в выбранном формате
+                        if (extension.ToLower() == "pdf")
+                        {
+                            worksheet.ExportAsFixedFormat(Excel.XlFixedFormatType.xlTypePDF, exportPath);
+                        }
+                        else if (extension.ToLower() == "xls")
+                        {
+                            // Сохранение активной книги в формате XLS
+                            workbook.SaveAs(exportPath, Excel.XlFileFormat.xlExcel8);
+                        }
+                        else if (extension.ToLower() == "xlsm")
+                        {
+                            // Сохранение активной книги в формате XLSM
+                            workbook.SaveAs(exportPath, Excel.XlFileFormat.xlOpenXMLWorkbookMacroEnabled);
+                        }
+                        else if (extension.ToLower() == "txt")
+                        {
+                            // Получение используемого диапазона на текущем листе
+                            Excel.Range usedRange = worksheet.UsedRange;
+                            ExportActiveSheetToTXT(usedRange, exportPath);
+                        }
+                        else if (extension.ToLower() == "xml")
+                        {
+                            // Сохранение активной книги в формате XML
+                            workbook.SaveAs(exportPath, Excel.XlFileFormat.xlXMLSpreadsheet);
+                        }
+                        else if (extension.ToLower() == "json")
+                        {
+                            // Получение используемого диапазона на текущем листе
+                            Excel.Range usedRange = worksheet.UsedRange;
+                            ExportActiveSheetToJSON(usedRange, exportPath);
+                        }
+                        else if (extension.ToLower() == "html")
+                        {
 
-                // Вывод сообщения об успешном экспорте
-                MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            
+                        }
+                    }
 
+                    // Вывод сообщения об успешном экспорте
+                    MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 if (OpenAfterExport == true)
                 {
                     foreach (string path in listFilePath)
@@ -869,6 +1022,84 @@ namespace ExcelAddInЭкспортДанных
                 MessageBox.Show("Error: " + ex.Message, "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        #endregion
+        // проверить работоспособность метода
+        public void ImportXmlToExcelInActiveWorkbook(string xmlFilePath)
+        {
+            // Получение текущего экземпляра приложения Excel
+            Excel.Application excelApp = Globals.ThisAddIn.Application;
+
+            // Проверка, удалось ли получить доступ к приложению Excel
+            if (excelApp == null)
+            {
+                MessageBox.Show("Error: Не удается получить доступ к приложению Excel.", "Import", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                // Получение активной книги
+                Excel.Workbook workbook = excelApp.ActiveWorkbook;
+                if (workbook == null)
+                {
+                    MessageBox.Show("Error: Нет активной книги Excel.", "Import", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Вопрос пользователю о создании нового листа или использовании активного листа
+                DialogResult result = MessageBox.Show("Создать новый лист для импорта данных?", "Импорт данных из XML", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                Excel.Worksheet worksheet;
+
+                if (result == DialogResult.Yes)
+                {
+                    // Создание нового листа
+                    worksheet = (Excel.Worksheet)workbook.Sheets.Add(After: workbook.Sheets[workbook.Sheets.Count]);
+                    worksheet.Name = "ImportedData";
+                }
+                else
+                {
+                    // Использование активного листа
+                    worksheet = workbook.ActiveSheet;
+                    if (worksheet == null)
+                    {
+                        MessageBox.Show("Error: Нет активного листа Excel.", "Import", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                // Чтение XML-файла
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(xmlFilePath);
+
+                // Предполагаем, что структура XML-файла известна и данные находятся в узлах "Row"
+                XmlNodeList rows = xmlDoc.SelectNodes("//Row");
+                int rowIndex = 1;
+
+                foreach (XmlNode row in rows)
+                {
+                    int colIndex = 1;
+                    foreach (XmlNode cell in row.ChildNodes)
+                    {
+                        worksheet.Cells[rowIndex, colIndex] = cell.InnerText;
+                        colIndex++;
+                    }
+                    rowIndex++;
+                }
+
+                // Вывод сообщения об успешном импорте
+                MessageBox.Show("Импорт данных завершен успешно!", "Import", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок: вывод сообщения об ошибке
+                MessageBox.Show("Error: " + ex.Message, "Import", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #region импорт данных из xml
+
         #endregion
     }
 }
