@@ -279,5 +279,11 @@ namespace ExcelAddInЭкспортДанных
             string title = "Save as HTML File";
             exportFormatSelection(formatExport, filter, title);
         }
+
+        private void btCreateTable_Click(object sender, RibbonControlEventArgs e)
+        {
+            WorkingWithTables tables = new WorkingWithTables();
+
+        }
     }
 }

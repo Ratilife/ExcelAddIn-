@@ -37,6 +37,7 @@
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
             this.tabRatiTools = this.Factory.CreateRibbonTab();
             this.grExportFeed = this.Factory.CreateRibbonGroup();
+            this.grTables = this.Factory.CreateRibbonGroup();
             this.butExportXLSXtoCSV = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoPDF = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoJSON = this.Factory.CreateRibbonButton();
@@ -45,14 +46,17 @@
             this.butExportXLSXtoXLSM = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoXML = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoHTML = this.Factory.CreateRibbonButton();
+            this.btCreateTable = this.Factory.CreateRibbonButton();
             this.tabRatiTools.SuspendLayout();
             this.grExportFeed.SuspendLayout();
+            this.grTables.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabRatiTools
             // 
             this.tabRatiTools.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
             this.tabRatiTools.Groups.Add(this.grExportFeed);
+            this.tabRatiTools.Groups.Add(this.grTables);
             this.tabRatiTools.Label = "RatiTools";
             this.tabRatiTools.Name = "tabRatiTools";
             // 
@@ -69,6 +73,12 @@
             this.grExportFeed.Items.Add(this.butExportXLSXtoHTML);
             this.grExportFeed.Label = "Экспорт данных";
             this.grExportFeed.Name = "grExportFeed";
+            // 
+            // grTables
+            // 
+            this.grTables.Items.Add(this.btCreateTable);
+            this.grTables.Label = "Таблицы";
+            this.grTables.Name = "grTables";
             // 
             // butExportXLSXtoCSV
             // 
@@ -136,6 +146,15 @@
             this.butExportXLSXtoHTML.ShowImage = true;
             this.butExportXLSXtoHTML.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.butExportXLSXtoHTML_Click);
             // 
+            // btCreateTable
+            // 
+            this.btCreateTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btCreateTable.Image = global::ExcelAddInЭкспортДанных.Properties.Resources.mimetypes_excel_611;
+            this.btCreateTable.Label = "Создать таблицу";
+            this.btCreateTable.Name = "btCreateTable";
+            this.btCreateTable.ShowImage = true;
+            this.btCreateTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btCreateTable_Click);
+            // 
             // MyCustomRibbonExportFeed
             // 
             this.Name = "MyCustomRibbonExportFeed";
@@ -146,6 +165,8 @@
             this.tabRatiTools.PerformLayout();
             this.grExportFeed.ResumeLayout(false);
             this.grExportFeed.PerformLayout();
+            this.grTables.ResumeLayout(false);
+            this.grTables.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -162,6 +183,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoXLSM;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoXML;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoHTML;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup grTables;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btCreateTable;
     }
 
     partial class ThisRibbonCollection

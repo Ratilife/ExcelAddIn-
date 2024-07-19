@@ -12,6 +12,7 @@ using Formatting = Newtonsoft.Json.Formatting;
 using Microsoft.Office.Interop.Excel;
 using static System.Net.WebRequestMethods;
 using File = System.IO.File;
+using System.Windows.Shapes;
 
 namespace ExcelAddInЭкспортДанных
 {
@@ -85,8 +86,8 @@ namespace ExcelAddInЭкспортДанных
                     // Получение имени текущего листа
                     string sheetName = worksheet.Name;
                     // Создание пути для сохранения текущего листа как CSV
-                    string csvPath = Path.Combine(csvBasePath, $"{sheetName}.csv");
-
+                    //string csvPath = Path.Combine(csvBasePath, $"{sheetName}.csv");
+                    string csvPath = System.IO.Path.Combine(csvBasePath, $"{sheetName}.csv");
                     listFilePath.Add(csvPath);
                     // Получение количества строк и столбцов в используемом диапазоне листа
                     int rowCount = worksheet.UsedRange.Rows.Count;
@@ -206,7 +207,7 @@ namespace ExcelAddInЭкспортДанных
                 MessageBox.Show("Успешный экспорт!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 if (OpenAfterExport == true)
                 {
-
+                    OpenFile(csvPath);
                 }
             }
             catch (Exception ex)
@@ -467,29 +468,41 @@ namespace ExcelAddInЭкспортДанных
             xmlDoc.Save(filePath);
         }
 
-        /*
-        * Метод ExportActiveSheetToHTML экспортирует указанный диапазон Excel в файл HTML.
-        *
-        * Параметры:
-        *   - Excel.Range usedRange: Диапазон ячеек на листе Excel, который необходимо экспортировать.
-        *   - string filePath: Путь, по которому будет сохранен файл HTML.
-        *
-        * Процесс:
-        *   1. Создание нового StringBuilder для хранения HTML содержимого.
-        *   2. Добавление начала HTML документа, включая теги <!DOCTYPE html>, <html>, <body> и <table>.
-        *   3. Проход по всем строкам указанного диапазона:
-        *    - Для каждой строки добавляется тег <tr>.
-        *    - Проход по всем столбцам указанного диапазона:
-        *    - Получается значение ячейки и добавляется в тег <td>.
-        *    - Закрытие тега <tr> для текущей строки.
-        *   4. Закрытие тегов <table>, <body> и <html>.
-        *   5. Запись HTML содержимого в указанный файл.
-        *
-        * Примечание:
-        *   - Метод предполагает, что диапазон usedRange содержит данные, которые могут быть преобразованы в строки.
-        *   - Если файл с указанным именем уже существует, он будет перезаписан.
-        */
-        void ExportSelectedRangeToHTML(Excel.Range usedRange, string filePath)
+        private string GetCellStyle(Excel.Range cell)
+        {
+            StringBuilder style = new StringBuilder();
+
+            // Получение цвета фона ячейки
+            int bgColor = (int)(double)cell.Interior.Color;
+            style.AppendFormat("background-color: #{0:X6};", bgColor & 0xFFFFFF);
+
+            // Получение цвета текста ячейки
+            int fontColor = (int)(double)cell.Font.Color;
+            style.AppendFormat("color: #{0:X6};", fontColor & 0xFFFFFF);
+
+            // Получение информации о шрифте
+            style.AppendFormat("font-family: {0};", cell.Font.Name);
+            style.AppendFormat("font-size: {0}px;", cell.Font.Size);
+
+            // Проверка стиля шрифта
+            if (cell.Font.Bold)
+                style.Append("font-weight: bold;");
+            if (cell.Font.Italic)
+                style.Append("font-style: italic;");
+            if ((int)cell.Font.Underline != (int)Excel.XlUnderlineStyle.xlUnderlineStyleNone)
+                style.Append("text-decoration: underline;");
+
+            // Получение информации о выравнивании текста
+            if ((int)cell.HorizontalAlignment == (int)Excel.XlHAlign.xlHAlignCenter)
+                style.Append("text-align: center;");
+
+            return style.ToString();
+        }
+
+
+
+
+        public void ExportSelectedRangeToHTML(Excel.Range usedRange, string filePath)
         {
             // Создание нового StringBuilder для хранения HTML
             StringBuilder html = new StringBuilder();
@@ -497,25 +510,47 @@ namespace ExcelAddInЭкспортДанных
             // Добавление начала HTML документа
             html.AppendLine("<!DOCTYPE html>");
             html.AppendLine("<html>");
+            html.AppendLine("<head>");
+            html.AppendLine("<style>");
+            // Добавление стилей для таблицы
+            html.AppendLine("table { border-collapse: collapse; width: 100%; }");
+            html.AppendLine("th, td { border: 1px solid black; padding: 5px; }");
+            html.AppendLine("</style>");
+            html.AppendLine("</head>");
             html.AppendLine("<body>");
             html.AppendLine("<table>");
 
             // Проход по всем строкам диапазона
             for (int r = 1; r <= usedRange.Rows.Count; r++)
             {
-                html.AppendLine("<tr>");
+                bool rowHasData = false;
+                StringBuilder rowHtml = new StringBuilder();
+                rowHtml.AppendLine("<tr>");
 
                 // Проход по всем столбцам диапазона
                 for (int c = 1; c <= usedRange.Columns.Count; c++)
                 {
                     // Получение значения ячейки
-                    object cellValue = (usedRange.Cells[r, c] as Excel.Range).Value2;
+                    Excel.Range cell = usedRange.Cells[r, c] as Excel.Range;
+                    object cellValue = cell.Value2;
 
-                    // Добавление значения ячейки в HTML
-                    html.AppendLine("<td>" + Convert.ToString(cellValue) + "</td>");
+                    if (cellValue != null)
+                    {
+                        rowHasData = true;
+                        // Получение стилей ячейки
+                        string cellStyle = GetCellStyle(cell);
+
+                        // Добавление значения ячейки в HTML с сохранением стилей
+                        rowHtml.AppendLine($"<td style='{cellStyle}'>{Convert.ToString(cellValue)}</td>");
+                    }
                 }
 
-                html.AppendLine("</tr>");
+                rowHtml.AppendLine("</tr>");
+
+                if (rowHasData)
+                {
+                    html.Append(rowHtml.ToString());
+                }
             }
 
             // Добавление конца HTML документа
@@ -525,7 +560,6 @@ namespace ExcelAddInЭкспортДанных
 
             // Запись HTML в файл
             File.WriteAllText(filePath, html.ToString());
-
         }
 
         public void ExportActiveSheetToHTML(string filePath, bool OpenAfterExport)
@@ -616,8 +650,7 @@ namespace ExcelAddInЭкспортДанных
                     // Получение текущего листа
                     Excel.Worksheet sheet = workbook.Sheets[i];
                     // Создание пути для сохранения текущего листа в формате HTML
-                    string filePath = Path.Combine(directoryPath, $"{sheet.Name}.html");
-
+                    string filePath = System.IO.Path.Combine(directoryPath, $"{sheet.Name}.html");
                     // Создание новой временной книги
                     Excel.Workbook tempWorkbook = excelApp.Workbooks.Add();
                     Excel.Worksheet tempSheet = tempWorkbook.Sheets[1];
@@ -753,7 +786,7 @@ namespace ExcelAddInЭкспортДанных
                 }
                 else if (extension.ToLower() == "html")
                 {
-
+                    ExportSelectedRangeToHTML(range, filePath);
                 }
 
                 // Вывод сообщения об успешном экспорте
@@ -933,7 +966,7 @@ namespace ExcelAddInЭкспортДанных
 
                 //Создадим список для открытия n-го количества файлов в новом формате
                 List<string> listFilePath = new List<string>();
-                if (bookToOneDoc)
+                if (bookToOneDoc == true)
                 {
                     // Сохранение файла HTML через диалоговое окно
                     SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -963,7 +996,7 @@ namespace ExcelAddInЭкспортДанных
                         // Получение имени текущего листа
                         string sheetName = worksheet.Name;
                         // Создание пути для сохранения текущего листа в выбранном формате
-                        string exportPath = Path.Combine(Path.GetDirectoryName(filePath), $"{sheetName}.{extension}");
+                        string exportPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(filePath), $"{sheetName}.{extension}");
                         listFilePath.Add(exportPath);
                         // Экспорт текущего листа в выбранном формате
                         if (extension.ToLower() == "pdf")
@@ -1024,6 +1057,9 @@ namespace ExcelAddInЭкспортДанных
         }
 
         #endregion
+
+
+        #region импорт данных из xml
         // проверить работоспособность метода
         public void ImportXmlToExcelInActiveWorkbook(string xmlFilePath)
         {
@@ -1097,9 +1133,6 @@ namespace ExcelAddInЭкспортДанных
                 MessageBox.Show("Error: " + ex.Message, "Import", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        #region импорт данных из xml
-
         #endregion
     }
 }

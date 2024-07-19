@@ -32,12 +32,14 @@ namespace ExcelAddInЭкспортДанных
             InitializeComponent();
             FormatDefinition = formatDefinition;
             chHTMLOneDoc.Visible= false;
+            
         }
 
 
         private void ExportXlsxToDF_Load(object sender, EventArgs e)
         {
             btnSelectRange.Enabled = false;
+
             if (FormatDefinition == "xls") { 
                 cmbSaveAs.SelectedIndex = 0;
                 formatFile = FormatDefinition;
@@ -61,6 +63,8 @@ namespace ExcelAddInЭкспортДанных
             { 
                 cmbSaveAs.SelectedIndex = 4;
                 formatFile = FormatDefinition;
+                rbRange.Enabled = false;
+                txtRange.Enabled = false;
             }
             if (FormatDefinition == "pdf")
             { 
@@ -73,6 +77,7 @@ namespace ExcelAddInЭкспортДанных
                 formatFile = FormatDefinition;
             }
 
+            
         }
         // Передаем диапазон ячеек для работы
         void funSelectedRange()
@@ -162,6 +167,11 @@ namespace ExcelAddInЭкспортДанных
         private void chHTMLOneDoc_CheckedChanged(object sender, EventArgs e)
         {
             if (chHTMLOneDoc.Visible) {bookToOneDoc = true;}
+        }
+
+        private void rbActiveSheet_CheckedChanged(object sender, EventArgs e)
+        {
+            chHTMLOneDoc.Visible = false;
         }
     }
 }

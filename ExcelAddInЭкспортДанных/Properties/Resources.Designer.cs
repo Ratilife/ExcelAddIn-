@@ -113,6 +113,16 @@ namespace ExcelAddInЭкспортДанных.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mimetypes_excel_611 {
+            get {
+                object obj = ResourceManager.GetObject("mimetypes_excel_611", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pdf_filetype_icon_177525 {
             get {
                 object obj = ResourceManager.GetObject("pdf_filetype_icon_177525", resourceCulture);

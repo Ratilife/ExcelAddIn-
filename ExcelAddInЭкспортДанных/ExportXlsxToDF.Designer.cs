@@ -74,6 +74,7 @@
             this.rbActiveSheet.TabStop = true;
             this.rbActiveSheet.Text = "Этот рабочий лист";
             this.rbActiveSheet.UseVisualStyleBackColor = true;
+            this.rbActiveSheet.CheckedChanged += new System.EventHandler(this.rbActiveSheet_CheckedChanged);
             // 
             // rbRange
             // 
