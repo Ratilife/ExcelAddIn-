@@ -108,6 +108,7 @@
             this.btnSelectRange.TabIndex = 4;
             this.btnSelectRange.Text = "ОК";
             this.btnSelectRange.UseVisualStyleBackColor = true;
+            this.btnSelectRange.Click += new System.EventHandler(this.btnSelectRange_Click);
             // 
             // chOpen
             // 

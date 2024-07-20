@@ -38,7 +38,7 @@ namespace ExcelAddInЭкспортДанных
 
         private void ExportXlsxToDF_Load(object sender, EventArgs e)
         {
-            btnSelectRange.Enabled = false;
+            //btnSelectRange.Enabled = false;
 
             if (FormatDefinition == "xls") { 
                 cmbSaveAs.SelectedIndex = 0;
@@ -172,6 +172,14 @@ namespace ExcelAddInЭкспортДанных
         private void rbActiveSheet_CheckedChanged(object sender, EventArgs e)
         {
             chHTMLOneDoc.Visible = false;
+        }
+
+        private void btnSelectRange_Click(object sender, EventArgs e)
+        {
+            CommonMethods cm = new CommonMethods();
+            string range = cm.SelectRange();
+            rbRange.Enabled = true;
+            txtRange.Text = range;
         }
     }
 }

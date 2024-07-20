@@ -31,44 +31,18 @@ namespace ExcelAddInЭкспортДанных
 
         // Обработчик события для кнопки выбора диапазона
         private void btnSelectRange_Click(object sender, EventArgs e)
-        {/*
-            // Получение активного приложения Excel
-            /*Excel.Application excelApp = Globals.ThisAddIn.Application;
-            if (excelApp == null)
-            {
-                MessageBox.Show("Ошибка: не удалось получить доступ к приложению Excel.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // Установка фокуса на Excel для выбора диапазона
-            excelApp.ActiveWindow.Activate();
-            MessageBox.Show("Выберите диапазон в Excel и нажмите Enter.", "Выбор диапазона", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            // Подписка на событие KeyDown для отслеживания нажатия клавиши Enter
-            excelApp.SheetSelectionChange += ExcelApp_SheetSelectionChange;
-            try
-            {
-                // Ожидаем выбора диапазона
-                excelApp.StatusBar = "Выберите диапазон ячеек и нажмите Enter";
-                Excel.Range selectedRange = excelApp.InputBox("Выберите диапазон ячеек", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, 8) as Excel.Range;
-
-                if (selectedRange != null)
-                {
-                    // Отображаем выбранный диапазон в текстовом поле
-                    txtRange.Text = selectedRange.Address;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Произошла ошибка: " + ex.Message);
-            }*/
+        {
+            CommonMethods cm = new CommonMethods();
+            string range = cm.SelectRange();
+            rbRange.Enabled = true;
+            txtRange.Text = range;
         }
 
         
 
         private void ExportXlsxToCsv_Load(object sender, EventArgs e)
         {
-            btnSelectRange.Enabled = false;
+            //btnSelectRange.Enabled = false;
             cmbEncoding.SelectedIndex = 0;
             cmbSeparator.SelectedIndex = 0;
 

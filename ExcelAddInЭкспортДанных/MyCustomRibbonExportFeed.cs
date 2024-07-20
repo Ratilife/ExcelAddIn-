@@ -10,6 +10,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using Microsoft.Office.Interop.Excel;
+using System.Runtime.InteropServices;
 
 
 
@@ -282,7 +283,28 @@ namespace ExcelAddInЭкспортДанных
 
         private void btCreateTable_Click(object sender, RibbonControlEventArgs e)
         {
-            WorkingWithTables tables = new WorkingWithTables();
+            TableСreationForm form = new TableСreationForm();
+            
+
+            Microsoft.Office.Tools.CustomTaskPane customTaskPane = Globals.ThisAddIn.CustomTaskPanes.Add(form, "Создание таблицы");
+            customTaskPane.Visible = true;
+            customTaskPane.Width = 400;
+
+            
+
+            
+        }
+
+
+
+        private void btQR_code_Click(object sender, RibbonControlEventArgs e)
+        {
+            /*CommonMethods cm = new CommonMethods();
+            cm.SelectRange(); */
+            QRControl form = new QRControl();
+            Microsoft.Office.Tools.CustomTaskPane customTaskPane = Globals.ThisAddIn.CustomTaskPanes.Add(form, "Создать QR-код");
+            customTaskPane.Visible = true;
+            customTaskPane.Width = 400;
 
         }
     }

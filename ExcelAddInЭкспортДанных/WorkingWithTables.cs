@@ -8,6 +8,8 @@ namespace ExcelAddInЭкспортДанных
 {
     internal class WorkingWithTables
     {
+
+
         public void CreateTable(string startCellAddress, int columnCount, int rowCount, bool onActiveSheet, bool onNewSheet, string tableName)
         {
             Microsoft.Office.Interop.Excel.Application excelApp = Globals.ThisAddIn.Application;
@@ -30,19 +32,29 @@ namespace ExcelAddInЭкспортДанных
             }
 
             Microsoft.Office.Interop.Excel.Range startCell = worksheet.Range[startCellAddress];
-            Microsoft.Office.Interop.Excel.Range endCell = startCell.get_Offset(rowCount - 1, columnCount - 1);
+            Microsoft.Office.Interop.Excel.Range endCell = startCell.get_Offset(rowCount , columnCount - 1);
             Microsoft.Office.Interop.Excel.Range tableRange = worksheet.Range[startCell, endCell];
 
-            // Создание таблицы
-            Microsoft.Office.Interop.Excel.ListObject table = worksheet.ListObjects.AddEx(
+            // Проверка наличия таблиц в заданном диапазоне
+            foreach (Microsoft.Office.Interop.Excel.ListObject existingTable in worksheet.ListObjects)
+            {
+                if (excelApp.Intersect(existingTable.Range, tableRange) != null)
+                {
+                    // Если в заданном диапазоне уже есть таблица, вы можете выбрать другой диапазон
+                    // или удалить существующую таблицу. Здесь мы просто прерываем выполнение метода.
+                    Console.WriteLine("В заданном диапазоне уже есть таблица. Выберите другой диапазон.");
+                    return;
+                }
+            }
+                // Создание таблицы
+                Microsoft.Office.Interop.Excel.ListObject table = worksheet.ListObjects.AddEx(
                 SourceType: Microsoft.Office.Interop.Excel.XlListObjectSourceType.xlSrcRange,
                 Source: tableRange,
                 XlListObjectHasHeaders: Microsoft.Office.Interop.Excel.XlYesNoGuess.xlYes,
-                TableStyleName: "TableStyleMedium2"
-            );
-
-            // Установка имени таблицы
-            table.Name = tableName;
+                TableStyleName: "TableStyleMedium2");
+                // Установка имени таблицы
+                table.Name = tableName;
+            
         }
 
     }

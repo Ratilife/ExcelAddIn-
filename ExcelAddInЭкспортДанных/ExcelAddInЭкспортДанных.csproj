@@ -198,6 +198,10 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="ColorComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CommonMethods.cs" />
     <Compile Include="ExportData.cs" />
     <Compile Include="ExportXlsxToCsv.cs">
       <SubType>Form</SubType>
@@ -219,6 +223,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="QRcode.cs" />
+    <Compile Include="QRControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="QRControl.Designer.cs">
+      <DependentUpon>QRControl.cs</DependentUpon>
     </Compile>
     <Compile Include="TableСreationForm.cs">
       <SubType>UserControl</SubType>
@@ -246,6 +257,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="QRControl.resx">
+      <DependentUpon>QRControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TableСreationForm.resx">
       <DependentUpon>TableСreationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -259,7 +273,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="QR_Data.cs" />
     <Compile Include="Ribbon.cs">
       <XmlRibbon>true</XmlRibbon>
     </Compile>
@@ -306,6 +319,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mimetypes_excel_611.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qr_code_icon_156731.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

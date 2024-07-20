@@ -37,7 +37,6 @@
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
             this.tabRatiTools = this.Factory.CreateRibbonTab();
             this.grExportFeed = this.Factory.CreateRibbonGroup();
-            this.grTables = this.Factory.CreateRibbonGroup();
             this.butExportXLSXtoCSV = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoPDF = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoJSON = this.Factory.CreateRibbonButton();
@@ -46,10 +45,14 @@
             this.butExportXLSXtoXLSM = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoXML = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoHTML = this.Factory.CreateRibbonButton();
+            this.grTables = this.Factory.CreateRibbonGroup();
             this.btCreateTable = this.Factory.CreateRibbonButton();
+            this.grQRcode = this.Factory.CreateRibbonGroup();
+            this.btQR_code = this.Factory.CreateRibbonButton();
             this.tabRatiTools.SuspendLayout();
             this.grExportFeed.SuspendLayout();
             this.grTables.SuspendLayout();
+            this.grQRcode.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabRatiTools
@@ -57,6 +60,7 @@
             this.tabRatiTools.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
             this.tabRatiTools.Groups.Add(this.grExportFeed);
             this.tabRatiTools.Groups.Add(this.grTables);
+            this.tabRatiTools.Groups.Add(this.grQRcode);
             this.tabRatiTools.Label = "RatiTools";
             this.tabRatiTools.Name = "tabRatiTools";
             // 
@@ -73,12 +77,6 @@
             this.grExportFeed.Items.Add(this.butExportXLSXtoHTML);
             this.grExportFeed.Label = "Экспорт данных";
             this.grExportFeed.Name = "grExportFeed";
-            // 
-            // grTables
-            // 
-            this.grTables.Items.Add(this.btCreateTable);
-            this.grTables.Label = "Таблицы";
-            this.grTables.Name = "grTables";
             // 
             // butExportXLSXtoCSV
             // 
@@ -146,6 +144,12 @@
             this.butExportXLSXtoHTML.ShowImage = true;
             this.butExportXLSXtoHTML.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.butExportXLSXtoHTML_Click);
             // 
+            // grTables
+            // 
+            this.grTables.Items.Add(this.btCreateTable);
+            this.grTables.Label = "Таблицы";
+            this.grTables.Name = "grTables";
+            // 
             // btCreateTable
             // 
             this.btCreateTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -154,6 +158,21 @@
             this.btCreateTable.Name = "btCreateTable";
             this.btCreateTable.ShowImage = true;
             this.btCreateTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btCreateTable_Click);
+            // 
+            // grQRcode
+            // 
+            this.grQRcode.Items.Add(this.btQR_code);
+            this.grQRcode.Label = "QR code";
+            this.grQRcode.Name = "grQRcode";
+            // 
+            // btQR_code
+            // 
+            this.btQR_code.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btQR_code.Image = global::ExcelAddInЭкспортДанных.Properties.Resources.qr_code_icon_156731;
+            this.btQR_code.Label = "Создать QR код";
+            this.btQR_code.Name = "btQR_code";
+            this.btQR_code.ShowImage = true;
+            this.btQR_code.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btQR_code_Click);
             // 
             // MyCustomRibbonExportFeed
             // 
@@ -167,6 +186,8 @@
             this.grExportFeed.PerformLayout();
             this.grTables.ResumeLayout(false);
             this.grTables.PerformLayout();
+            this.grQRcode.ResumeLayout(false);
+            this.grQRcode.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -185,6 +206,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportXLSXtoHTML;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup grTables;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btCreateTable;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup grQRcode;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btQR_code;
     }
 
     partial class ThisRibbonCollection

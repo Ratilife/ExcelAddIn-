@@ -133,6 +133,16 @@ namespace ExcelAddInЭкспортДанных.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap qr_code_icon_156731 {
+            get {
+                object obj = ResourceManager.GetObject("qr_code_icon_156731", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap txt_filetype_icon_177515 {
             get {
                 object obj = ResourceManager.GetObject("txt_filetype_icon_177515", resourceCulture);
