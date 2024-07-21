@@ -201,18 +201,18 @@
     <Compile Include="ColorComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CommonMethods.cs" />
-    <Compile Include="ExportData.cs" />
-    <Compile Include="ExportXlsxToCsv.cs">
+    <Compile Include="classes\CommonMethods.cs" />
+    <Compile Include="classes\ExportData.cs" />
+    <Compile Include="forms\ExportXlsxToCsv.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExportXlsxToCsv.Designer.cs">
+    <Compile Include="forms\ExportXlsxToCsv.Designer.cs">
       <DependentUpon>ExportXlsxToCsv.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExportXlsxToDF.cs">
+    <Compile Include="forms\ExportXlsxToDF.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExportXlsxToDF.Designer.cs">
+    <Compile Include="forms\ExportXlsxToDF.Designer.cs">
       <DependentUpon>ExportXlsxToDF.cs</DependentUpon>
     </Compile>
     <Compile Include="MyCustomRibbonExportFeed.cs">
@@ -224,24 +224,24 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="QRcode.cs" />
-    <Compile Include="QRControl.cs">
+    <Compile Include="classes\QRcode.cs" />
+    <Compile Include="UserControl\QRControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="QRControl.Designer.cs">
+    <Compile Include="UserControl\QRControl.Designer.cs">
       <DependentUpon>QRControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="TableСreationForm.cs">
+    <Compile Include="UserControl\TableСreationForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TableСreationForm.Designer.cs">
+    <Compile Include="UserControl\TableСreationForm.Designer.cs">
       <DependentUpon>TableСreationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WorkingWithTables.cs" />
-    <EmbeddedResource Include="ExportXlsxToCsv.resx">
+    <Compile Include="classes\WorkingWithTables.cs" />
+    <EmbeddedResource Include="forms\ExportXlsxToCsv.resx">
       <DependentUpon>ExportXlsxToCsv.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExportXlsxToDF.resx">
+    <EmbeddedResource Include="forms\ExportXlsxToDF.resx">
       <DependentUpon>ExportXlsxToDF.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyCustomRibbonExportFeed.resx">
@@ -257,10 +257,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="QRControl.resx">
+    <EmbeddedResource Include="UserControl\QRControl.resx">
       <DependentUpon>QRControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TableСreationForm.resx">
+    <EmbeddedResource Include="UserControl\TableСreationForm.resx">
       <DependentUpon>TableСreationForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ExcelAddInЭкспортДанных_TemporaryKey.pfx" />

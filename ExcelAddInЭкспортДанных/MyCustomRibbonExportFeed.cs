@@ -296,7 +296,6 @@ namespace ExcelAddInЭкспортДанных
         }
 
 
-
         private void btQR_code_Click(object sender, RibbonControlEventArgs e)
         {
             /*CommonMethods cm = new CommonMethods();
@@ -304,8 +303,20 @@ namespace ExcelAddInЭкспортДанных
             QRControl form = new QRControl();
             Microsoft.Office.Tools.CustomTaskPane customTaskPane = Globals.ThisAddIn.CustomTaskPanes.Add(form, "Создать QR-код");
             customTaskPane.Visible = true;
-            customTaskPane.Width = 400;
+            //customTaskPane.Width = 400;
+            AdjustCustomTaskPaneSize(customTaskPane);
 
+        }
+        private void AdjustCustomTaskPaneSize(Microsoft.Office.Tools.CustomTaskPane customTaskPane)
+        {
+            // Получаем размер экрана
+            int screenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+
+            // Устанавливаем ширину формы пропорционально размеру экрана
+            customTaskPane.Width = screenWidth / 3; // Например, треть экрана
+
+            // Опционально: можно установить минимально и максимально допустимые размеры панели задач
+            customTaskPane.Width = Math.Max(200, Math.Min(screenWidth / 3, 600)); // Ограничение по ширине
         }
     }
 }

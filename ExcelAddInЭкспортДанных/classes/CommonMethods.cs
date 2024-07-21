@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -6,11 +7,44 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 
 namespace ExcelAddInЭкспортДанных
 {
+    /* Общие методы */
     internal class CommonMethods
     {
+        public string dialogFolder()
+        {
+            string filePath;
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.ShowNewFolderButton = true;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                filePath = dialog.SelectedPath + "\\";
+            }
+            else
+            {
+                filePath = null;
+            }
+            return filePath;
+        }
+        public string dialogFile() 
+        {
+            string filePath;
+            SaveFileDialog dialog = new SaveFileDialog();
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                filePath = dialog.FileName;
+            }
+            else
+            {
+                filePath = null;
+            }
+
+                return filePath;
+        }
         public string SelectRange()
         {
             Excel.Application excelApp;

@@ -16,14 +16,16 @@ namespace ExcelAddInЭкспортДанных
         
         }
 
-        public void CreateQRCodePicture(string data, string pathFolder, string counter)
+        public void CreateQRCodePicture(string data, string pathFolder, string counter="")
         {
             // Настройка параметров генерации
-            var options = new ZXing.Common.EncodingOptions
+            var options = new ZXing.QrCode.QrCodeEncodingOptions
             {
                 Width = 300,
                 Height = 300,
-                Margin = 1
+                Margin = 1,
+                // Устанавливаем кодировку в UTF-8 для поддержки кириллицы
+                CharacterSet = "UTF-8"
             };
 
             // Создание объекта кодировщика
