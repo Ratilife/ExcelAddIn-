@@ -76,7 +76,6 @@
             this.txtRange.Name = "txtRange";
             this.txtRange.Size = new System.Drawing.Size(229, 20);
             this.txtRange.TabIndex = 3;
-            this.txtRange.VisibleChanged += new System.EventHandler(this.txtRange_VisibleChanged);
             this.txtRange.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRange_KeyDown);
             // 
             // rdBook

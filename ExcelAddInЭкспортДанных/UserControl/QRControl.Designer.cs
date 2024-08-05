@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.gbСhoice = new System.Windows.Forms.GroupBox();
+            this.gbChoice = new System.Windows.Forms.GroupBox();
+            this.btSpecifyRange = new System.Windows.Forms.Button();
+            this.txtPost = new System.Windows.Forms.Label();
+            this.rbSpecifyRange = new System.Windows.Forms.RadioButton();
+            this.rbColumnRight = new System.Windows.Forms.RadioButton();
             this.btRange = new System.Windows.Forms.Button();
             this.txtQRcodes = new System.Windows.Forms.TextBox();
             this.txtQRcode = new System.Windows.Forms.TextBox();
@@ -46,26 +51,84 @@
             this.gbPicture = new System.Windows.Forms.GroupBox();
             this.pbPicture = new System.Windows.Forms.PictureBox();
             this.btCreate = new System.Windows.Forms.Button();
+            this.panelQR = new System.Windows.Forms.Panel();
+            this.cbAddText = new System.Windows.Forms.CheckBox();
             this.gbСhoice.SuspendLayout();
+            this.gbChoice.SuspendLayout();
             this.gbOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbSize)).BeginInit();
             this.gbPicture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbPicture)).BeginInit();
+            this.panelQR.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbСhoice
             // 
+            this.gbСhoice.Controls.Add(this.gbChoice);
             this.gbСhoice.Controls.Add(this.btRange);
             this.gbСhoice.Controls.Add(this.txtQRcodes);
             this.gbСhoice.Controls.Add(this.txtQRcode);
             this.gbСhoice.Controls.Add(this.rbMany);
             this.gbСhoice.Controls.Add(this.rbOne);
-            this.gbСhoice.Location = new System.Drawing.Point(20, 13);
+            this.gbСhoice.Location = new System.Drawing.Point(3, 3);
             this.gbСhoice.Name = "gbСhoice";
-            this.gbСhoice.Size = new System.Drawing.Size(348, 99);
+            this.gbСhoice.Size = new System.Drawing.Size(350, 116);
             this.gbСhoice.TabIndex = 0;
             this.gbСhoice.TabStop = false;
             this.gbСhoice.Text = "Создать:";
+            // 
+            // gbChoice
+            // 
+            this.gbChoice.Controls.Add(this.btSpecifyRange);
+            this.gbChoice.Controls.Add(this.txtPost);
+            this.gbChoice.Controls.Add(this.rbSpecifyRange);
+            this.gbChoice.Controls.Add(this.rbColumnRight);
+            this.gbChoice.Location = new System.Drawing.Point(0, 79);
+            this.gbChoice.Name = "gbChoice";
+            this.gbChoice.Size = new System.Drawing.Size(350, 37);
+            this.gbChoice.TabIndex = 11;
+            this.gbChoice.TabStop = false;
+            // 
+            // btSpecifyRange
+            // 
+            this.btSpecifyRange.Location = new System.Drawing.Point(312, 9);
+            this.btSpecifyRange.Name = "btSpecifyRange";
+            this.btSpecifyRange.Size = new System.Drawing.Size(28, 23);
+            this.btSpecifyRange.TabIndex = 10;
+            this.btSpecifyRange.Text = "...";
+            this.btSpecifyRange.UseVisualStyleBackColor = true;
+            this.btSpecifyRange.Click += new System.EventHandler(this.btSpecifyRange_Click);
+            // 
+            // txtPost
+            // 
+            this.txtPost.AutoSize = true;
+            this.txtPost.Location = new System.Drawing.Point(6, 13);
+            this.txtPost.Name = "txtPost";
+            this.txtPost.Size = new System.Drawing.Size(71, 13);
+            this.txtPost.TabIndex = 8;
+            this.txtPost.Text = "Разместить:";
+            // 
+            // rbSpecifyRange
+            // 
+            this.rbSpecifyRange.AutoSize = true;
+            this.rbSpecifyRange.Location = new System.Drawing.Point(191, 12);
+            this.rbSpecifyRange.Name = "rbSpecifyRange";
+            this.rbSpecifyRange.Size = new System.Drawing.Size(119, 17);
+            this.rbSpecifyRange.TabIndex = 9;
+            this.rbSpecifyRange.TabStop = true;
+            this.rbSpecifyRange.Text = "Указать диапазон";
+            this.rbSpecifyRange.UseVisualStyleBackColor = true;
+            // 
+            // rbColumnRight
+            // 
+            this.rbColumnRight.AutoSize = true;
+            this.rbColumnRight.Location = new System.Drawing.Point(83, 12);
+            this.rbColumnRight.Name = "rbColumnRight";
+            this.rbColumnRight.Size = new System.Drawing.Size(107, 17);
+            this.rbColumnRight.TabIndex = 7;
+            this.rbColumnRight.TabStop = true;
+            this.rbColumnRight.Text = "Колонка справа";
+            this.rbColumnRight.UseVisualStyleBackColor = true;
             // 
             // btRange
             // 
@@ -75,6 +138,7 @@
             this.btRange.TabIndex = 6;
             this.btRange.Text = "...";
             this.btRange.UseVisualStyleBackColor = true;
+            this.btRange.Click += new System.EventHandler(this.btRange_Click);
             // 
             // txtQRcodes
             // 
@@ -98,13 +162,14 @@
             this.rbMany.Name = "rbMany";
             this.rbMany.Size = new System.Drawing.Size(76, 17);
             this.rbMany.TabIndex = 1;
-            this.rbMany.TabStop = true;
             this.rbMany.Text = "QR - коды";
             this.rbMany.UseVisualStyleBackColor = true;
+            this.rbMany.CheckedChanged += new System.EventHandler(this.rbMany_CheckedChanged);
             // 
             // rbOne
             // 
             this.rbOne.AutoSize = true;
+            this.rbOne.Checked = true;
             this.rbOne.Location = new System.Drawing.Point(7, 20);
             this.rbOne.Name = "rbOne";
             this.rbOne.Size = new System.Drawing.Size(68, 17);
@@ -115,6 +180,7 @@
             // 
             // gbOptions
             // 
+            this.gbOptions.Controls.Add(this.cbAddText);
             this.gbOptions.Controls.Add(this.btPathFolder);
             this.gbOptions.Controls.Add(this.txtPathFolder);
             this.gbOptions.Controls.Add(this.cbPictureFile);
@@ -123,7 +189,7 @@
             this.gbOptions.Controls.Add(this.cbColour);
             this.gbOptions.Controls.Add(this.lbBackground);
             this.gbOptions.Controls.Add(this.lbColour);
-            this.gbOptions.Location = new System.Drawing.Point(18, 118);
+            this.gbOptions.Location = new System.Drawing.Point(3, 123);
             this.gbOptions.Name = "gbOptions";
             this.gbOptions.Size = new System.Drawing.Size(350, 166);
             this.gbOptions.TabIndex = 1;
@@ -164,6 +230,7 @@
             this.tbSize.Name = "tbSize";
             this.tbSize.Size = new System.Drawing.Size(326, 45);
             this.tbSize.TabIndex = 3;
+            this.tbSize.Scroll += new System.EventHandler(this.tbSize_Scroll);
             // 
             // cbBackground
             // 
@@ -202,24 +269,24 @@
             // gbPicture
             // 
             this.gbPicture.Controls.Add(this.pbPicture);
-            this.gbPicture.Location = new System.Drawing.Point(20, 290);
+            this.gbPicture.Location = new System.Drawing.Point(3, 288);
             this.gbPicture.Name = "gbPicture";
-            this.gbPicture.Size = new System.Drawing.Size(342, 151);
+            this.gbPicture.Size = new System.Drawing.Size(350, 132);
             this.gbPicture.TabIndex = 2;
             this.gbPicture.TabStop = false;
             this.gbPicture.Text = "Картинка";
             // 
             // pbPicture
             // 
-            this.pbPicture.Location = new System.Drawing.Point(73, 19);
+            this.pbPicture.Location = new System.Drawing.Point(103, 18);
             this.pbPicture.Name = "pbPicture";
-            this.pbPicture.Size = new System.Drawing.Size(142, 120);
+            this.pbPicture.Size = new System.Drawing.Size(133, 108);
             this.pbPicture.TabIndex = 0;
             this.pbPicture.TabStop = false;
             // 
             // btCreate
             // 
-            this.btCreate.Location = new System.Drawing.Point(79, 447);
+            this.btCreate.Location = new System.Drawing.Point(85, 424);
             this.btCreate.Name = "btCreate";
             this.btCreate.Size = new System.Drawing.Size(182, 23);
             this.btCreate.TabIndex = 3;
@@ -227,24 +294,47 @@
             this.btCreate.UseVisualStyleBackColor = true;
             this.btCreate.Click += new System.EventHandler(this.btCreate_Click);
             // 
+            // panelQR
+            // 
+            this.panelQR.AutoScroll = true;
+            this.panelQR.Controls.Add(this.gbСhoice);
+            this.panelQR.Controls.Add(this.btCreate);
+            this.panelQR.Controls.Add(this.gbOptions);
+            this.panelQR.Controls.Add(this.gbPicture);
+            this.panelQR.Location = new System.Drawing.Point(3, 3);
+            this.panelQR.Name = "panelQR";
+            this.panelQR.Size = new System.Drawing.Size(368, 471);
+            this.panelQR.TabIndex = 4;
+            // 
+            // cbAddText
+            // 
+            this.cbAddText.AutoSize = true;
+            this.cbAddText.Location = new System.Drawing.Point(146, 112);
+            this.cbAddText.Name = "cbAddText";
+            this.cbAddText.Size = new System.Drawing.Size(180, 17);
+            this.cbAddText.TabIndex = 7;
+            this.cbAddText.Text = "разместить текст с QR-кодом";
+            this.cbAddText.UseVisualStyleBackColor = true;
+            // 
             // QRControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btCreate);
-            this.Controls.Add(this.gbPicture);
-            this.Controls.Add(this.gbOptions);
-            this.Controls.Add(this.gbСhoice);
+            this.Controls.Add(this.panelQR);
             this.Name = "QRControl";
-            this.Size = new System.Drawing.Size(381, 474);
+            this.Size = new System.Drawing.Size(374, 479);
             this.Load += new System.EventHandler(this.QRControl_Load);
+            this.BackColorChanged += new System.EventHandler(this.QRControl_BackColorChanged);
             this.gbСhoice.ResumeLayout(false);
             this.gbСhoice.PerformLayout();
+            this.gbChoice.ResumeLayout(false);
+            this.gbChoice.PerformLayout();
             this.gbOptions.ResumeLayout(false);
             this.gbOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbSize)).EndInit();
             this.gbPicture.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbPicture)).EndInit();
+            this.panelQR.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -269,5 +359,12 @@
         private System.Windows.Forms.TextBox txtPathFolder;
         private System.Windows.Forms.CheckBox cbPictureFile;
         private System.Windows.Forms.Button btRange;
+        private System.Windows.Forms.Panel panelQR;
+        private System.Windows.Forms.RadioButton rbColumnRight;
+        private System.Windows.Forms.Label txtPost;
+        private System.Windows.Forms.Button btSpecifyRange;
+        private System.Windows.Forms.RadioButton rbSpecifyRange;
+        private System.Windows.Forms.GroupBox gbChoice;
+        private System.Windows.Forms.CheckBox cbAddText;
     }
 }

@@ -15,7 +15,7 @@ namespace ExcelAddInЭкспортДанных
 {
     public partial class ExportXlsxToCsv : Form
     {
-        private Excel.Application excelApp;
+        //private Excel.Application excelApp; удалить
 
         // Свойства для хранения выбранного диапазона, формата экспорта, разделителя, кодировки и опции открытия после экспорта
         public string ChoiceForExport { get; private set; }     // Выбор диапазона конвертации *
@@ -147,11 +147,6 @@ namespace ExcelAddInЭкспортДанных
         private void txtRange_Enter(object sender, EventArgs e)
         {
             rbRange.Enabled = true;
-        }
-
-        private void txtRange_VisibleChanged(object sender, EventArgs e)
-        {
-            
         }
 
         private void txtRange_KeyDown(object sender, KeyEventArgs e)
