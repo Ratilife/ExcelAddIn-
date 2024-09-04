@@ -238,6 +238,7 @@
       <DependentUpon>TableСreationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="classes\WorkingWithTables.cs" />
+    <Compile Include="WorkingJSON.cs" />
     <EmbeddedResource Include="forms\ExportXlsxToCsv.resx">
       <DependentUpon>ExportXlsxToCsv.cs</DependentUpon>
     </EmbeddedResource>

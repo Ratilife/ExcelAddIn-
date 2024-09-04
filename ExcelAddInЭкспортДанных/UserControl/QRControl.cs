@@ -33,6 +33,7 @@ namespace ExcelAddInЭкспортДанных
             setColorComboBox();
             pbPicture.SizeMode = PictureBoxSizeMode.Zoom;
             ContextMenuPictureBox();
+            button();
         }
 
         #region контекстное меню к PictureBox
@@ -357,8 +358,7 @@ namespace ExcelAddInЭкспортДанных
         {
             
         }
-        
-        
+       
 
         private void btRange_Click(object sender, EventArgs e)
         {
@@ -388,5 +388,41 @@ namespace ExcelAddInЭкспортДанных
             string range = cm.SelectRange();
             RangeSelection = range;
         }
+
+        #region КнопкаС_ВыпадающимСписком
+        private void button() 
+        {
+            // Создаем ContextMenuStrip для выпадающего списка
+            ContextMenuStrip contextMenu = new ContextMenuStrip();
+            contextMenu.Items.Add("Структура для основного средства", null, PrintOption1_Click);
+            contextMenu.Items.Add("Структура созданная пользователем", null, PrintOption2_Click);
+
+
+            // Создаем кнопку "Создать структуру JSON"
+
+            bt_JSON.Text = "Создать структуру JSON";
+            bt_JSON.Click += (sender, e) => contextMenu.Show(bt_JSON, new System.Drawing.Point(0, bt_JSON.Height));
+            
+        }
+        private void PrintOption1_Click(object sender, EventArgs e)
+        {
+
+            // TODO: перенести в новое диалоговое окно 
+
+            //Таблиа для JSON установленного образца
+            WorkingJSON w_json = new WorkingJSON();
+            List < Dictionary<string, string> > table = w_json.generateTable();
+            
+            //получить текущий лист
+
+            //Создать на новол листе
+
+        }
+
+        private void PrintOption2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Выбрана опция 2");
+        }
+        #endregion
     }
 }

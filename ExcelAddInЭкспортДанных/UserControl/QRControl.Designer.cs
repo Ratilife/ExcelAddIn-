@@ -40,6 +40,7 @@
             this.rbMany = new System.Windows.Forms.RadioButton();
             this.rbOne = new System.Windows.Forms.RadioButton();
             this.gbOptions = new System.Windows.Forms.GroupBox();
+            this.cbAddText = new System.Windows.Forms.CheckBox();
             this.btPathFolder = new System.Windows.Forms.Button();
             this.txtPathFolder = new System.Windows.Forms.TextBox();
             this.cbPictureFile = new System.Windows.Forms.CheckBox();
@@ -52,7 +53,7 @@
             this.pbPicture = new System.Windows.Forms.PictureBox();
             this.btCreate = new System.Windows.Forms.Button();
             this.panelQR = new System.Windows.Forms.Panel();
-            this.cbAddText = new System.Windows.Forms.CheckBox();
+            this.bt_JSON = new System.Windows.Forms.Button();
             this.gbСhoice.SuspendLayout();
             this.gbChoice.SuspendLayout();
             this.gbOptions.SuspendLayout();
@@ -191,14 +192,24 @@
             this.gbOptions.Controls.Add(this.lbColour);
             this.gbOptions.Location = new System.Drawing.Point(3, 123);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(350, 166);
+            this.gbOptions.Size = new System.Drawing.Size(350, 139);
             this.gbOptions.TabIndex = 1;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Опции";
             // 
+            // cbAddText
+            // 
+            this.cbAddText.AutoSize = true;
+            this.cbAddText.Location = new System.Drawing.Point(146, 81);
+            this.cbAddText.Name = "cbAddText";
+            this.cbAddText.Size = new System.Drawing.Size(180, 17);
+            this.cbAddText.TabIndex = 7;
+            this.cbAddText.Text = "разместить текст с QR-кодом";
+            this.cbAddText.UseVisualStyleBackColor = true;
+            // 
             // btPathFolder
             // 
-            this.btPathFolder.Location = new System.Drawing.Point(298, 133);
+            this.btPathFolder.Location = new System.Drawing.Point(298, 102);
             this.btPathFolder.Name = "btPathFolder";
             this.btPathFolder.Size = new System.Drawing.Size(28, 23);
             this.btPathFolder.TabIndex = 6;
@@ -208,7 +219,7 @@
             // 
             // txtPathFolder
             // 
-            this.txtPathFolder.Location = new System.Drawing.Point(7, 136);
+            this.txtPathFolder.Location = new System.Drawing.Point(7, 105);
             this.txtPathFolder.Name = "txtPathFolder";
             this.txtPathFolder.Size = new System.Drawing.Size(285, 20);
             this.txtPathFolder.TabIndex = 5;
@@ -216,7 +227,7 @@
             // cbPictureFile
             // 
             this.cbPictureFile.AutoSize = true;
-            this.cbPictureFile.Location = new System.Drawing.Point(10, 112);
+            this.cbPictureFile.Location = new System.Drawing.Point(10, 81);
             this.cbPictureFile.Name = "cbPictureFile";
             this.cbPictureFile.Size = new System.Drawing.Size(117, 17);
             this.cbPictureFile.TabIndex = 4;
@@ -226,7 +237,7 @@
             // 
             // tbSize
             // 
-            this.tbSize.Location = new System.Drawing.Point(10, 64);
+            this.tbSize.Location = new System.Drawing.Point(14, 45);
             this.tbSize.Name = "tbSize";
             this.tbSize.Size = new System.Drawing.Size(326, 45);
             this.tbSize.TabIndex = 3;
@@ -235,7 +246,7 @@
             // cbBackground
             // 
             this.cbBackground.FormattingEnabled = true;
-            this.cbBackground.Location = new System.Drawing.Point(276, 29);
+            this.cbBackground.Location = new System.Drawing.Point(276, 18);
             this.cbBackground.Name = "cbBackground";
             this.cbBackground.Size = new System.Drawing.Size(60, 21);
             this.cbBackground.TabIndex = 2;
@@ -243,7 +254,7 @@
             // cbColour
             // 
             this.cbColour.FormattingEnabled = true;
-            this.cbColour.Location = new System.Drawing.Point(87, 30);
+            this.cbColour.Location = new System.Drawing.Point(87, 17);
             this.cbColour.Name = "cbColour";
             this.cbColour.Size = new System.Drawing.Size(60, 21);
             this.cbColour.TabIndex = 2;
@@ -251,7 +262,7 @@
             // lbBackground
             // 
             this.lbBackground.AutoSize = true;
-            this.lbBackground.Location = new System.Drawing.Point(203, 29);
+            this.lbBackground.Location = new System.Drawing.Point(203, 19);
             this.lbBackground.Name = "lbBackground";
             this.lbBackground.Size = new System.Drawing.Size(61, 13);
             this.lbBackground.TabIndex = 1;
@@ -260,7 +271,7 @@
             // lbColour
             // 
             this.lbColour.AutoSize = true;
-            this.lbColour.Location = new System.Drawing.Point(7, 30);
+            this.lbColour.Location = new System.Drawing.Point(7, 22);
             this.lbColour.Name = "lbColour";
             this.lbColour.Size = new System.Drawing.Size(59, 13);
             this.lbColour.TabIndex = 0;
@@ -269,9 +280,9 @@
             // gbPicture
             // 
             this.gbPicture.Controls.Add(this.pbPicture);
-            this.gbPicture.Location = new System.Drawing.Point(3, 288);
+            this.gbPicture.Location = new System.Drawing.Point(3, 268);
             this.gbPicture.Name = "gbPicture";
-            this.gbPicture.Size = new System.Drawing.Size(350, 132);
+            this.gbPicture.Size = new System.Drawing.Size(350, 123);
             this.gbPicture.TabIndex = 2;
             this.gbPicture.TabStop = false;
             this.gbPicture.Text = "Картинка";
@@ -280,13 +291,13 @@
             // 
             this.pbPicture.Location = new System.Drawing.Point(103, 18);
             this.pbPicture.Name = "pbPicture";
-            this.pbPicture.Size = new System.Drawing.Size(133, 108);
+            this.pbPicture.Size = new System.Drawing.Size(129, 98);
             this.pbPicture.TabIndex = 0;
             this.pbPicture.TabStop = false;
             // 
             // btCreate
             // 
-            this.btCreate.Location = new System.Drawing.Point(85, 424);
+            this.btCreate.Location = new System.Drawing.Point(85, 397);
             this.btCreate.Name = "btCreate";
             this.btCreate.Size = new System.Drawing.Size(182, 23);
             this.btCreate.TabIndex = 3;
@@ -297,24 +308,23 @@
             // panelQR
             // 
             this.panelQR.AutoScroll = true;
+            this.panelQR.Controls.Add(this.bt_JSON);
             this.panelQR.Controls.Add(this.gbСhoice);
             this.panelQR.Controls.Add(this.btCreate);
             this.panelQR.Controls.Add(this.gbOptions);
             this.panelQR.Controls.Add(this.gbPicture);
             this.panelQR.Location = new System.Drawing.Point(3, 3);
             this.panelQR.Name = "panelQR";
-            this.panelQR.Size = new System.Drawing.Size(368, 471);
+            this.panelQR.Size = new System.Drawing.Size(368, 507);
             this.panelQR.TabIndex = 4;
             // 
-            // cbAddText
+            // bt_JSON
             // 
-            this.cbAddText.AutoSize = true;
-            this.cbAddText.Location = new System.Drawing.Point(146, 112);
-            this.cbAddText.Name = "cbAddText";
-            this.cbAddText.Size = new System.Drawing.Size(180, 17);
-            this.cbAddText.TabIndex = 7;
-            this.cbAddText.Text = "разместить текст с QR-кодом";
-            this.cbAddText.UseVisualStyleBackColor = true;
+            this.bt_JSON.Location = new System.Drawing.Point(85, 426);
+            this.bt_JSON.Name = "bt_JSON";
+            this.bt_JSON.Size = new System.Drawing.Size(182, 23);
+            this.bt_JSON.TabIndex = 4;
+            this.bt_JSON.UseVisualStyleBackColor = true;
             // 
             // QRControl
             // 
@@ -322,7 +332,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelQR);
             this.Name = "QRControl";
-            this.Size = new System.Drawing.Size(374, 479);
+            this.Size = new System.Drawing.Size(374, 510);
             this.Load += new System.EventHandler(this.QRControl_Load);
             this.BackColorChanged += new System.EventHandler(this.QRControl_BackColorChanged);
             this.gbСhoice.ResumeLayout(false);
@@ -366,5 +376,6 @@
         private System.Windows.Forms.RadioButton rbSpecifyRange;
         private System.Windows.Forms.GroupBox gbChoice;
         private System.Windows.Forms.CheckBox cbAddText;
+        private System.Windows.Forms.Button bt_JSON;
     }
 }
