@@ -31,72 +31,88 @@ namespace ExcelAddInЭкспортДанных
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Инвентарный номер" },
-                    { "Название поля JSON", "inventory_number" }
+                    { "Название поля JSON", "inventory_number" },
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Дата приобретения актива" },
-                    { "Название поля JSON", "acquisition_date" }
+                    { "Название поля JSON", "acquisition_date" },
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Дата последнего обслуживания" },
-                    { "Название поля JSON", "last_maintenance_date" }
+                    { "Название поля JSON", "last_maintenance_date" },
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Стоимость" },
-                    { "Название поля JSON", "cost" }
+                    { "Название поля JSON", "cost" }, 
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Фактическое наличие" },
-                    { "Название поля JSON", "fakt_number" }
+                    { "Название поля JSON", "fakt_number" },
+                    { "Значение", "" }
+
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Год выпуска" },
-                    { "Название поля JSON", "year_of_release" }
+                    { "Название поля JSON", "year_of_release" }, 
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Серийный номер" },
-                    { "Название поля JSON", "serial_number" }
+                    { "Название поля JSON", "serial_number" }, 
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Паспорт (документ о регистрации)" },
-                    { "Название поля JSON", "registration_document" }
+                    { "Название поля JSON", "registration_document" },
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Местонахождение" },
-                    { "Название поля JSON", "location" }
+                    { "Название поля JSON", "location" }, 
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Ответственный" },
-                    { "Название поля JSON", "responsible" }
+                    { "Название поля JSON", "responsible" },
+                    { "Значение", "" }
+
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Тип основного средства" },
-                    { "Название поля JSON", "typeFA" }
+                    { "Название поля JSON", "typeFA" }, 
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Производитель" },
-                    { "Название поля JSON", "manufacturer" }
+                    { "Название поля JSON", "manufacturer" },
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Модель" },
-                    { "Название поля JSON", "modelFA" }
+                    { "Название поля JSON", "modelFA" }, 
+                    { "Значение", "" }
                 },
                 new Dictionary<string, string>
                 {
                     { "Название колонки", "Дата следующего обслуживания" },
-                    { "Название поля JSON", "next_maintenance_date" }
+                    { "Название поля JSON", "next_maintenance_date" }, 
+                    { "Значение", "" }
                 }
             };
 

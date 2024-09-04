@@ -215,6 +215,12 @@
     <Compile Include="forms\ExportXlsxToDF.Designer.cs">
       <DependentUpon>ExportXlsxToDF.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\FormDialogTableStructureJASON_Sample.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\FormDialogTableStructureJASON_Sample.Designer.cs">
+      <DependentUpon>FormDialogTableStructureJASON_Sample.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyCustomRibbonExportFeed.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -238,12 +244,15 @@
       <DependentUpon>TableСreationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="classes\WorkingWithTables.cs" />
-    <Compile Include="WorkingJSON.cs" />
+    <Compile Include="classes\WorkingJSON.cs" />
     <EmbeddedResource Include="forms\ExportXlsxToCsv.resx">
       <DependentUpon>ExportXlsxToCsv.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\ExportXlsxToDF.resx">
       <DependentUpon>ExportXlsxToDF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\FormDialogTableStructureJASON_Sample.resx">
+      <DependentUpon>FormDialogTableStructureJASON_Sample.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyCustomRibbonExportFeed.resx">
       <DependentUpon>MyCustomRibbonExportFeed.cs</DependentUpon>

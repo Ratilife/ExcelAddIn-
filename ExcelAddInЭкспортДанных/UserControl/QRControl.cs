@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Core;
+﻿using ExcelAddInЭкспортДанных.forms;
+using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
@@ -407,16 +408,9 @@ namespace ExcelAddInЭкспортДанных
         private void PrintOption1_Click(object sender, EventArgs e)
         {
 
-            // TODO: перенести в новое диалоговое окно 
-
-            //Таблиа для JSON установленного образца
-            WorkingJSON w_json = new WorkingJSON();
-            List < Dictionary<string, string> > table = w_json.generateTable();
+            FormDialogTableStructureJASON_Sample form = new FormDialogTableStructureJASON_Sample();
+            form.ShowDialog();  
             
-            //получить текущий лист
-
-            //Создать на новол листе
-
         }
 
         private void PrintOption2_Click(object sender, EventArgs e)
