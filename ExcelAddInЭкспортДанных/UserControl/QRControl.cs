@@ -407,7 +407,7 @@ namespace ExcelAddInЭкспортДанных
         }
         private void openForm(string text,string parameter)
         {
-            //TODO:  определится как передать форме какую структуру заполнять по шаблону или пользователь сам оформит
+            
             FormDialogTableStructureJASON_Sample form = new FormDialogTableStructureJASON_Sample(parameter);
             form.Text = text;
             form.ShowDialog();

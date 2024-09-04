@@ -23,7 +23,7 @@ namespace ExcelAddInЭкспортДанных.forms
             }
             if (vidTable == "Пользователь")
             {
-                //TODO: написать медод для формироватия структуры пользователем
+                
                 CreateTableForData();
             }
         }
