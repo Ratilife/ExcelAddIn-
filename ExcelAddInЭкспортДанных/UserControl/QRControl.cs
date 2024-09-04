@@ -409,6 +409,7 @@ namespace ExcelAddInЭкспортДанных
         {
 
             FormDialogTableStructureJASON_Sample form = new FormDialogTableStructureJASON_Sample();
+            form.Text = "Форма диалога для формирования структуры json по шаблону - основные средства";
             form.ShowDialog();  
             
         }

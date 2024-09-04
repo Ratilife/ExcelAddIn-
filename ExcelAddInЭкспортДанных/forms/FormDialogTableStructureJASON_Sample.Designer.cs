@@ -34,21 +34,24 @@
             this.rbCurrentSheet = new System.Windows.Forms.RadioButton();
             this.rbNewSheet = new System.Windows.Forms.RadioButton();
             this.gbWhere_to_place = new System.Windows.Forms.GroupBox();
-            this.dgTable = new System.Windows.Forms.DataGridView();
+            this.dgvTable = new System.Windows.Forms.DataGridView();
             this.btAdd = new System.Windows.Forms.Button();
             this.btOK = new System.Windows.Forms.Button();
             this.btDelete = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
             this.gbTable.SuspendLayout();
             this.gbWhere_to_place.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgTable)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).BeginInit();
             this.SuspendLayout();
             // 
             // gbTable
             // 
+            this.gbTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbTable.Controls.Add(this.btDelete);
             this.gbTable.Controls.Add(this.btAdd);
-            this.gbTable.Controls.Add(this.dgTable);
+            this.gbTable.Controls.Add(this.dgvTable);
             this.gbTable.Location = new System.Drawing.Point(12, 12);
             this.gbTable.Name = "gbTable";
             this.gbTable.Size = new System.Drawing.Size(490, 426);
@@ -58,6 +61,7 @@
             // 
             // labelTextKol
             // 
+            this.labelTextKol.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTextKol.AutoSize = true;
             this.labelTextKol.Location = new System.Drawing.Point(531, 27);
             this.labelTextKol.Name = "labelTextKol";
@@ -67,6 +71,7 @@
             // 
             // tbKolTable
             // 
+            this.tbKolTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbKolTable.Location = new System.Drawing.Point(699, 22);
             this.tbKolTable.Name = "tbKolTable";
             this.tbKolTable.Size = new System.Drawing.Size(72, 20);
@@ -96,6 +101,7 @@
             // 
             // gbWhere_to_place
             // 
+            this.gbWhere_to_place.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gbWhere_to_place.Controls.Add(this.rbCurrentSheet);
             this.gbWhere_to_place.Controls.Add(this.rbNewSheet);
             this.gbWhere_to_place.Location = new System.Drawing.Point(534, 57);
@@ -105,16 +111,20 @@
             this.gbWhere_to_place.TabStop = false;
             this.gbWhere_to_place.Text = "Где расположить?";
             // 
-            // dgTable
+            // dgvTable
             // 
-            this.dgTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgTable.Location = new System.Drawing.Point(7, 20);
-            this.dgTable.Name = "dgTable";
-            this.dgTable.Size = new System.Drawing.Size(477, 354);
-            this.dgTable.TabIndex = 0;
+            this.dgvTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTable.Location = new System.Drawing.Point(7, 20);
+            this.dgvTable.Name = "dgvTable";
+            this.dgvTable.Size = new System.Drawing.Size(477, 354);
+            this.dgvTable.TabIndex = 0;
             // 
             // btAdd
             // 
+            this.btAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btAdd.Location = new System.Drawing.Point(7, 390);
             this.btAdd.Name = "btAdd";
             this.btAdd.Size = new System.Drawing.Size(75, 23);
@@ -125,6 +135,7 @@
             // 
             // btOK
             // 
+            this.btOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btOK.Location = new System.Drawing.Point(606, 415);
             this.btOK.Name = "btOK";
             this.btOK.Size = new System.Drawing.Size(75, 23);
@@ -134,15 +145,18 @@
             // 
             // btDelete
             // 
+            this.btDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btDelete.Location = new System.Drawing.Point(88, 390);
             this.btDelete.Name = "btDelete";
             this.btDelete.Size = new System.Drawing.Size(75, 23);
             this.btDelete.TabIndex = 3;
             this.btDelete.Text = "Удалить";
             this.btDelete.UseVisualStyleBackColor = true;
+            this.btDelete.Click += new System.EventHandler(this.btDelete_Click);
             // 
             // btCancel
             // 
+            this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancel.Location = new System.Drawing.Point(699, 415);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(75, 23);
@@ -163,11 +177,10 @@
             this.Controls.Add(this.labelTextKol);
             this.Controls.Add(this.gbTable);
             this.Name = "FormDialogTableStructureJASON_Sample";
-            this.Text = "FormDialogTableStructureJASON_Sample";
             this.gbTable.ResumeLayout(false);
             this.gbWhere_to_place.ResumeLayout(false);
             this.gbWhere_to_place.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgTable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,7 +194,7 @@
         private System.Windows.Forms.RadioButton rbCurrentSheet;
         private System.Windows.Forms.RadioButton rbNewSheet;
         private System.Windows.Forms.GroupBox gbWhere_to_place;
-        private System.Windows.Forms.DataGridView dgTable;
+        private System.Windows.Forms.DataGridView dgvTable;
         private System.Windows.Forms.Button btDelete;
         private System.Windows.Forms.Button btOK;
         private System.Windows.Forms.Button btAdd;

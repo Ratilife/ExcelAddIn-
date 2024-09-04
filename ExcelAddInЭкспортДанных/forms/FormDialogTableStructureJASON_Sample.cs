@@ -49,11 +49,11 @@ namespace ExcelAddInЭкспортДанных.forms
             }
 
             // Привязываем DataTable к dgTable
-            dgTable.DataSource = dataTable;
+            dgvTable.DataSource = dataTable;
             // Настраиваем ширину столбцов
-            dgTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             // Настраиваем стиль заголовков столбцов
-            dgTable.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font(dgTable.Font, System.Drawing.FontStyle.Bold);
+            dgvTable.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font(dgvTable.Font, System.Drawing.FontStyle.Bold);
         }
         #endregion
         
@@ -76,7 +76,26 @@ namespace ExcelAddInЭкспортДанных.forms
             dataTable.Rows.Add(dataRow);
 
             // Обновляем DataGridView
-            dgTable.DataSource = dataTable;
+            dgvTable.DataSource = dataTable;
+        }
+
+        private void btDelete_Click(object sender, EventArgs e)
+        {
+            if (dgvTable.SelectedRows.Count > 0)
+            {
+                // Получаем индекс выбранной строки
+                int rowIndex = dgvTable.SelectedRows[0].Index;
+
+                // Удаляем строку из DataTable
+                dataTable.Rows[rowIndex].Delete();
+
+                // Обновляем DataGridView
+                dgvTable.DataSource = dataTable;
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, выберите строку для удаления.");
+            }
         }
     }
 }
