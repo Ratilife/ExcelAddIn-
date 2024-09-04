@@ -72,6 +72,7 @@
             // tbKolTable
             // 
             this.tbKolTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbKolTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbKolTable.Location = new System.Drawing.Point(699, 22);
             this.tbKolTable.Name = "tbKolTable";
             this.tbKolTable.Size = new System.Drawing.Size(72, 20);
@@ -142,6 +143,7 @@
             this.btOK.TabIndex = 2;
             this.btOK.Text = "OK";
             this.btOK.UseVisualStyleBackColor = true;
+            this.btOK.Click += new System.EventHandler(this.btOK_Click);
             // 
             // btDelete
             // 

@@ -405,18 +405,26 @@ namespace ExcelAddInЭкспортДанных
             bt_JSON.Click += (sender, e) => contextMenu.Show(bt_JSON, new System.Drawing.Point(0, bt_JSON.Height));
             
         }
+        private void openForm(string text,string parameter)
+        {
+            //TODO:  определится как передать форме какую структуру заполнять по шаблону или пользователь сам оформит
+            FormDialogTableStructureJASON_Sample form = new FormDialogTableStructureJASON_Sample(parameter);
+            form.Text = text;
+            form.ShowDialog();
+        }
         private void PrintOption1_Click(object sender, EventArgs e)
         {
 
-            FormDialogTableStructureJASON_Sample form = new FormDialogTableStructureJASON_Sample();
-            form.Text = "Форма диалога для формирования структуры json по шаблону - основные средства";
-            form.ShowDialog();  
-            
+            string text = "Форма диалога для формирования структуры json по шаблону - основные средства";
+
+            openForm(text,"ОсновныеСредства");
+
         }
 
         private void PrintOption2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Выбрана опция 2");
+            string text = "Форма диалога для формирования структуры json сформированная пользователем";
+            openForm(text, "Пользователь");
         }
         #endregion
     }

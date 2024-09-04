@@ -13,10 +13,19 @@ namespace ExcelAddInЭкспортДанных.forms
     public partial class FormDialogTableStructureJASON_Sample : Form
     {
         private DataTable dataTable;
-        public FormDialogTableStructureJASON_Sample()
+        public FormDialogTableStructureJASON_Sample(string vidTable)
         {
+            //tbKolTable.Text = "1";
             InitializeComponent();
-            LoadData();
+            if (vidTable == "ОсновныеСредства")
+            {
+                LoadData();
+            }
+            if (vidTable == "Пользователь")
+            {
+                //TODO: написать медод для формироватия структуры пользователем
+                CreateTableForData();
+            }
         }
 
         private void CreateTable() 
@@ -26,6 +35,16 @@ namespace ExcelAddInЭкспортДанных.forms
             dataTable.Columns.Add("Название поля JSON");
             dataTable.Columns.Add("Значение");
             
+        }
+        // Общие настройки для таблице на форме
+        private void generalConstruction_dgvTable() 
+        {
+            // Привязываем DataTable к dgTable
+            dgvTable.DataSource = dataTable;
+            // Настраиваем ширину столбцов
+            dgvTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            // Настраиваем стиль заголовков столбцов
+            dgvTable.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font(dgvTable.Font, System.Drawing.FontStyle.Bold);
         }
         #region СозданиеПоШаблонуОсновныеСредства
         private void LoadData()
@@ -47,16 +66,23 @@ namespace ExcelAddInЭкспортДанных.forms
                 dataRow["Значение"] = row["Значение"];
                 dataTable.Rows.Add(dataRow);
             }
+            // Настраиваем таблицу
+            generalConstruction_dgvTable();
 
-            // Привязываем DataTable к dgTable
-            dgvTable.DataSource = dataTable;
-            // Настраиваем ширину столбцов
-            dgvTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            // Настраиваем стиль заголовков столбцов
-            dgvTable.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font(dgvTable.Font, System.Drawing.FontStyle.Bold);
+
         }
         #endregion
         
+        #region СозданиеТаблицыДляСтруктурыПользователем
+        private void CreateTableForData()
+        {
+            // Создаем DataTable для хранения данных
+            CreateTable();
+            // Настраиваем таблицу
+            generalConstruction_dgvTable();
+        }
+        #endregion
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
@@ -96,6 +122,16 @@ namespace ExcelAddInЭкспортДанных.forms
             {
                 MessageBox.Show("Пожалуйста, выберите строку для удаления.");
             }
+        }
+
+        private void btOK_Click(object sender, EventArgs e)
+        {
+            int KolTable = int.Parse(tbKolTable.Text);
+            WorkingWithTables wTables = new WorkingWithTables();
+            wTables.CreateTableToJSON(dataTable, KolTable, rbCurrentSheet.Checked, rbNewSheet.Checked);
+            //Завершаем диалог
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }
