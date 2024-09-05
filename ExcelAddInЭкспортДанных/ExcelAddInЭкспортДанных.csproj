@@ -198,6 +198,7 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="classes\InformationAndHelp.cs" />
     <Compile Include="ColorComboBox.cs">
       <SubType>Component</SubType>
     </Compile>

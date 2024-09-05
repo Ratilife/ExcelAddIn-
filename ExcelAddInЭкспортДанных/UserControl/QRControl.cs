@@ -1,6 +1,8 @@
-﻿using ExcelAddInЭкспортДанных.forms;
+﻿using ExcelAddInЭкспортДанных.classes;
+using ExcelAddInЭкспортДанных.forms;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Tools.Excel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,8 +24,11 @@ namespace ExcelAddInЭкспортДанных
     {
         private ColorComboBox colorComboBox;
         private string filePath { get;  set; }
-        public string QRToDate { get; private set; }
+        public string QRToDate { get; private set; }  //Это означает, что значение этого свойства можно прочитать
+                                                      //из любого места, но установить его значение можно только
+                                                      //внутри класса,в котором это свойство объявлено.
         public string QRToDateMany { get; private set; }
+        public bool isJSON { get; set; }
         string RangeSelection; 
         CommonMethods cm = new CommonMethods();
         private int size;
@@ -36,7 +41,12 @@ namespace ExcelAddInЭкспортДанных
             ContextMenuPictureBox();
             button();
         }
-
+        public QRControl(bool isJSON)
+        {
+            InitializeComponent();
+            this.isJSON = isJSON;
+            
+        }
         #region контекстное меню к PictureBox
         /**
         * Создает и привязывает контекстное меню к PictureBox.
@@ -136,179 +146,18 @@ namespace ExcelAddInЭкспортДанных
 
         private void btCreate_Click(object sender, EventArgs e)
         {
-             QRToDate = txtQRcode.Text;
-             QRcode qr = new QRcode();
-             Bitmap qrBitmap;
-             // Получаем выбранные цвета из ComboBox
-             Color qrColor = (Color)cbColour.SelectedItem;
-             Color backgroundColor = (Color)cbBackground.SelectedItem;
-             int firstNumber=0;
-             int secondNumber=0;
-             string newCol="";
-             string startCell =null;
-             string endCell =null;
-             string fp = null;
-             string tempFilePath = null;
-            List<int> numbers = new List<int>();
-            Excel.Worksheet targetSheet = null;
-            string fileName = null;
-
-            bool addText = cbAddText.Checked;
-            // Получаем текущее значение TrackBar
-            size = tbSize.Value;
-            //QR - код 
-            if (rbOne.Checked)
-             {
-               
-               
-                if (cbPictureFile.Checked) 
-                { 
-
-                    qrBitmap = qr.CreateQRCodePicture(QRToDate, filePath, qrColor, backgroundColor,size);
-                    // Отображаем QR-код в PictureBox
-                    pbPicture.Image = qrBitmap;
-                }else
-                {
-
-                    qrBitmap = qr.CreateQRCode(QRToDate, qrColor, backgroundColor,size, addText);
-                    // Отображаем QR-код в PictureBox
-                    pbPicture.Image = qrBitmap;
-                }
-
-                
-             }
-            //QR - коды
-            if (rbMany.Checked)
-             {
-               
-                string input = txtQRcodes.Text;
-
-
-                // Получаем текущий рабочий лист
-                Excel.Worksheet worksheet = (Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet;
-
-                // Разделяем строку диапазона на начальную и конечную ячейки
-                string[] cells = input.Split(':');
-                // Проверка, что в массиве действительно два элемента
-                if (cells.Length == 2)
-                {
-                     startCell = cells[0];
-                     endCell = cells[1];
-                }
-                else if(cells.Length == 1)
-                {
-                     startCell = cells[0];
-                     endCell = startCell;
-                }
-                
-                //колонка справа
-                if (rbColumnRight.Checked)
-                {
-                    
-                    //получаем Имя колонки справа
-                     newCol = cm.ShiftCellColumn(cells[0],true);
-                    //Получаем номера строк 
-                    numbers = cm.ExtractNumbers(input);
-                    if(numbers.Count == 2) 
-                    { 
-                     firstNumber = numbers[0]; // Получаем первый элемент
-                     secondNumber = numbers[1]; // Получаем второй элемент
-                    }else if(numbers.Count == 1) 
-                    {
-                        firstNumber = numbers[0];
-                    }
-                }
-                //указать диапазон
-                if (rbSpecifyRange.Checked)
-                {
-                    if (RangeSelection == null)
-                    {
-                        MessageBox.Show("Диапазон ячеек не может быть неопределенным.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                    List<string> rs = cm.ExtractLetters(RangeSelection);
-                    newCol = rs[0];
-                    numbers = cm.ExtractNumbers(RangeSelection);
-                    firstNumber = numbers[0];
-
-                }
-
-                // Определяем диапазон строк
-                Excel.Range range = worksheet.get_Range(startCell, endCell);
-
-                int index = 1;
-                // Проходим по всем ячейкам в диапазоне
-                foreach (Excel.Range cell in range.Cells)
-                {
-                    // Если значение ячейки пустое, пропустить эту итерацию
-                    if (cell.Value2 == null || string.IsNullOrWhiteSpace(cell.Value2.ToString()))
-                    {
-                        firstNumber = firstNumber + 1;
-                        continue;
-                    }
-                        
-                   
-                    // Создание QR-кода 
-                    qrBitmap = qr.CreateQRCode(cell.Value2, qrColor, backgroundColor, size, addText);
-                    //Сохранить в файл
-                    if (cbPictureFile.Checked)
-                    {
-                        fileName = cm.ReplaceInvalidChars(cell.Value2.ToString());
-                        fp = System.IO.Path.Combine(filePath, fileName  + ".png");
-                        qrBitmap.Save(fp, System.Drawing.Imaging.ImageFormat.Png);
-                    }
-                    else
-                    {
-                        //qrBitmap = qr.CreateQRCode(cell.Value2, qrColor, backgroundColor, size);
-                        // Создайте временный файл с уникальным именем
-                        string tempFileName = "qrcode_temp_" + index.ToString() + ".png";
-                        fp = System.IO.Path.Combine(System.IO.Path.GetTempPath(), tempFileName);
-
-                        // Сохраните ваш Bitmap во временный файл
-                        qrBitmap.Save(fp, System.Drawing.Imaging.ImageFormat.Png);
-                        tempFilePath = fp;
-                    }
-                    index = index + 1;
-                    if (rbSpecifyRange.Checked) 
-                    {                            
-                        // Проверка, указан ли лист
-                        if (RangeSelection.Contains("!"))
-                        {
-                            // Разделите строку адреса на части
-                            string[] addressParts = RangeSelection.Split('!');
-                            string sheetName = addressParts[0];
-                            // Получить лист по имени
-                            targetSheet = worksheet.Parent.Worksheets[sheetName];
-                        }
-                        else
-                        {
-                            // Использовать активный лист
-                            targetSheet = worksheet;       
-                        }
-                    }
-                    if (rbColumnRight.Checked) 
-                    {
-                        // Использовать активный лист
-                        targetSheet = worksheet;
-                    }
-
-                    // Проверка, если ячейка справа пустая
-                    //Excel.Range cellRight = targetSheet.Cells[cell.Row, cell.Column + 1];
-                    //if (cellRight.Value2 == null || string.IsNullOrWhiteSpace(cellRight.Value2.ToString()))
-                    //{
-                        Excel.Range cell2 = targetSheet.Range[newCol + firstNumber.ToString()];
-
-                        InsertQRCodeIntoCell(cell2, qrBitmap, fp);
-                    //}
-
-                    firstNumber = firstNumber + 1;
-                }
-
-                
+            if (isJSON)
+            {
+                //createQRcodeJSON();
+                MessageBox.Show("isJSON = true");
             }
-            
+            else 
+            {
+               // createQRcodeTEXT();
+            }
+            //TODO: Начать с этого места (Создание JSON для QR кода)
 
-        }
+    }
         private void InsertQRCodeIntoCell(Excel.Range cell, Bitmap qrBitmap, string filePath)
         {
             // Получаем размеры изображения
@@ -390,6 +239,12 @@ namespace ExcelAddInЭкспортДанных
             RangeSelection = range;
         }
 
+        //TODO: определится нужен этот метод
+        public void updateLabelText(string text)
+        {
+            lbInformation.Text = text;
+        }
+
         #region КнопкаС_ВыпадающимСписком
         private void button() 
         {
@@ -408,7 +263,7 @@ namespace ExcelAddInЭкспортДанных
         private void openForm(string text,string parameter)
         {
             
-            FormDialogTableStructureJASON_Sample form = new FormDialogTableStructureJASON_Sample(parameter);
+            FormDialogTableStructureJASON_Sample form = new FormDialogTableStructureJASON_Sample(parameter,this);
             form.Text = text;
             form.ShowDialog();
         }
@@ -425,6 +280,177 @@ namespace ExcelAddInЭкспортДанных
         {
             string text = "Форма диалога для формирования структуры json сформированная пользователем";
             openForm(text, "Пользователь");
+        }
+        #endregion
+
+        #region СоздатьQRкодСоСтруктуройJSON
+
+        private void createQRcodeJSON()
+        {
+            //TODO: реализация создания QR кода здесь
+            // Получение активного листа
+            Excel.Application excelApp = Globals.ThisAddIn.Application;
+            WorkingJSON workingJSON = new WorkingJSON();
+            List<Dictionary<string, string>> jsonList = workingJSON.createJSON(excelApp.ActiveSheet);
+            
+
+        }
+
+        #endregion
+        #region СоздатьQRкодTEXT
+        
+        private void createQRcodeTEXT() 
+        {
+            QRToDate = txtQRcode.Text;
+            QRcode qr = new QRcode();
+            Bitmap qrBitmap;
+            // Получаем выбранные цвета из ComboBox
+            Color qrColor = (Color)cbColour.SelectedItem;
+            Color backgroundColor = (Color)cbBackground.SelectedItem;
+            int firstNumber = 0;
+            int secondNumber = 0;
+            string newCol = "";
+            string startCell = null;
+            string endCell = null;
+            string fp = null;
+            string tempFilePath = null;
+            List<int> numbers = new List<int>();
+            Excel.Worksheet targetSheet = null;
+            string fileName = null;
+
+            bool addText = cbAddText.Checked;
+            // Получаем текущее значение TrackBar
+            size = tbSize.Value;
+            //QR - код 
+            if (rbOne.Checked)
+            {
+                if (cbPictureFile.Checked)
+                {
+                    qrBitmap = qr.CreateQRCodePicture(QRToDate, filePath, qrColor, backgroundColor, size);
+                    // Отображаем QR-код в PictureBox
+                    pbPicture.Image = qrBitmap;
+                }
+                else
+                {
+                    qrBitmap = qr.CreateQRCode(QRToDate, qrColor, backgroundColor, size, addText);
+                    // Отображаем QR-код в PictureBox
+                    pbPicture.Image = qrBitmap;
+                }
+            }
+            //QR - коды
+            if (rbMany.Checked)
+            {
+                string input = txtQRcodes.Text;
+                // Получаем текущий рабочий лист
+                Excel.Worksheet worksheet = (Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet;
+                // Разделяем строку диапазона на начальную и конечную ячейки
+                string[] cells = input.Split(':');
+                // Проверка, что в массиве действительно два элемента
+                if (cells.Length == 2)
+                {
+                    startCell = cells[0];
+                    endCell = cells[1];
+                }
+                else if (cells.Length == 1)
+                {
+                    startCell = cells[0];
+                    endCell = startCell;
+                }
+                //колонка справа
+                if (rbColumnRight.Checked)
+                {
+                    //получаем Имя колонки справа
+                    newCol = cm.ShiftCellColumn(cells[0], true);
+                    //Получаем номера строк 
+                    numbers = cm.ExtractNumbers(input);
+                    if (numbers.Count == 2)
+                    {
+                        firstNumber = numbers[0]; // Получаем первый элемент
+                        secondNumber = numbers[1]; // Получаем второй элемент
+                    }
+                    else if (numbers.Count == 1)
+                    {
+                        firstNumber = numbers[0];
+                    }
+                }
+                //указать диапазон
+                if (rbSpecifyRange.Checked)
+                {
+                    if (RangeSelection == null)
+                    {
+                        MessageBox.Show("Диапазон ячеек не может быть неопределенным.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    List<string> rs = cm.ExtractLetters(RangeSelection);
+                    newCol = rs[0];
+                    numbers = cm.ExtractNumbers(RangeSelection);
+                    firstNumber = numbers[0];
+                }
+                // Определяем диапазон строк
+                Excel.Range range = worksheet.get_Range(startCell, endCell);
+                int index = 1;
+                // Проходим по всем ячейкам в диапазоне
+                foreach (Excel.Range cell in range.Cells)
+                {
+                    // Если значение ячейки пустое, пропустить эту итерацию
+                    if (cell.Value2 == null || string.IsNullOrWhiteSpace(cell.Value2.ToString()))
+                    {
+                        firstNumber = firstNumber + 1;
+                        continue;
+                    }
+                    // Создание QR-кода 
+                    qrBitmap = qr.CreateQRCode(cell.Value2, qrColor, backgroundColor, size, addText);
+                    //Сохранить в файл
+                    if (cbPictureFile.Checked)
+                    {
+                        fileName = cm.ReplaceInvalidChars(cell.Value2.ToString());
+                        fp = System.IO.Path.Combine(filePath, fileName + ".png");
+                        qrBitmap.Save(fp, System.Drawing.Imaging.ImageFormat.Png);
+                    }
+                    else
+                    {
+                        //qrBitmap = qr.CreateQRCode(cell.Value2, qrColor, backgroundColor, size);
+                        // Создайте временный файл с уникальным именем
+                        string tempFileName = "qrcode_temp_" + index.ToString() + ".png";
+                        fp = System.IO.Path.Combine(System.IO.Path.GetTempPath(), tempFileName);
+                        // Сохраните ваш Bitmap во временный файл
+                        qrBitmap.Save(fp, System.Drawing.Imaging.ImageFormat.Png);
+                        tempFilePath = fp;
+                    }
+                    index = index + 1;
+                    if (rbSpecifyRange.Checked)
+                    {
+                        // Проверка, указан ли лист
+                        if (RangeSelection.Contains("!"))
+                        {
+                            // Разделите строку адреса на части
+                            string[] addressParts = RangeSelection.Split('!');
+                            string sheetName = addressParts[0];
+                            // Получить лист по имени
+                            targetSheet = worksheet.Parent.Worksheets[sheetName];
+                        }
+                        else
+                        {
+                            // Использовать активный лист
+                            targetSheet = worksheet;
+                        }
+                    }
+                    if (rbColumnRight.Checked)
+                    {
+                        // Использовать активный лист
+                        targetSheet = worksheet;
+                    }
+                    // Проверка, если ячейка справа пустая
+                    //Excel.Range cellRight = targetSheet.Cells[cell.Row, cell.Column + 1];
+                    //if (cellRight.Value2 == null || string.IsNullOrWhiteSpace(cellRight.Value2.ToString()))
+                    //{
+                    Excel.Range cell2 = targetSheet.Range[newCol + firstNumber.ToString()];
+
+                    InsertQRCodeIntoCell(cell2, qrBitmap, fp);
+                    //}
+                    firstNumber = firstNumber + 1;
+                }
+            }
         }
         #endregion
     }

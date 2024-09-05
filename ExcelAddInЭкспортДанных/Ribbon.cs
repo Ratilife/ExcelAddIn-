@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Office = Microsoft.Office.Core;
 
-// TODO:  Выполните эти шаги, чтобы активировать элемент XML ленты:
+// Выполните эти шаги, чтобы активировать элемент XML ленты:
 
 // 1: Скопируйте следующий блок кода в класс ThisAddin, ThisWorkbook или ThisDocument.
 

@@ -54,6 +54,7 @@
             this.btCreate = new System.Windows.Forms.Button();
             this.panelQR = new System.Windows.Forms.Panel();
             this.bt_JSON = new System.Windows.Forms.Button();
+            this.lbInformation = new System.Windows.Forms.Label();
             this.gbСhoice.SuspendLayout();
             this.gbChoice.SuspendLayout();
             this.gbOptions.SuspendLayout();
@@ -133,7 +134,7 @@
             // 
             // btRange
             // 
-            this.btRange.Location = new System.Drawing.Point(312, 56);
+            this.btRange.Location = new System.Drawing.Point(312, 49);
             this.btRange.Name = "btRange";
             this.btRange.Size = new System.Drawing.Size(28, 23);
             this.btRange.TabIndex = 6;
@@ -143,13 +144,19 @@
             // 
             // txtQRcodes
             // 
-            this.txtQRcodes.Location = new System.Drawing.Point(103, 56);
+            this.txtQRcodes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtQRcodes.Location = new System.Drawing.Point(103, 50);
             this.txtQRcodes.Name = "txtQRcodes";
             this.txtQRcodes.Size = new System.Drawing.Size(203, 20);
             this.txtQRcodes.TabIndex = 3;
             // 
             // txtQRcode
             // 
+            this.txtQRcode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtQRcode.Location = new System.Drawing.Point(103, 20);
             this.txtQRcode.Name = "txtQRcode";
             this.txtQRcode.Size = new System.Drawing.Size(239, 20);
@@ -159,7 +166,7 @@
             // rbMany
             // 
             this.rbMany.AutoSize = true;
-            this.rbMany.Location = new System.Drawing.Point(7, 56);
+            this.rbMany.Location = new System.Drawing.Point(7, 51);
             this.rbMany.Name = "rbMany";
             this.rbMany.Size = new System.Drawing.Size(76, 17);
             this.rbMany.TabIndex = 1;
@@ -190,7 +197,7 @@
             this.gbOptions.Controls.Add(this.cbColour);
             this.gbOptions.Controls.Add(this.lbBackground);
             this.gbOptions.Controls.Add(this.lbColour);
-            this.gbOptions.Location = new System.Drawing.Point(3, 123);
+            this.gbOptions.Location = new System.Drawing.Point(3, 121);
             this.gbOptions.Name = "gbOptions";
             this.gbOptions.Size = new System.Drawing.Size(350, 139);
             this.gbOptions.TabIndex = 1;
@@ -219,7 +226,7 @@
             // 
             // txtPathFolder
             // 
-            this.txtPathFolder.Location = new System.Drawing.Point(7, 105);
+            this.txtPathFolder.Location = new System.Drawing.Point(7, 104);
             this.txtPathFolder.Name = "txtPathFolder";
             this.txtPathFolder.Size = new System.Drawing.Size(285, 20);
             this.txtPathFolder.TabIndex = 5;
@@ -237,7 +244,7 @@
             // 
             // tbSize
             // 
-            this.tbSize.Location = new System.Drawing.Point(14, 45);
+            this.tbSize.Location = new System.Drawing.Point(14, 38);
             this.tbSize.Name = "tbSize";
             this.tbSize.Size = new System.Drawing.Size(326, 45);
             this.tbSize.TabIndex = 3;
@@ -246,7 +253,7 @@
             // cbBackground
             // 
             this.cbBackground.FormattingEnabled = true;
-            this.cbBackground.Location = new System.Drawing.Point(276, 18);
+            this.cbBackground.Location = new System.Drawing.Point(276, 16);
             this.cbBackground.Name = "cbBackground";
             this.cbBackground.Size = new System.Drawing.Size(60, 21);
             this.cbBackground.TabIndex = 2;
@@ -254,7 +261,7 @@
             // cbColour
             // 
             this.cbColour.FormattingEnabled = true;
-            this.cbColour.Location = new System.Drawing.Point(87, 17);
+            this.cbColour.Location = new System.Drawing.Point(87, 15);
             this.cbColour.Name = "cbColour";
             this.cbColour.Size = new System.Drawing.Size(60, 21);
             this.cbColour.TabIndex = 2;
@@ -262,7 +269,7 @@
             // lbBackground
             // 
             this.lbBackground.AutoSize = true;
-            this.lbBackground.Location = new System.Drawing.Point(203, 19);
+            this.lbBackground.Location = new System.Drawing.Point(203, 17);
             this.lbBackground.Name = "lbBackground";
             this.lbBackground.Size = new System.Drawing.Size(61, 13);
             this.lbBackground.TabIndex = 1;
@@ -270,8 +277,11 @@
             // 
             // lbColour
             // 
+            this.lbColour.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbColour.AutoSize = true;
-            this.lbColour.Location = new System.Drawing.Point(7, 22);
+            this.lbColour.Location = new System.Drawing.Point(7, 20);
             this.lbColour.Name = "lbColour";
             this.lbColour.Size = new System.Drawing.Size(59, 13);
             this.lbColour.TabIndex = 0;
@@ -280,7 +290,7 @@
             // gbPicture
             // 
             this.gbPicture.Controls.Add(this.pbPicture);
-            this.gbPicture.Location = new System.Drawing.Point(3, 268);
+            this.gbPicture.Location = new System.Drawing.Point(3, 266);
             this.gbPicture.Name = "gbPicture";
             this.gbPicture.Size = new System.Drawing.Size(350, 123);
             this.gbPicture.TabIndex = 2;
@@ -297,7 +307,7 @@
             // 
             // btCreate
             // 
-            this.btCreate.Location = new System.Drawing.Point(85, 397);
+            this.btCreate.Location = new System.Drawing.Point(85, 393);
             this.btCreate.Name = "btCreate";
             this.btCreate.Size = new System.Drawing.Size(182, 23);
             this.btCreate.TabIndex = 3;
@@ -307,7 +317,11 @@
             // 
             // panelQR
             // 
+            this.panelQR.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelQR.AutoScroll = true;
+            this.panelQR.Controls.Add(this.lbInformation);
             this.panelQR.Controls.Add(this.bt_JSON);
             this.panelQR.Controls.Add(this.gbСhoice);
             this.panelQR.Controls.Add(this.btCreate);
@@ -320,11 +334,19 @@
             // 
             // bt_JSON
             // 
-            this.bt_JSON.Location = new System.Drawing.Point(85, 426);
+            this.bt_JSON.Location = new System.Drawing.Point(85, 420);
             this.bt_JSON.Name = "bt_JSON";
             this.bt_JSON.Size = new System.Drawing.Size(182, 23);
             this.bt_JSON.TabIndex = 4;
             this.bt_JSON.UseVisualStyleBackColor = true;
+            // 
+            // lbInformation
+            // 
+            this.lbInformation.AutoSize = true;
+            this.lbInformation.Location = new System.Drawing.Point(34, 448);
+            this.lbInformation.Name = "lbInformation";
+            this.lbInformation.Size = new System.Drawing.Size(0, 13);
+            this.lbInformation.TabIndex = 5;
             // 
             // QRControl
             // 
@@ -345,6 +367,7 @@
             this.gbPicture.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbPicture)).EndInit();
             this.panelQR.ResumeLayout(false);
+            this.panelQR.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -377,5 +400,6 @@
         private System.Windows.Forms.GroupBox gbChoice;
         private System.Windows.Forms.CheckBox cbAddText;
         private System.Windows.Forms.Button bt_JSON;
+        private System.Windows.Forms.Label lbInformation;
     }
 }

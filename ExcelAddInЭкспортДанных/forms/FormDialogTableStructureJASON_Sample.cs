@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExcelAddInЭкспортДанных.classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,10 +14,12 @@ namespace ExcelAddInЭкспортДанных.forms
     public partial class FormDialogTableStructureJASON_Sample : Form
     {
         private DataTable dataTable;
-        public FormDialogTableStructureJASON_Sample(string vidTable)
+        private QRControl qrControlInstance;
+        public FormDialogTableStructureJASON_Sample(string vidTable, QRControl qrControl)
         {
-            //tbKolTable.Text = "1";
+            
             InitializeComponent();
+            tbKolTable.Text = "1";
             if (vidTable == "ОсновныеСредства")
             {
                 LoadData();
@@ -26,6 +29,8 @@ namespace ExcelAddInЭкспортДанных.forms
                 
                 CreateTableForData();
             }
+            qrControlInstance = qrControl;
+
         }
 
         private void CreateTable() 
@@ -126,12 +131,28 @@ namespace ExcelAddInЭкспортДанных.forms
 
         private void btOK_Click(object sender, EventArgs e)
         {
+            InformationAndHelp inf = new InformationAndHelp();
+
+            qrControlInstance.isJSON = true;
+            updateLabelOnOpenForm(inf.inf4);
             int KolTable = int.Parse(tbKolTable.Text);
             WorkingWithTables wTables = new WorkingWithTables();
             wTables.CreateTableToJSON(dataTable, KolTable, rbCurrentSheet.Checked, rbNewSheet.Checked);
             //Завершаем диалог
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        static void updateLabelOnOpenForm(string text)
+        {
+            // Поиск открытой формы типа QRControl
+            //форма передана в конструктор как этим фактом фоспользоваться
+            QRControl openForm = Application.OpenForms.OfType<QRControl>().FirstOrDefault();
+            if (openForm != null)
+            {
+                // Обновление текста Label
+                openForm.updateLabelText(text);
+            }
         }
     }
 }
