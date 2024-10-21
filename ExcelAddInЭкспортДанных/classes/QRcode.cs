@@ -20,6 +20,23 @@ namespace ExcelAddInЭкспортДанных
         public QRcode() { }
         //public QRcode(string code) { }
 
+        /*
+        * Создает QR-код на основе предоставленных данных и сохраняет его в указанной папке.
+        *
+        * Параметры:
+        * - data: Данные для кодирования в QR-код.
+        * - pathFolder: Путь к папке, где будет сохранен QR-код.
+        * - qrColor: Цвет QR-кода.
+        * - backgroundColor: Цвет фона QR-кода.
+        * - size: Размер QR-кода.
+        * - counter: Дополнительный параметр для формирования имени файла (по умолчанию пустой).
+        *
+        * Возвращает:
+        * - Изображение QR-кода в формате Bitmap.
+        *
+        * Исключения:
+        * - ArgumentException: Выбрасывается, если данные для генерации QR-кода пусты или null.
+ */
         public Bitmap CreateQRCodePicture(string data, string pathFolder, Color qrColor, Color backgroundColor, int size, string counter="")
         {
             Bitmap bitmap;
@@ -64,7 +81,23 @@ namespace ExcelAddInЭкспортДанных
             }
             return bitmap;
         }
-        
+
+       /*
+        *  Создает QR-код на основе предоставленных данных и параметров.
+        *
+        *     Параметры:
+        *      - data: Данные для кодирования в QR-код.
+        *      - qrColor: Цвет QR-кода.
+        *      - backgroundColor: Цвет фона QR-кода.
+        *      - size: Размер QR-кода.
+        *      - addText: Флаг, указывающий, нужно ли добавлять текст под QR-кодом.
+        *
+        *     Возвращает:
+        *      - Изображение QR-кода в формате Bitmap.
+        *  
+        *     Исключения:
+        *      - ArgumentException: Выбрасывается, если данные для генерации QR-кода пусты или null.
+        */
         public Bitmap CreateQRCode(string data, Color qrColor, Color backgroundColor, int size, bool addText)
         {
             if (string.IsNullOrWhiteSpace(data))

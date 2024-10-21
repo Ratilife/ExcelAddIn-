@@ -29,19 +29,25 @@
         private void InitializeComponent()
         {
             this.gbTable = new System.Windows.Forms.GroupBox();
+            this.btDelete = new System.Windows.Forms.Button();
+            this.btAdd = new System.Windows.Forms.Button();
+            this.dgvTable = new System.Windows.Forms.DataGridView();
             this.labelTextKol = new System.Windows.Forms.Label();
             this.tbKolTable = new System.Windows.Forms.TextBox();
             this.rbCurrentSheet = new System.Windows.Forms.RadioButton();
             this.rbNewSheet = new System.Windows.Forms.RadioButton();
             this.gbWhere_to_place = new System.Windows.Forms.GroupBox();
-            this.dgvTable = new System.Windows.Forms.DataGridView();
-            this.btAdd = new System.Windows.Forms.Button();
             this.btOK = new System.Windows.Forms.Button();
-            this.btDelete = new System.Windows.Forms.Button();
             this.btCancel = new System.Windows.Forms.Button();
+            this.btnAddColumn = new System.Windows.Forms.Button();
+            this.gbRow = new System.Windows.Forms.GroupBox();
+            this.gbColumn = new System.Windows.Forms.GroupBox();
+            this.btnDeleteColumn = new System.Windows.Forms.Button();
             this.gbTable.SuspendLayout();
-            this.gbWhere_to_place.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).BeginInit();
+            this.gbWhere_to_place.SuspendLayout();
+            this.gbRow.SuspendLayout();
+            this.gbColumn.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbTable
@@ -49,8 +55,8 @@
             this.gbTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbTable.Controls.Add(this.btDelete);
-            this.gbTable.Controls.Add(this.btAdd);
+            this.gbTable.Controls.Add(this.gbColumn);
+            this.gbTable.Controls.Add(this.gbRow);
             this.gbTable.Controls.Add(this.dgvTable);
             this.gbTable.Location = new System.Drawing.Point(12, 12);
             this.gbTable.Name = "gbTable";
@@ -58,6 +64,39 @@
             this.gbTable.TabIndex = 0;
             this.gbTable.TabStop = false;
             this.gbTable.Text = "Таблица для стркутуры";
+            // 
+            // btDelete
+            // 
+            this.btDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btDelete.Location = new System.Drawing.Point(98, 14);
+            this.btDelete.Name = "btDelete";
+            this.btDelete.Size = new System.Drawing.Size(75, 23);
+            this.btDelete.TabIndex = 3;
+            this.btDelete.Text = "Удалить";
+            this.btDelete.UseVisualStyleBackColor = true;
+            this.btDelete.Click += new System.EventHandler(this.btDelete_Click);
+            // 
+            // btAdd
+            // 
+            this.btAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btAdd.Location = new System.Drawing.Point(17, 15);
+            this.btAdd.Name = "btAdd";
+            this.btAdd.Size = new System.Drawing.Size(75, 23);
+            this.btAdd.TabIndex = 1;
+            this.btAdd.Text = "Добавить";
+            this.btAdd.UseVisualStyleBackColor = true;
+            this.btAdd.Click += new System.EventHandler(this.btAdd_Click);
+            // 
+            // dgvTable
+            // 
+            this.dgvTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTable.Location = new System.Drawing.Point(7, 20);
+            this.dgvTable.Name = "dgvTable";
+            this.dgvTable.Size = new System.Drawing.Size(477, 354);
+            this.dgvTable.TabIndex = 0;
             // 
             // labelTextKol
             // 
@@ -112,28 +151,6 @@
             this.gbWhere_to_place.TabStop = false;
             this.gbWhere_to_place.Text = "Где расположить?";
             // 
-            // dgvTable
-            // 
-            this.dgvTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTable.Location = new System.Drawing.Point(7, 20);
-            this.dgvTable.Name = "dgvTable";
-            this.dgvTable.Size = new System.Drawing.Size(477, 354);
-            this.dgvTable.TabIndex = 0;
-            // 
-            // btAdd
-            // 
-            this.btAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btAdd.Location = new System.Drawing.Point(7, 390);
-            this.btAdd.Name = "btAdd";
-            this.btAdd.Size = new System.Drawing.Size(75, 23);
-            this.btAdd.TabIndex = 1;
-            this.btAdd.Text = "Добавить";
-            this.btAdd.UseVisualStyleBackColor = true;
-            this.btAdd.Click += new System.EventHandler(this.btAdd_Click);
-            // 
             // btOK
             // 
             this.btOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -145,17 +162,6 @@
             this.btOK.UseVisualStyleBackColor = true;
             this.btOK.Click += new System.EventHandler(this.btOK_Click);
             // 
-            // btDelete
-            // 
-            this.btDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btDelete.Location = new System.Drawing.Point(88, 390);
-            this.btDelete.Name = "btDelete";
-            this.btDelete.Size = new System.Drawing.Size(75, 23);
-            this.btDelete.TabIndex = 3;
-            this.btDelete.Text = "Удалить";
-            this.btDelete.UseVisualStyleBackColor = true;
-            this.btDelete.Click += new System.EventHandler(this.btDelete_Click);
-            // 
             // btCancel
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -166,6 +172,50 @@
             this.btCancel.Text = "Cancel";
             this.btCancel.UseVisualStyleBackColor = true;
             this.btCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnAddColumn
+            // 
+            this.btnAddColumn.Location = new System.Drawing.Point(21, 13);
+            this.btnAddColumn.Name = "btnAddColumn";
+            this.btnAddColumn.Size = new System.Drawing.Size(75, 23);
+            this.btnAddColumn.TabIndex = 4;
+            this.btnAddColumn.Text = "Добавить";
+            this.btnAddColumn.UseVisualStyleBackColor = true;
+            this.btnAddColumn.Click += new System.EventHandler(this.btnAddColumn_Click);
+            // 
+            // gbRow
+            // 
+            this.gbRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbRow.Controls.Add(this.btAdd);
+            this.gbRow.Controls.Add(this.btDelete);
+            this.gbRow.Location = new System.Drawing.Point(7, 380);
+            this.gbRow.Name = "gbRow";
+            this.gbRow.Size = new System.Drawing.Size(195, 40);
+            this.gbRow.TabIndex = 5;
+            this.gbRow.TabStop = false;
+            this.gbRow.Text = "Строки";
+            // 
+            // gbColumn
+            // 
+            this.gbColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbColumn.Controls.Add(this.btnDeleteColumn);
+            this.gbColumn.Controls.Add(this.btnAddColumn);
+            this.gbColumn.Location = new System.Drawing.Point(294, 381);
+            this.gbColumn.Name = "gbColumn";
+            this.gbColumn.Size = new System.Drawing.Size(190, 39);
+            this.gbColumn.TabIndex = 6;
+            this.gbColumn.TabStop = false;
+            this.gbColumn.Text = "Колонки";
+            // 
+            // btnDeleteColumn
+            // 
+            this.btnDeleteColumn.Location = new System.Drawing.Point(102, 13);
+            this.btnDeleteColumn.Name = "btnDeleteColumn";
+            this.btnDeleteColumn.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteColumn.TabIndex = 5;
+            this.btnDeleteColumn.Text = "Удалить";
+            this.btnDeleteColumn.UseVisualStyleBackColor = true;
+            this.btnDeleteColumn.Click += new System.EventHandler(this.btnDeleteColumn_Click);
             // 
             // FormDialogTableStructureJASON_Sample
             // 
@@ -180,9 +230,11 @@
             this.Controls.Add(this.gbTable);
             this.Name = "FormDialogTableStructureJASON_Sample";
             this.gbTable.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).EndInit();
             this.gbWhere_to_place.ResumeLayout(false);
             this.gbWhere_to_place.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).EndInit();
+            this.gbRow.ResumeLayout(false);
+            this.gbColumn.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -201,5 +253,9 @@
         private System.Windows.Forms.Button btOK;
         private System.Windows.Forms.Button btAdd;
         private System.Windows.Forms.Button btCancel;
+        private System.Windows.Forms.GroupBox gbRow;
+        private System.Windows.Forms.Button btnAddColumn;
+        private System.Windows.Forms.GroupBox gbColumn;
+        private System.Windows.Forms.Button btnDeleteColumn;
     }
 }

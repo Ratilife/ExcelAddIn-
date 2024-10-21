@@ -50,6 +50,42 @@ namespace ExcelAddInЭкспортДанных
 
                 return filePath;
         }
+        public string OpenCsvFile()
+        {
+            string filePath = null;
+            System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
+
+            // Устанавливаем фильтр для файлов CSV
+            dialog.Filter = "CSV files (*.csv)|*.csv";
+            dialog.Title = "Выберите CSV файл";
+
+            // Показываем диалоговое окно
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                filePath = dialog.FileName; // Получаем путь к выбранному файлу
+            }
+
+            return filePath;
+        }
+        //TODO проверить в работе метод OpenFolder()
+        public string OpenFolder()
+        {
+            string folderPath = null;
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                dialog.Description = "Выберите папку";
+
+                // Показываем диалоговое окно
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    folderPath = dialog.SelectedPath; // Получаем путь к выбранной папке
+                }
+            }
+
+            return folderPath;
+        }
+
+
         /*public string SelectRange()
         {
             Excel.Application excelApp;
@@ -450,5 +486,57 @@ namespace ExcelAddInЭкспортДанных
 
             return result;
         }
+
+        /**
+        * Метод defineСellsQRcode определяет координаты ячеек для привязки QR-кодов на активном листе Excel.
+        * 
+        * Метод проходит по всем строкам активного листа, определяет таблицы по жирным заголовкам и записывает
+        * адреса ячеек, находящихся на одну колонку правее последнего столбца таблицы на уровне заголовка, в список cellCoordinates.
+        * 
+        * @return List<string> - список адресов ячеек для привязки QR-кодов.
+        */
+
+        public List<string> defineСellsQRcode()
+        {
+            Microsoft.Office.Interop.Excel.Application excelApp = Globals.ThisAddIn.Application;
+            Microsoft.Office.Interop.Excel.Worksheet worksheet = excelApp.ActiveSheet;
+            List<string> cellCoordinates = new List<string>();
+
+            // Определение существующих таблиц на активном листе
+            int existingTablesCount = 0;
+            int lastRow = worksheet.UsedRange.Rows.Count;
+
+            for (int row = 1; row <= lastRow; row++)
+            {
+                if (worksheet.Cells[row, 1].Value != null && worksheet.Cells[row, 1].Font.Bold)
+                {
+                    existingTablesCount++;
+                    int tableRowCount = 0;
+
+                    // Определение количества строк в таблице
+                    for (int r = row + 1; r <= lastRow; r++)
+                    {
+                        if (worksheet.Cells[r, 1].Value == null || worksheet.Cells[r, 1].Font.Bold)
+                        {
+                            break;
+                        }
+                        tableRowCount++;
+                    }
+
+                    // Определение координаты ячейки на одну колонку правее последнего столбца таблицы на уровне заголовка
+                    int lastColumnIndex = worksheet.UsedRange.Columns.Count;
+                    string cellAddress = worksheet.Cells[row, lastColumnIndex + 2].Address;
+                    cellCoordinates.Add(cellAddress);
+
+                    // Пропуск строк таблицы
+                    row += tableRowCount;
+                }
+            }
+
+            return cellCoordinates;
+        }
+
+        
+
     }
 }

@@ -53,8 +53,9 @@
             this.pbPicture = new System.Windows.Forms.PictureBox();
             this.btCreate = new System.Windows.Forms.Button();
             this.panelQR = new System.Windows.Forms.Panel();
-            this.bt_JSON = new System.Windows.Forms.Button();
             this.lbInformation = new System.Windows.Forms.Label();
+            this.bt_JSON = new System.Windows.Forms.Button();
+            this.btCreateJson = new System.Windows.Forms.Button();
             this.gbСhoice.SuspendLayout();
             this.gbChoice.SuspendLayout();
             this.gbOptions.SuspendLayout();
@@ -307,11 +308,11 @@
             // 
             // btCreate
             // 
-            this.btCreate.Location = new System.Drawing.Point(85, 393);
+            this.btCreate.Location = new System.Drawing.Point(64, 393);
             this.btCreate.Name = "btCreate";
-            this.btCreate.Size = new System.Drawing.Size(182, 23);
+            this.btCreate.Size = new System.Drawing.Size(107, 23);
             this.btCreate.TabIndex = 3;
-            this.btCreate.Text = "Создать";
+            this.btCreate.Text = "Создать QR";
             this.btCreate.UseVisualStyleBackColor = true;
             this.btCreate.Click += new System.EventHandler(this.btCreate_Click);
             // 
@@ -321,6 +322,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelQR.AutoScroll = true;
+            this.panelQR.Controls.Add(this.btCreateJson);
             this.panelQR.Controls.Add(this.lbInformation);
             this.panelQR.Controls.Add(this.bt_JSON);
             this.panelQR.Controls.Add(this.gbСhoice);
@@ -332,14 +334,6 @@
             this.panelQR.Size = new System.Drawing.Size(368, 507);
             this.panelQR.TabIndex = 4;
             // 
-            // bt_JSON
-            // 
-            this.bt_JSON.Location = new System.Drawing.Point(85, 420);
-            this.bt_JSON.Name = "bt_JSON";
-            this.bt_JSON.Size = new System.Drawing.Size(182, 23);
-            this.bt_JSON.TabIndex = 4;
-            this.bt_JSON.UseVisualStyleBackColor = true;
-            // 
             // lbInformation
             // 
             this.lbInformation.AutoSize = true;
@@ -347,6 +341,25 @@
             this.lbInformation.Name = "lbInformation";
             this.lbInformation.Size = new System.Drawing.Size(0, 13);
             this.lbInformation.TabIndex = 5;
+            // 
+            // bt_JSON
+            // 
+            this.bt_JSON.Location = new System.Drawing.Point(64, 420);
+            this.bt_JSON.Name = "bt_JSON";
+            this.bt_JSON.Size = new System.Drawing.Size(216, 23);
+            this.bt_JSON.TabIndex = 4;
+            this.bt_JSON.UseVisualStyleBackColor = true;
+            this.bt_JSON.Click += new System.EventHandler(this.bt_JSON_Click);
+            // 
+            // btCreateJson
+            // 
+            this.btCreateJson.Location = new System.Drawing.Point(173, 393);
+            this.btCreateJson.Name = "btCreateJson";
+            this.btCreateJson.Size = new System.Drawing.Size(107, 23);
+            this.btCreateJson.TabIndex = 1;
+            this.btCreateJson.Text = "Создать QR (json)";
+            this.btCreateJson.UseVisualStyleBackColor = true;
+            this.btCreateJson.Click += new System.EventHandler(this.btCreateJson_Click);
             // 
             // QRControl
             // 
@@ -401,5 +414,6 @@
         private System.Windows.Forms.CheckBox cbAddText;
         private System.Windows.Forms.Button bt_JSON;
         private System.Windows.Forms.Label lbInformation;
+        private System.Windows.Forms.Button btCreateJson;
     }
 }

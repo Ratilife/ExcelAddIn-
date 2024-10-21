@@ -12,6 +12,7 @@ using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Core;
+using ExcelAddInЭкспортДанных.forms;
 
 
 
@@ -322,7 +323,14 @@ namespace ExcelAddInЭкспортДанных
             
         }
 
-        
-
+        private void butExportCsvToXlsx_Click(object sender, RibbonControlEventArgs e)
+        {
+            using (ExportCsvToXlsx form = new ExportCsvToXlsx())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                }
+            }
+        }
     }
 }

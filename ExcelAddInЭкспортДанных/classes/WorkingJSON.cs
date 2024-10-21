@@ -11,23 +11,7 @@ namespace ExcelAddInЭкспортДанных
 {
     internal class WorkingJSON
     {
-        //TODO: определится удалять или оставить и использовать
-        #region УдалитьИлиОставить
-        public string InventoryNumber { get; set; }
-        public DateTime AcquisitionDate { get; set; }
-        public DateTime LastMaintenanceDate { get; set; }
-        public float Cost { get; set; }
-        public int FaktNumber { get; set; }
-        public int YearOfRelease { get; set; }
-        public string SerialNumber { get; set; }
-        public string RegistrationDocument { get; set; }
-        public string Location { get; set; }
-        public string Responsible { get; set; }
-        public string TypeFA { get; set; }
-        public string Manufacturer { get; set; }
-        public string ModelFA { get; set; }
-        public DateTime NextMaintenanceDate { get; set; }
-        #endregion
+        
 
         public List<Dictionary<string, string>> generateTable()
         {
@@ -155,7 +139,7 @@ namespace ExcelAddInЭкспортДанных
             {
                 // Чтение значений из колонок "Название поля JSON" и "Значение"
                 var jsonFieldName = (string)(usedRange.Cells[row, 2] as Excel.Range).Text;
-                var value = (string)(usedRange.Cells[row, 3] as Excel.Range).Text;
+                var value         = (string)(usedRange.Cells[row, 3] as Excel.Range).Text;
 
                 // Проверка на пустую строку, которая разделяет таблицы
                 if (string.IsNullOrWhiteSpace(jsonFieldName) && string.IsNullOrWhiteSpace(value))

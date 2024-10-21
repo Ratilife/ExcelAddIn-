@@ -37,6 +37,7 @@
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
             this.tabRatiTools = this.Factory.CreateRibbonTab();
             this.grExportFeed = this.Factory.CreateRibbonGroup();
+            this.butExportCsvToXlsx = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoCSV = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoPDF = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoJSON = this.Factory.CreateRibbonButton();
@@ -67,6 +68,7 @@
             // grExportFeed
             // 
             this.grExportFeed.DialogLauncher = ribbonDialogLauncherImpl1;
+            this.grExportFeed.Items.Add(this.butExportCsvToXlsx);
             this.grExportFeed.Items.Add(this.butExportXLSXtoCSV);
             this.grExportFeed.Items.Add(this.butExportXLSXtoPDF);
             this.grExportFeed.Items.Add(this.butExportXLSXtoJSON);
@@ -77,6 +79,15 @@
             this.grExportFeed.Items.Add(this.butExportXLSXtoHTML);
             this.grExportFeed.Label = "Экспорт данных";
             this.grExportFeed.Name = "grExportFeed";
+            // 
+            // butExportCsvToXlsx
+            // 
+            this.butExportCsvToXlsx.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.butExportCsvToXlsx.Image = global::ExcelAddInЭкспортДанных.Properties.Resources.icons8_export_csv_80;
+            this.butExportCsvToXlsx.Label = "Экспорт из сsv в xlsx";
+            this.butExportCsvToXlsx.Name = "butExportCsvToXlsx";
+            this.butExportCsvToXlsx.ShowImage = true;
+            this.butExportCsvToXlsx.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.butExportCsvToXlsx_Click);
             // 
             // butExportXLSXtoCSV
             // 
@@ -208,6 +219,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btCreateTable;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup grQRcode;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btQR_code;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportCsvToXlsx;
     }
 
     partial class ThisRibbonCollection

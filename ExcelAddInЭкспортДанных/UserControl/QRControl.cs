@@ -1,9 +1,11 @@
-﻿using ExcelAddInЭкспортДанных.classes;
+﻿#region using 
+using ExcelAddInЭкспортДанных.classes;
 using ExcelAddInЭкспортДанных.forms;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Tools.Excel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,9 +16,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using ZXing.QrCode.Internal;
 using Color = System.Drawing.Color;
 using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
+#endregion
 
 namespace ExcelAddInЭкспортДанных
 {
@@ -28,7 +32,8 @@ namespace ExcelAddInЭкспортДанных
                                                       //из любого места, но установить его значение можно только
                                                       //внутри класса,в котором это свойство объявлено.
         public string QRToDateMany { get; private set; }
-        public bool isJSON { get; set; }
+        public string[] cellCoordinates { private get; set; }    
+
         string RangeSelection; 
         CommonMethods cm = new CommonMethods();
         private int size;
@@ -41,12 +46,7 @@ namespace ExcelAddInЭкспортДанных
             ContextMenuPictureBox();
             button();
         }
-        public QRControl(bool isJSON)
-        {
-            InitializeComponent();
-            this.isJSON = isJSON;
-            
-        }
+        
         #region контекстное меню к PictureBox
         /**
         * Создает и привязывает контекстное меню к PictureBox.
@@ -92,6 +92,16 @@ namespace ExcelAddInЭкспортДанных
             cbBackground.SelectedItem = Color.White;
         }
 
+        /**
+        * Метод btPathFolder_Click обрабатывает событие нажатия кнопки btPathFolder.
+        * 
+        * Метод вызывает функцию dialogFolder() объекта cm для открытия диалогового окна выбора папки,
+        * сохраняет выбранный путь в переменную filePath и отображает его в текстовом поле txtPathFolder.
+        * 
+        * @param sender - объект, вызвавший событие.
+        * @param e - аргументы события.
+        * @return void
+        */
         private void btPathFolder_Click(object sender, EventArgs e)
         {
            
@@ -109,6 +119,14 @@ namespace ExcelAddInЭкспортДанных
             visibilityFor_rbMany();
         }
 
+        /**
+        * Метод visibilityFor_rbMany управляет видимостью различных элементов управления на форме в зависимости от состояния переключателя rbMany.
+        * 
+        * Если переключатель rbMany установлен в положение "Checked", метод делает видимыми элементы управления txtPost, rbColumnRight, rbSpecifyRange, btSpecifyRange и gbChoice.
+        * В противном случае, эти элементы управления скрываются.
+        * 
+        * @return void
+        */
         private void visibilityFor_rbMany()
         {
             if (rbMany.Checked == true)
@@ -128,6 +146,15 @@ namespace ExcelAddInЭкспортДанных
                 gbChoice.Visible = false;
             }
         }
+
+        /**
+        * Метод setColorComboBox инициализирует и настраивает элементы управления ComboBox для выбора цветов.
+        * 
+        * Метод создает экземпляр класса ColorComboBox, инициализирует ComboBox для выбора цвета текста (cbColour) и фона (cbBackground),
+        * а также устанавливает значения по умолчанию: черный цвет для текста и белый цвет для фона.
+        * 
+        * @return void
+        */
         private void cbPictureFile_CheckedChanged(object sender, EventArgs e)
         {
             if (cbPictureFile.Checked)
@@ -145,19 +172,43 @@ namespace ExcelAddInЭкспортДанных
         }
 
         private void btCreate_Click(object sender, EventArgs e)
+        {                   
+               createQRcodeTEXT();
+        }
+        
+        private void btCreateJson_Click(object sender, EventArgs e)
         {
-            if (isJSON)
+            //TODO: тут ошибка исправить. Определить через отладчик
+            if (cellCoordinates == null) 
             {
-                //createQRcodeJSON();
-                MessageBox.Show("isJSON = true");
+                // определить адреса ячеек для заполнения QR-кода
+                // проверить есть ли таблицы на активном листе если лист чист вывести сообщение
+                CommonMethods cm = new CommonMethods();
+                cellCoordinates = cm.defineСellsQRcode().ToArray();
             }
-            else 
-            {
-               // createQRcodeTEXT();
-            }
-            //TODO: Начать с этого места (Создание JSON для QR кода)
+            createQRcodeJSON();
+        }
 
-    }
+        private void bt_JSON_Click(object sender, EventArgs e)
+        {
+            // Убрать  
+        }
+
+        /*
+        * Вставляет QR-код в указанную ячейку Excel.
+        *
+        * Параметры:
+        * - cell: Ячейка Excel, в которую будет вставлен QR-код.
+        * - qrBitmap: Изображение QR-кода в формате Bitmap.
+        * - filePath: Путь к файлу изображения QR-кода.
+        *
+        * Метод выполняет следующие действия:
+        * - Получает размеры изображения QR-кода.
+        * - Преобразует размеры изображения в пункты (1 пункт = 1/72 дюйма).
+        * - Устанавливает ширину и высоту ячейки в соответствии с размером изображения.
+        * - Ограничивает высоту строки максимальным значением 409.
+        * - Вставляет изображение QR-кода в указанную ячейку.
+        */
         private void InsertQRCodeIntoCell(Excel.Range cell, Bitmap qrBitmap, string filePath)
         {
             // Получаем размеры изображения
@@ -199,6 +250,16 @@ namespace ExcelAddInЭкспортДанных
                 }
             }
         }
+
+        /**
+        * Метод txtQRcode_KeyDown обрабатывает событие нажатия клавиши в текстовом поле txtQRcode.
+        * 
+        * Метод устанавливает переключатель rbOne в положение "Checked" при любом нажатии клавиши в текстовом поле txtQRcode.
+        * 
+        * @param sender - объект, вызвавший событие.
+        * @param e - аргументы события KeyEventArgs.
+        * @return void
+        */
         private void txtQRcode_KeyDown(object sender, KeyEventArgs e)
         {
             rbOne.Checked = true;
@@ -233,13 +294,31 @@ namespace ExcelAddInЭкспортДанных
             visibilityFor_rbMany();
         }
 
+        /**
+        * Метод btSpecifyRange_Click обрабатывает событие нажатия кнопки btSpecifyRange.
+        * 
+        * Метод вызывает функцию SelectRange() объекта cm для выбора диапазона ячеек в Excel
+        * и сохраняет выбранный диапазон в переменную RangeSelection.
+        * 
+        * @param sender - объект, вызвавший событие.
+        * @param e - аргументы события.
+        * @return void
+        */
         private void btSpecifyRange_Click(object sender, EventArgs e)
         {
             string range = cm.SelectRange();
             RangeSelection = range;
         }
 
-        //TODO: определится нужен этот метод
+        /**
+        * Метод updateLabelText обновляет текст метки lbInformation.
+        * 
+        * Метод принимает строку text в качестве параметра и устанавливает это значение
+        * в качестве текста для метки lbInformation.
+        * 
+        * @param text - новый текст для метки lbInformation.
+        * @return void
+        */
         public void updateLabelText(string text)
         {
             lbInformation.Text = text;
@@ -285,20 +364,104 @@ namespace ExcelAddInЭкспортДанных
 
         #region СоздатьQRкодСоСтруктуройJSON
 
+
+        /**
+        * Метод createQRcodeJSON создает QR-коды на основе данных JSON и вставляет их в указанные ячейки на активном листе Excel.
+        * 
+        * Метод выполняет следующие действия:
+        * 1. Получает выбранные цвета для QR-кода и фона из ComboBox.
+        * 2. Получает текущее значение размера QR-кода из TrackBar.
+        * 3. Определяет, нужно ли добавлять текст под QR-кодом.
+        * 4. Получает активный лист Excel.
+        * 5. Создает список JSON-объектов из данных на активном листе.
+        * 6. Для каждого JSON-объекта:
+        *    - Преобразует словарь в JSON строку.
+        *    - Генерирует QR-код на основе JSON строки и выбранных параметров.
+        *    - Сохраняет QR-код в файл или временный файл.
+        *    - Определяет координаты ячейки для вставки QR-кода.
+        * 
+        * @return void
+        */
         private void createQRcodeJSON()
-        {
-            //TODO: реализация создания QR кода здесь
+        { 
+            QRcode qr = new QRcode();
+            Bitmap qrBitmap;
+            string fp = null;
+            string tempFilePath = null;
+
+            // Получаем выбранные цвета из ComboBox
+            Color qrColor = (Color)cbColour.SelectedItem;
+            Color backgroundColor = (Color)cbBackground.SelectedItem;
+            // Получаем текущее значение TrackBar
+            size = tbSize.Value;
+            //добавлять текст под QR-кодом
+            bool addText = cbAddText.Checked;
+
             // Получение активного листа
             Excel.Application excelApp = Globals.ThisAddIn.Application;
+            // создаем json
             WorkingJSON workingJSON = new WorkingJSON();
             List<Dictionary<string, string>> jsonList = workingJSON.createJSON(excelApp.ActiveSheet);
-            
+
+         
+            int counter = 1;
+            string cell = null;
+            // считывание из списка данные json и формирование QRкода
+            foreach (var json in jsonList)
+            {
+                // Преобразуем словарь в JSON строку
+                string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(json);
+
+                
+                // Генерируем и сохраняем QR-код
+                qrBitmap = qr.CreateQRCode(jsonData, qrColor, backgroundColor, size, addText);
+
+                if (cbPictureFile.Checked)
+                {
+                    // Сохраняем QR-код в файл
+                    fp = System.IO.Path.Combine(filePath, $"QRCode_{counter}.png");
+                    qrBitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+                    cell = cellCoordinates[counter-1];
+                }
+                else
+                {
+                    // Создайте временный файл с уникальным именем
+                    string tempFileName = "qrcode_temp_" + counter.ToString() + ".png";
+                    fp = System.IO.Path.Combine(System.IO.Path.GetTempPath(), tempFileName);
+                    // Сохраните ваш Bitmap во временный файл
+                    qrBitmap.Save(fp, System.Drawing.Imaging.ImageFormat.Png);
+                    tempFilePath = fp;
+                    cell = cellCoordinates[counter-1];
+                }
+                counter++;
+                Excel.Range cell2 = excelApp.ActiveSheet.Range[cell];
+                InsertQRCodeIntoCell(cell2, qrBitmap, fp);
+            }
 
         }
-
+       
         #endregion
         #region СоздатьQRкодTEXT
-        
+        /*
+        * Генерирует QR-коды на основе введенных данных и вставляет их в указанные ячейки Excel.
+        *
+        * Метод обрабатывает два режима:
+        * - Один QR-код: Генерирует один QR-код на основе текста из текстового поля и отображает его в PictureBox.
+        * - Множественные QR-коды: Генерирует QR-коды для диапазона ячеек в активном листе Excel и вставляет их в указанные ячейки.
+        *
+        * Параметры:
+        * - QRToDate: Текст для генерации QR-кода.
+        * - qrColor: Цвет QR-кода.
+        * - backgroundColor: Цвет фона QR-кода.
+        * - size: Размер QR-кода.
+        * - addText: Флаг, указывающий, нужно ли добавлять текст под QR-кодом.
+        * - filePath: Путь для сохранения изображения QR-кода.
+        * - RangeSelection: Выбранный диапазон ячеек для вставки QR-кодов.
+        *
+        * Исключения:
+        * - ArgumentException: Выбрасывается, если данные для генерации QR-кода пусты или null.
+        * - MessageBox: Показывает сообщение об ошибке, если диапазон ячеек не определен.
+        */
         private void createQRcodeTEXT() 
         {
             QRToDate = txtQRcode.Text;
@@ -452,6 +615,9 @@ namespace ExcelAddInЭкспортДанных
                 }
             }
         }
+
         #endregion
+
+        
     }
 }

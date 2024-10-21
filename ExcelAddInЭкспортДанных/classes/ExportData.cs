@@ -13,6 +13,8 @@ using Microsoft.Office.Interop.Excel;
 using static System.Net.WebRequestMethods;
 using File = System.IO.File;
 using System.Windows.Shapes;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace ExcelAddInЭкспортДанных
 {
@@ -1058,6 +1060,319 @@ namespace ExcelAddInЭкспортДанных
 
         #endregion
 
+        #region экспортИзCsv_в_Xlsx
+
+        public void ExportCsvToXlsx(string csvFilePath, string xlsxDirectoryPath)
+        {
+            // Установка лицензионного контекста
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            // Проверяем, что файл CSV существует
+            if (!File.Exists(csvFilePath))
+            {
+                Console.WriteLine("Файл CSV не найден.");
+                return;
+            }
+
+            // Чтение и разбор данных из CSV-файла
+            var (headers, data) = ParseCsvFile(csvFilePath);
+
+            if (headers == null || data == null || data.Length == 0)
+            {
+                Console.WriteLine("Ошибка при разборе CSV-файла или он пуст.");
+                return;
+            }
+
+            // Извлекаем имя файла без расширения
+            string csvFileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(csvFilePath);
+
+            // Создаем путь для файла XLSX, используя директорию и имя CSV файла
+            string xlsxFilePath = System.IO.Path.Combine(xlsxDirectoryPath, csvFileNameWithoutExtension + ".xlsx");
+
+            // Проверяем и создаем директорию, если она не существует
+            EnsureDirectoryExists(xlsxDirectoryPath);
+
+            // Создаем Excel файл и таблицу
+            CreateExcelFileWithTable(xlsxFilePath, headers, data);
+        }
+
+        /* Метод для чтения и разбора данных CSV файла.
+         * Возвращает кортеж, содержащий заголовки и данные.
+         */
+        private (string[] headers, string[][] data) ParseCsvFile(string csvFilePath)
+        {
+            // Чтение CSV-файла
+            var csvLines = File.ReadAllLines(csvFilePath);
+
+            // Проверка на наличие данных
+            if (csvLines.Length == 0)
+            {
+                return (null, null);
+            }
+
+            // Разделители между столбцами
+            char[] delimiters = new char[] { ';', ':', '/', '*', '\\', '|', '\'' };
+
+            // Первая строка — это шапка таблицы
+            var headers = csvLines[0].Split(delimiters);
+
+            // Остальные строки — это данные
+            var data = csvLines.Skip(1).Select(line => line.Split(delimiters)).ToArray();
+
+            return (headers, data);
+        }
+
+        /* Метод для проверки и создания директории, если она не существует.
+         * Если директорию создать не удается, выбрасывается исключение.
+         */
+        private void EnsureDirectoryExists(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при создании директории: {ex.Message}");
+                    throw;
+                }
+            }
+        }
+
+        /* Метод для создания Excel файла и заполнения его данными из CSV.
+         * Создает таблицу с заголовками и данными.
+         */
+        private void CreateExcelFileWithTable(string xlsxFilePath, string[] headers, string[][] data)
+        {
+            using (var package = new ExcelPackage())
+            {
+                // Создаем лист в Excel файле
+                var worksheet = package.Workbook.Worksheets.Add("Data");
+
+                // Определяем количество строк и столбцов
+                int rowCount = data.Length + 1; // +1 для шапки таблицы
+                int colCount = headers.Length;
+
+                // Заполняем заголовки (шапку) таблицы
+                for (int colIndex = 0; colIndex < colCount; colIndex++)
+                {
+                    worksheet.Cells[1, colIndex + 1].Value = headers[colIndex].Trim();
+                }
+
+                // Заполняем данные в лист
+                for (int rowIndex = 0; rowIndex < data.Length; rowIndex++)
+                {
+                    for (int colIndex = 0; colIndex < colCount; colIndex++)
+                    {
+                        worksheet.Cells[rowIndex + 2, colIndex + 1].Value = data[rowIndex][colIndex].Trim();
+                    }
+                }
+
+                // Определяем диапазон для таблицы
+                ExcelRange tableRange = worksheet.Cells[1, 1, rowCount, colCount];
+
+                // Создаем таблицу
+                var excelTable = worksheet.Tables.Add(tableRange, "ExportCsvToXlsx");
+                // excelTable.TableStyle = TableStyles.Medium2; // Применяем стиль таблицы
+
+                // Применение базового форматирования
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                // Сохранение файла XLSX
+                try
+                {
+                    var fileInfo = new FileInfo(xlsxFilePath);
+                    package.SaveAs(fileInfo);
+                    Console.WriteLine("Экспорт завершен успешно. Файл сохранен по пути: " + xlsxFilePath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Ошибка при сохранении файла XLSX: " + ex.Message);
+                }
+            }
+        }
+
+
+        public void ExportCsvToXlsx3(string csvFilePath, string xlsxDirectoryPath)
+        {
+            // Установка лицензионного контекста
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            // Проверяем, что файл CSV существует
+            if (!File.Exists(csvFilePath))
+            {
+                Console.WriteLine("Файл CSV не найден.");
+                return;
+            }
+
+            // Чтение CSV-файла
+            var csvLines = File.ReadAllLines(csvFilePath);
+
+            if (csvLines.Length == 0)
+            {
+                Console.WriteLine("CSV-файл пуст.");
+                return;
+            }
+
+            // Извлекаем имя файла без расширения
+            string csvFileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(csvFilePath);
+
+            // Создаем путь для файла XLSX, используя директорию и имя CSV файла
+            string xlsxFilePath = System.IO.Path.Combine(xlsxDirectoryPath, csvFileNameWithoutExtension + ".xlsx");
+
+            // Проверяем, существует ли директория для файла XLSX
+            if (!Directory.Exists(xlsxDirectoryPath))
+            {
+                try
+                {
+                    // Создаем директорию, если она не существует
+                    Directory.CreateDirectory(xlsxDirectoryPath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при создании директории: {ex.Message}");
+                    return;
+                }
+            }
+
+            // Создаем новый Excel файл
+            using (var package = new ExcelPackage())
+            {
+                // Создаем лист в Excel файле
+                var worksheet = package.Workbook.Worksheets.Add("Data");
+
+                // Парсим строки CSV
+                var headers = csvLines[0].Split(','); // Первая строка — это шапка таблицы
+                var data = csvLines.Skip(1).Select(line => line.Split(',')).ToArray(); // Остальные строки — это данные
+
+                // Определяем диапазон для таблицы (включая заголовки)
+                int rowCount = data.Length + 1; // +1 для шапки таблицы
+                int colCount = headers.Length;
+
+                // Заполняем заголовки (шапку) таблицы
+                for (int colIndex = 0; colIndex < colCount; colIndex++)
+                {
+                    worksheet.Cells[1, colIndex + 1].Value = headers[colIndex].Trim();
+                }
+
+                // Заполняем данные в лист
+                for (int rowIndex = 0; rowIndex < data.Length; rowIndex++)
+                {
+                    for (int colIndex = 0; colIndex < colCount; colIndex++)
+                    {
+                        worksheet.Cells[rowIndex + 2, colIndex + 1].Value = data[rowIndex][colIndex].Trim();
+                    }
+                }
+
+                // Определяем диапазон для таблицы
+                ExcelRange tableRange = worksheet.Cells[1, 1, rowCount, colCount];
+
+                // Создаем таблицу
+                var excelTable = worksheet.Tables.Add(tableRange, "ExportCsvToXlsx");
+                //excelTable.TableStyle = TableStyles.Medium2; // Применяем стиль таблицы
+
+                // Применение базового форматирования
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                // Сохранение файла XLSX
+                try
+                {
+                    var fileInfo = new FileInfo(xlsxFilePath);
+                    package.SaveAs(fileInfo);
+                    Console.WriteLine("Экспорт завершен успешно. Файл сохранен по пути: " + xlsxFilePath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Ошибка при сохранении файла XLSX: " + ex.Message);
+                }
+            }
+        }
+
+
+        // мне не нравится как работает
+        public void ExportCsvToXlsx2(string csvFilePath, string xlsxDirectoryPath)
+        {
+            // Установка лицензионного контекста
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            // Проверяем, что файл CSV существует
+            if (!File.Exists(csvFilePath))
+            {
+                Console.WriteLine("Файл CSV не найден.");
+                return;
+            }
+
+            // Чтение CSV-файла
+            var csvLines = File.ReadAllLines(csvFilePath);
+
+            if (csvLines.Length == 0)
+            {
+                Console.WriteLine("CSV-файл пуст.");
+                return;
+            }
+
+            // Извлекаем имя файла без расширения
+            string csvFileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(csvFilePath);
+
+            // Создаем путь для файла XLSX, используя директорию и имя CSV файла
+            string xlsxFilePath = System.IO.Path.Combine(xlsxDirectoryPath, csvFileNameWithoutExtension + ".xlsx");
+
+            // Проверяем, существует ли директория для файла XLSX
+            if (!Directory.Exists(xlsxDirectoryPath))
+            {
+                try
+                {
+                    // Создаем директорию, если она не существует
+                    Directory.CreateDirectory(xlsxDirectoryPath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при создании директории: {ex.Message}");
+                    return;
+                }
+            }
+
+            // Создаем новый Excel файл
+            using (var package = new ExcelPackage())
+            {
+                // Создаем лист в Excel файле
+                var worksheet = package.Workbook.Worksheets.Add("Data");
+
+                // Парсим строки CSV и записываем их в Excel
+                for (int rowIndex = 0; rowIndex < csvLines.Length; rowIndex++)
+                {
+                    var line = csvLines[rowIndex];
+                    var values = line.Split(','); // Разделитель может быть изменен, если используется другой
+
+                    for (int colIndex = 0; colIndex < values.Length; colIndex++)
+                    {
+                        worksheet.Cells[rowIndex + 1, colIndex + 1].Value = values[colIndex].Trim();
+                    }
+                }
+
+                // Применение базового форматирования
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                // Сохранение файла XLSX
+                try
+                {
+                    var fileInfo = new FileInfo(xlsxFilePath);
+                    package.SaveAs(fileInfo);
+                    Console.WriteLine("Экспорт завершен успешно. Файл сохранен по пути: " + xlsxFilePath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Ошибка при сохранении файла XLSX: " + ex.Message);
+                }
+            }
+        }
+
+
+       
+
+        #endregion
 
         #region импорт данных из xml
         // проверить работоспособность метода
@@ -1134,5 +1449,7 @@ namespace ExcelAddInЭкспортДанных
             }
         }
         #endregion
+    
+    
     }
 }

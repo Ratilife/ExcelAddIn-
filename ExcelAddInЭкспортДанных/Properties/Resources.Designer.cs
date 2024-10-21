@@ -103,6 +103,16 @@ namespace ExcelAddInЭкспортДанных.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_export_csv_80 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-export-csv-80", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap json_filetype_icon_177531 {
             get {
                 object obj = ResourceManager.GetObject("json_filetype_icon_177531", resourceCulture);
