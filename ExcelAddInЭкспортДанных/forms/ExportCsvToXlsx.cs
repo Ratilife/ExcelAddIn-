@@ -16,6 +16,7 @@ namespace ExcelAddInЭкспортДанных.forms
         public ExportCsvToXlsx()
         {
             InitializeComponent();
+            cbActiveWorkbook.Enabled = false;
         }
 
         private void butOK_Click(object sender, EventArgs e)
