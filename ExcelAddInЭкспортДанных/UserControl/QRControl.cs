@@ -32,7 +32,9 @@ namespace ExcelAddInЭкспортДанных
                                                       //из любого места, но установить его значение можно только
                                                       //внутри класса,в котором это свойство объявлено.
         public string QRToDateMany { get; private set; }
-        public string[] cellCoordinates { private get; set; }    
+        public string[] cellCoordinates { private get; set; }
+
+        private bool under_cell_size = false;
 
         string RangeSelection; 
         CommonMethods cm = new CommonMethods();
@@ -171,6 +173,7 @@ namespace ExcelAddInЭкспортДанных
 
         }
 
+
         private void btCreate_Click(object sender, EventArgs e)
         {                   
                createQRcodeTEXT();
@@ -211,18 +214,49 @@ namespace ExcelAddInЭкспортДанных
         */
         private void InsertQRCodeIntoCell(Excel.Range cell, Bitmap qrBitmap, string filePath)
         {
+            float imageWidthInPoints; 
+            float imageHeightInPoints;
+
             // Получаем размеры изображения
             float imageWidth = qrBitmap.Width * 3;
             float imageHeight = qrBitmap.Height * 3;
 
-            // Преобразование размеров изображения в пункты (1 пункт = 1/72 дюйма)
-            float imageWidthInPoints = imageWidth * 72 / qrBitmap.HorizontalResolution;
-            float imageHeightInPoints = imageHeight * 72 / qrBitmap.VerticalResolution;
+            // Подогнать картинку под размер ячейки
+            bool under_cell_size = сb_under_cell_size.Checked;
 
-            // Установка ширины и высоты ячейки в соответствии с размером изображения
-            cell.ColumnWidth = imageWidthInPoints / 7.0; // Примерное преобразование пунктов в ширину колонки
-                                                         // Ограничение высоты строки максимальным значением 409
-            cell.RowHeight = Math.Min(imageHeightInPoints, 409);
+            if (under_cell_size)
+            {
+                //  Получаем размеры ячейки в пикселях
+                //  (Excel COM API) — возвращают размеры в пикселях экрана (screen pixels).
+                double cellWidthPixels = cell.Width;        // Размер ячейки в пикселях экрана
+                double cellHeightPixels = cell.Height;      // Размер ячейки в пикселях экрана
+
+                //  Берем минимальное значение для создания квадратного QR-кода
+                //  Это гарантирует, что QR-код поместится в ячейку и будет квадратным
+                double cellSizePixels = Math.Min(cellWidthPixels, cellHeightPixels);
+
+                //  Конвертируем пиксели в пункты (1 пункт = 1/72 дюйма)
+                //  В Excel при стандартном DPI = 96 пикселей на дюйм: 1 пункт = 96/72 = 1.33 пикселя
+                float dpi = 96f;        // Стандартное разрешение экрана Windows (96 DPI)
+                float cellSizeInPoints = (float)(cellSizePixels * 72.0 / dpi);
+
+                //  Используем одинаковое значение для ширины и высоты (квадрат)
+                imageWidthInPoints = cellSizeInPoints;
+                imageHeightInPoints = cellSizeInPoints;
+            }
+            else
+            {
+                // Преобразование размеров изображения в пункты (1 пункт = 1/72 дюйма)
+                 imageWidthInPoints = imageWidth * 72 / qrBitmap.HorizontalResolution;
+                 imageHeightInPoints = imageHeight * 72 / qrBitmap.VerticalResolution;
+
+                // Установка ширины и высоты ячейки в соответствии с размером изображения
+                cell.ColumnWidth = imageWidthInPoints / 7.0; // Примерное преобразование пунктов в ширину колонки
+                                                             // Ограничение высоты строки максимальным значением 409
+                cell.RowHeight = Math.Min(imageHeightInPoints, 409);
+            }
+
+           
 
             // Вставка изображения
             Excel.Shape picture = cell.Worksheet.Shapes.AddPicture(
@@ -482,6 +516,7 @@ namespace ExcelAddInЭкспортДанных
             string fileName = null;
 
             bool addText = cbAddText.Checked;
+            
             // Получаем текущее значение TrackBar
             size = tbSize.Value;
             //QR - код 
@@ -616,8 +651,9 @@ namespace ExcelAddInЭкспортДанных
             }
         }
 
+
         #endregion
 
-        
+       
     }
 }

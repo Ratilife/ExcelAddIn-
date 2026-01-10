@@ -53,9 +53,10 @@
             this.pbPicture = new System.Windows.Forms.PictureBox();
             this.btCreate = new System.Windows.Forms.Button();
             this.panelQR = new System.Windows.Forms.Panel();
+            this.btCreateJson = new System.Windows.Forms.Button();
             this.lbInformation = new System.Windows.Forms.Label();
             this.bt_JSON = new System.Windows.Forms.Button();
-            this.btCreateJson = new System.Windows.Forms.Button();
+            this.сb_under_cell_size = new System.Windows.Forms.CheckBox();
             this.gbСhoice.SuspendLayout();
             this.gbChoice.SuspendLayout();
             this.gbOptions.SuspendLayout();
@@ -189,6 +190,7 @@
             // 
             // gbOptions
             // 
+            this.gbOptions.Controls.Add(this.сb_under_cell_size);
             this.gbOptions.Controls.Add(this.cbAddText);
             this.gbOptions.Controls.Add(this.btPathFolder);
             this.gbOptions.Controls.Add(this.txtPathFolder);
@@ -208,7 +210,7 @@
             // cbAddText
             // 
             this.cbAddText.AutoSize = true;
-            this.cbAddText.Location = new System.Drawing.Point(146, 81);
+            this.cbAddText.Location = new System.Drawing.Point(146, 71);
             this.cbAddText.Name = "cbAddText";
             this.cbAddText.Size = new System.Drawing.Size(180, 17);
             this.cbAddText.TabIndex = 7;
@@ -217,7 +219,7 @@
             // 
             // btPathFolder
             // 
-            this.btPathFolder.Location = new System.Drawing.Point(298, 102);
+            this.btPathFolder.Location = new System.Drawing.Point(298, 109);
             this.btPathFolder.Name = "btPathFolder";
             this.btPathFolder.Size = new System.Drawing.Size(28, 23);
             this.btPathFolder.TabIndex = 6;
@@ -227,7 +229,7 @@
             // 
             // txtPathFolder
             // 
-            this.txtPathFolder.Location = new System.Drawing.Point(7, 104);
+            this.txtPathFolder.Location = new System.Drawing.Point(7, 111);
             this.txtPathFolder.Name = "txtPathFolder";
             this.txtPathFolder.Size = new System.Drawing.Size(285, 20);
             this.txtPathFolder.TabIndex = 5;
@@ -235,7 +237,7 @@
             // cbPictureFile
             // 
             this.cbPictureFile.AutoSize = true;
-            this.cbPictureFile.Location = new System.Drawing.Point(10, 81);
+            this.cbPictureFile.Location = new System.Drawing.Point(10, 71);
             this.cbPictureFile.Name = "cbPictureFile";
             this.cbPictureFile.Size = new System.Drawing.Size(117, 17);
             this.cbPictureFile.TabIndex = 4;
@@ -334,6 +336,16 @@
             this.panelQR.Size = new System.Drawing.Size(368, 507);
             this.panelQR.TabIndex = 4;
             // 
+            // btCreateJson
+            // 
+            this.btCreateJson.Location = new System.Drawing.Point(173, 393);
+            this.btCreateJson.Name = "btCreateJson";
+            this.btCreateJson.Size = new System.Drawing.Size(107, 23);
+            this.btCreateJson.TabIndex = 1;
+            this.btCreateJson.Text = "Создать QR (json)";
+            this.btCreateJson.UseVisualStyleBackColor = true;
+            this.btCreateJson.Click += new System.EventHandler(this.btCreateJson_Click);
+            // 
             // lbInformation
             // 
             this.lbInformation.AutoSize = true;
@@ -351,15 +363,15 @@
             this.bt_JSON.UseVisualStyleBackColor = true;
             this.bt_JSON.Click += new System.EventHandler(this.bt_JSON_Click);
             // 
-            // btCreateJson
+            // сb_under_cell_size
             // 
-            this.btCreateJson.Location = new System.Drawing.Point(173, 393);
-            this.btCreateJson.Name = "btCreateJson";
-            this.btCreateJson.Size = new System.Drawing.Size(107, 23);
-            this.btCreateJson.TabIndex = 1;
-            this.btCreateJson.Text = "Создать QR (json)";
-            this.btCreateJson.UseVisualStyleBackColor = true;
-            this.btCreateJson.Click += new System.EventHandler(this.btCreateJson_Click);
+            this.сb_under_cell_size.AutoSize = true;
+            this.сb_under_cell_size.Location = new System.Drawing.Point(10, 90);
+            this.сb_under_cell_size.Name = "сb_under_cell_size";
+            this.сb_under_cell_size.Size = new System.Drawing.Size(202, 17);
+            this.сb_under_cell_size.TabIndex = 8;
+            this.сb_under_cell_size.Text = "Сформировать под размер ячейки";
+            this.сb_under_cell_size.UseVisualStyleBackColor = true;
             // 
             // QRControl
             // 
@@ -415,5 +427,6 @@
         private System.Windows.Forms.Button bt_JSON;
         private System.Windows.Forms.Label lbInformation;
         private System.Windows.Forms.Button btCreateJson;
+        private System.Windows.Forms.CheckBox сb_under_cell_size;
     }
 }
