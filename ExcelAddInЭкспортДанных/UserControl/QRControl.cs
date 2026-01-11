@@ -32,7 +32,7 @@ namespace ExcelAddInЭкспортДанных
                                                       //из любого места, но установить его значение можно только
                                                       //внутри класса,в котором это свойство объявлено.
         public string QRToDateMany { get; private set; }
-        public string[] cellCoordinates { private get; set; }
+        public string[] cellCoordinates { private get; set; }    // Координаты ячейки
 
         private bool under_cell_size = false;
 
@@ -181,8 +181,8 @@ namespace ExcelAddInЭкспортДанных
         
         private void btCreateJson_Click(object sender, EventArgs e)
         {
-            //TODO: тут ошибка исправить. Определить через отладчик
-            if (cellCoordinates == null) 
+            
+            if (cellCoordinates == null)   
             {
                 // определить адреса ячеек для заполнения QR-кода
                 // проверить есть ли таблицы на активном листе если лист чист вывести сообщение

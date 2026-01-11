@@ -504,7 +504,7 @@ namespace ExcelAddInЭкспортДанных
 
             // Определение существующих таблиц на активном листе
             int existingTablesCount = 0;
-            int lastRow = worksheet.UsedRange.Rows.Count;
+            int lastRow = worksheet.UsedRange.Rows.Count;   // Последняя заполненная строка
 
             for (int row = 1; row <= lastRow; row++)
             {
