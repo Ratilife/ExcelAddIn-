@@ -230,6 +230,7 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="classes\ImportData.cs" />
     <Compile Include="classes\InformationAndHelp.cs" />
     <Compile Include="classes\RequestGeneration.cs" />
     <Compile Include="ColorComboBox.cs">
@@ -254,6 +255,12 @@
     </Compile>
     <Compile Include="forms\ExportXlsxToDF.Designer.cs">
       <DependentUpon>ExportXlsxToDF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\ImportJSON_XML.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ImportJSON_XML.Designer.cs">
+      <DependentUpon>ImportJSON_XML.cs</DependentUpon>
     </Compile>
     <Compile Include="forms\FormDialogTableStructureJASON_Sample.cs">
       <SubType>Form</SubType>
@@ -293,6 +300,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="forms\ExportXlsxToDF.resx">
       <DependentUpon>ExportXlsxToDF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ImportJSON_XML.resx">
+      <DependentUpon>ImportJSON_XML.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\FormDialogTableStructureJASON_Sample.resx">
       <DependentUpon>FormDialogTableStructureJASON_Sample.cs</DependentUpon>

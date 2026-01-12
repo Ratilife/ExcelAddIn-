@@ -50,16 +50,20 @@
             this.btCreateTable = this.Factory.CreateRibbonButton();
             this.grQRcode = this.Factory.CreateRibbonGroup();
             this.btQR_code = this.Factory.CreateRibbonButton();
+            this.groupImport = this.Factory.CreateRibbonGroup();
+            this.btImportJSON = this.Factory.CreateRibbonButton();
             this.tabRatiTools.SuspendLayout();
             this.grExportFeed.SuspendLayout();
             this.grTables.SuspendLayout();
             this.grQRcode.SuspendLayout();
+            this.groupImport.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabRatiTools
             // 
             this.tabRatiTools.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
             this.tabRatiTools.Groups.Add(this.grExportFeed);
+            this.tabRatiTools.Groups.Add(this.groupImport);
             this.tabRatiTools.Groups.Add(this.grTables);
             this.tabRatiTools.Groups.Add(this.grQRcode);
             this.tabRatiTools.Label = "RatiTools";
@@ -185,6 +189,19 @@
             this.btQR_code.ShowImage = true;
             this.btQR_code.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btQR_code_Click);
             // 
+            // groupImport
+            // 
+            this.groupImport.Items.Add(this.btImportJSON);
+            this.groupImport.Label = "Импорт данных";
+            this.groupImport.Name = "groupImport";
+            // 
+            // btImportJSON
+            // 
+            this.btImportJSON.Label = "Импорт из JSON";
+            this.btImportJSON.Name = "btImportJSON";
+            this.btImportJSON.ShowImage = true;
+            this.btImportJSON.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btImportJSON_Click);
+            // 
             // MyCustomRibbonExportFeed
             // 
             this.Name = "MyCustomRibbonExportFeed";
@@ -199,6 +216,8 @@
             this.grTables.PerformLayout();
             this.grQRcode.ResumeLayout(false);
             this.grQRcode.PerformLayout();
+            this.groupImport.ResumeLayout(false);
+            this.groupImport.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -220,6 +239,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup grQRcode;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btQR_code;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton butExportCsvToXlsx;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupImport;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btImportJSON;
     }
 
     partial class ThisRibbonCollection

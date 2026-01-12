@@ -13,6 +13,7 @@ using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Core;
 using ExcelAddInЭкспортДанных.forms;
+using static System.Net.WebRequestMethods;
 
 
 
@@ -158,6 +159,19 @@ namespace ExcelAddInЭкспортДанных
                     }
                 }
             }
+        }
+
+        void importFormatSelection(string formatImport, string filter)
+        {
+            using (Import_JSON_XML form = new Import_JSON_XML(formatImport, filter))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    // Импорт выполнен успешно
+                    // Дополнительная логика при необходимости
+                }
+            }
+
         }
 
         private void butExportXLSXtoCSV_Click(object sender, RibbonControlEventArgs e)
@@ -331,6 +345,13 @@ namespace ExcelAddInЭкспортДанных
                 {
                 }
             }
+        }
+
+        private void btImportJSON_Click(object sender, RibbonControlEventArgs e)
+        {
+            string formatExport = "json";
+            string filter = "JSON Files|*.json";
+            importFormatSelection(formatExport, filter);
         }
     }
 }
