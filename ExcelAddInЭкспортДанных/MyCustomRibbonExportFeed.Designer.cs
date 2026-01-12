@@ -46,17 +46,17 @@
             this.butExportXLSXtoXLSM = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoXML = this.Factory.CreateRibbonButton();
             this.butExportXLSXtoHTML = this.Factory.CreateRibbonButton();
+            this.groupImport = this.Factory.CreateRibbonGroup();
+            this.btImportJSON = this.Factory.CreateRibbonButton();
             this.grTables = this.Factory.CreateRibbonGroup();
             this.btCreateTable = this.Factory.CreateRibbonButton();
             this.grQRcode = this.Factory.CreateRibbonGroup();
             this.btQR_code = this.Factory.CreateRibbonButton();
-            this.groupImport = this.Factory.CreateRibbonGroup();
-            this.btImportJSON = this.Factory.CreateRibbonButton();
             this.tabRatiTools.SuspendLayout();
             this.grExportFeed.SuspendLayout();
+            this.groupImport.SuspendLayout();
             this.grTables.SuspendLayout();
             this.grQRcode.SuspendLayout();
-            this.groupImport.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabRatiTools
@@ -159,6 +159,21 @@
             this.butExportXLSXtoHTML.ShowImage = true;
             this.butExportXLSXtoHTML.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.butExportXLSXtoHTML_Click);
             // 
+            // groupImport
+            // 
+            this.groupImport.Items.Add(this.btImportJSON);
+            this.groupImport.Label = "Импорт данных";
+            this.groupImport.Name = "groupImport";
+            // 
+            // btImportJSON
+            // 
+            this.btImportJSON.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btImportJSON.Image = global::ExcelAddInЭкспортДанных.Properties.Resources.json_9423177;
+            this.btImportJSON.Label = "Импорт из JSON";
+            this.btImportJSON.Name = "btImportJSON";
+            this.btImportJSON.ShowImage = true;
+            this.btImportJSON.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btImportJSON_Click);
+            // 
             // grTables
             // 
             this.grTables.Items.Add(this.btCreateTable);
@@ -189,19 +204,6 @@
             this.btQR_code.ShowImage = true;
             this.btQR_code.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btQR_code_Click);
             // 
-            // groupImport
-            // 
-            this.groupImport.Items.Add(this.btImportJSON);
-            this.groupImport.Label = "Импорт данных";
-            this.groupImport.Name = "groupImport";
-            // 
-            // btImportJSON
-            // 
-            this.btImportJSON.Label = "Импорт из JSON";
-            this.btImportJSON.Name = "btImportJSON";
-            this.btImportJSON.ShowImage = true;
-            this.btImportJSON.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btImportJSON_Click);
-            // 
             // MyCustomRibbonExportFeed
             // 
             this.Name = "MyCustomRibbonExportFeed";
@@ -212,12 +214,12 @@
             this.tabRatiTools.PerformLayout();
             this.grExportFeed.ResumeLayout(false);
             this.grExportFeed.PerformLayout();
+            this.groupImport.ResumeLayout(false);
+            this.groupImport.PerformLayout();
             this.grTables.ResumeLayout(false);
             this.grTables.PerformLayout();
             this.grQRcode.ResumeLayout(false);
             this.grQRcode.PerformLayout();
-            this.groupImport.ResumeLayout(false);
-            this.groupImport.PerformLayout();
             this.ResumeLayout(false);
 
         }

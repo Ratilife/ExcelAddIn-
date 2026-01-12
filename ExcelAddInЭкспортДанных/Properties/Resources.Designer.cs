@@ -113,6 +113,16 @@ namespace ExcelAddInЭкспортДанных.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap json_9423177 {
+            get {
+                object obj = ResourceManager.GetObject("json_9423177", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap json_filetype_icon_177531 {
             get {
                 object obj = ResourceManager.GetObject("json_filetype_icon_177531", resourceCulture);

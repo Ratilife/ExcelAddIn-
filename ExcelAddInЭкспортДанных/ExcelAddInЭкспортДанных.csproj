@@ -388,6 +388,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\icons8-export-csv-80.png" />
+    <None Include="Resources\json_9423177.png" />
     <None Include="Resources\icons8-export-csv-801.png" />
   </ItemGroup>
   <PropertyGroup>
