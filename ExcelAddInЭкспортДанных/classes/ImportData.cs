@@ -82,13 +82,13 @@ namespace ExcelAddInЭкспортДанных.classes
 
                 List<string> sortedKeys = allKeys.OrderBy(k => k).ToList();
 
-                int headerRow = 1;
+                //int headerRow = 1;
                 int colIndex = 1;
-                foreach (string key in sortedKeys)
-                {
-                    worksheet.Cells[headerRow, colIndex] = key;
-                    colIndex++;
-                }
+                //foreach (string key in sortedKeys)
+                //{
+                //    worksheet.Cells[headerRow, colIndex] = key;
+                //    colIndex++;
+                //}
 
                 int dataRow = 2;
                 foreach (var rowData in jsonData)
@@ -103,9 +103,9 @@ namespace ExcelAddInЭкспортДанных.classes
                     dataRow++;
                 }
 
-                Excel.Range headerRange = worksheet.Range[worksheet.Cells[headerRow, 1], worksheet.Cells[headerRow, sortedKeys.Count]];
-                headerRange.Font.Bold = true;
-                headerRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
+                //Excel.Range headerRange = worksheet.Range[worksheet.Cells[headerRow, 1], worksheet.Cells[headerRow, sortedKeys.Count]];
+                //headerRange.Font.Bold = true;
+                //headerRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
 
                 worksheet.Columns.AutoFit();
 
